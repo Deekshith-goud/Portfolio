@@ -2,20 +2,88 @@
 
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+
+// Reverting back to the tech stack icons
 import { SiReact, SiNextdotjs, SiTailwindcss, SiTypescript } from "react-icons/si";
 
-const FloatingBadge = ({ children, className, delay }: { children: React.ReactNode, className: string, delay: number }) => (
-  <motion.div
-    initial={{ y: 0 }}
-    animate={{ y: [-10, 10, -10] }}
-    transition={{ repeat: Infinity, duration: 5, ease: "easeInOut", delay }}
-    className={`absolute z-20 flex items-center justify-center w-12 h-12 rounded-xl bg-white/80 dark:bg-zinc-800/80 backdrop-blur-lg border border-zinc-200 dark:border-zinc-700/50 shadow-xl ${className}`}
-  >
-    {children}
-  </motion.div>
+const MotionDiv = motion.div as any;
+const MotionSpan = motion.span as any;
+
+// --- Option: Blueprint Grid ---
+const BlueprintGrid = () => (
+  <MotionDiv 
+    animate={{ backgroundPosition: ['0px 0px', '40px 40px'] }}
+    transition={{ repeat: Infinity, ease: "linear", duration: 4 }}
+    className="absolute -inset-20 z-0 opacity-40 dark:opacity-20 pointer-events-none"
+    style={{
+      backgroundImage: `linear-gradient(to right, #71717a 1px, transparent 1px), linear-gradient(to bottom, #71717a 1px, transparent 1px)`,
+      backgroundSize: '40px 40px',
+      WebkitMaskImage: 'radial-gradient(circle at center, black 25%, transparent 65%)',
+      maskImage: 'radial-gradient(circle at center, black 25%, transparent 65%)',
+    }}
+  />
 );
 
-export default function HeroSvg() {
+// --- Minimalist Expanding Badges ---
+const ExpandingBadge = ({ icon: Icon, label, className, delay }: { icon: React.ElementType, label: string, className: string, delay: number }) => {
+  return (
+    <MotionDiv
+      initial={{ y: 0, rotateZ: 0 }}
+      animate={{ y: [-5, 5, -5], rotateZ: [-1, 1, -1] }}
+      transition={{ y: { repeat: Infinity, duration: 12, ease: "easeInOut", delay }, rotateZ: { repeat: Infinity, duration: 16, ease: "easeInOut", delay } }}
+      className={`absolute z-30 ${className}`}
+    >
+      <MotionDiv
+        initial="rest"
+        whileHover="hover"
+        className="flex items-center h-12 md:h-14 rounded-full bg-white/40 dark:bg-white/5 backdrop-blur-md border border-black/5 dark:border-white/10 shadow-lg cursor-pointer text-zinc-700 dark:text-zinc-300 transition-colors hover:bg-white/60 dark:hover:bg-white/10 overflow-hidden"
+      >
+        <div className="w-12 h-12 md:w-14 md:h-14 flex items-center justify-center shrink-0">
+          <Icon className="w-4 h-4 md:w-5 md:h-5" />
+        </div>
+        <MotionSpan
+          variants={{
+            rest: { maxWidth: 0, opacity: 0, paddingRight: 0 },
+            hover: { maxWidth: 140, opacity: 1, paddingRight: 16 }
+          }}
+          transition={{ duration: 0.3, ease: "easeInOut" }}
+          className="font-medium text-xs md:text-sm whitespace-nowrap overflow-hidden block"
+        >
+          {label}
+        </MotionSpan>
+      </MotionDiv>
+    </MotionDiv>
+  );
+};
+
+const FloatingStatement = ({ text, className, delay }: { text: string, className: string, delay: number }) => (
+  <MotionDiv
+    initial={{ y: 0, rotateZ: 0 }}
+    animate={{ y: [-3, 3, -3], rotateZ: [-1, 1, -1] }}
+    transition={{ y: { repeat: Infinity, duration: 12, ease: "easeInOut", delay }, rotateZ: { repeat: Infinity, duration: 16, ease: "easeInOut", delay } }}
+    className={`absolute z-20 px-3 py-2 md:px-4 md:py-2.5 rounded-md bg-white/40 dark:bg-zinc-900/70 backdrop-blur-md border border-white/50 dark:border-zinc-700/50 border-l-2 border-l-emerald-500 dark:border-l-emerald-400 shadow-xl text-[10px] md:text-xs font-mono font-medium tracking-tight text-zinc-800 dark:text-zinc-200 max-w-[160px] md:max-w-[200px] ${className}`}
+  >
+    {text}
+  </MotionDiv>
+);
+
+const ExpandingIconsOption = () => {
+  return (
+    <>
+      {/* Tech Icons placed back into the asymmetrical layout */}
+      <ExpandingBadge icon={SiReact} label="React.js" className="top-[8%] left-[20%] md:top-[12%] md:left-[18%]" delay={0} />
+      <ExpandingBadge icon={SiNextdotjs} label="Next.js" className="top-[45%] right-[2%] md:top-[50%] md:-right-[2%]" delay={1.5} />
+      <ExpandingBadge icon={SiTypescript} label="TypeScript" className="bottom-[35%] left-[2%] md:bottom-[40%] md:-left-[2%]" delay={3} />
+      <ExpandingBadge icon={SiTailwindcss} label="Tailwind CSS" className="bottom-[8%] right-[20%] md:bottom-[12%] md:right-[18%]" delay={2} />
+
+      {/* Statements (Blocky Technical Tags, avoiding icons) */}
+      <FloatingStatement text="The building is how I learn." className="top-[2%] right-[5%] md:top-[4%] md:right-[2%]" delay={1} />
+      <FloatingStatement text="The learning is why I keep building." className="bottom-[2%] left-[5%] md:bottom-[4%] md:left-[2%]" delay={2.5} />
+    </>
+  );
+};
+
+export default function HeroSvg() { 
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -28,46 +96,56 @@ export default function HeroSvg() {
 
   return (
     <div className="relative w-[320px] h-[320px] sm:w-[380px] sm:h-[380px] lg:w-[440px] lg:h-[440px] xl:w-[480px] xl:h-[480px] shrink-0 mx-auto xl:ml-auto">
-      {/* Decorative background glow behind the card */}
-      <div className="absolute -inset-1 bg-gradient-to-r from-zinc-200 to-zinc-300 dark:from-zinc-800 dark:to-zinc-900 rounded-[2.5rem] blur-2xl opacity-50"></div>
       
+      {/* Decorative background glow behind the card */}
+      <div className="absolute -inset-1 bg-gradient-to-r from-zinc-200 to-zinc-300 dark:from-zinc-800 dark:to-zinc-900 rounded-[2.5rem] blur-2xl opacity-50 pointer-events-none"></div>
+      
+      {/* Blueprint Grid Backdrop */}
+      <BlueprintGrid />
+
       {/* The Spline container */}
       <div className="relative w-full h-full flex items-center justify-center">
         
-        <iframe 
-          src="https://my.spline.design/stackableglass-OdIy9jdBNAgSdsTQC6ncSxTj-fHo/" 
-          frameBorder="0" 
-          width="100%" 
-          height="100%" 
+        {/* Holographic Glitch Wrapper */}
+        <MotionDiv 
           className="w-full h-full absolute inset-0 z-10 scale-[1.35]"
-          style={{  
-            colorScheme: "light",
-            clipPath: "polygon(0 0, 100% 0, 100% calc(100% - 70px), calc(100% - 170px) calc(100% - 70px), calc(100% - 170px) 100%, 0 100%)"
+          animate={{
+            x: [0, -3, 3, -1, 1, 0, 0],
+            filter: [
+              "drop-shadow(0px 0 0 rgba(255,0,0,0)) drop-shadow(0px 0 0 rgba(0,255,255,0))",
+              "drop-shadow(-4px 0 0 rgba(255,0,0,0.6)) drop-shadow(4px 0 0 rgba(0,255,255,0.6))",
+              "drop-shadow(4px 0 0 rgba(255,0,0,0.6)) drop-shadow(-4px 0 0 rgba(0,255,255,0.6))",
+              "drop-shadow(0px 0 0 rgba(255,0,0,0)) drop-shadow(0px 0 0 rgba(0,255,255,0))",
+              "drop-shadow(0px 0 0 rgba(255,0,0,0)) drop-shadow(0px 0 0 rgba(0,255,255,0))"
+            ]
           }}
-        />
+          transition={{ duration: 0.3, repeat: Infinity, repeatDelay: 10 }}
+        >
+          <iframe 
+            src="https://my.spline.design/stackableglass-FQ4kmIx3cjy8bKHEpuujITrn-0N0/" 
+            frameBorder="0" 
+            width="100%" 
+            height="100%" 
+            className="w-full h-full"
+            style={{ 
+              colorScheme: "light",
+              clipPath: "polygon(0 0, 100% 0, 100% calc(100% - 70px), calc(100% - 170px) calc(100% - 70px), calc(100% - 170px) 100%, 0 100%)"
+            }}
+          />
+        </MotionDiv>
 
-        {/* Floating Tech Badges */}
-        <FloatingBadge className="top-10 left-10 md:top-14 md:left-14 text-[#61DAFB]" delay={0}>
-          <SiReact className="w-6 h-6" />
-        </FloatingBadge>
-        <FloatingBadge className="top-16 right-6 md:top-20 md:right-10 text-black dark:text-white" delay={1.5}>
-          <SiNextdotjs className="w-6 h-6" />
-        </FloatingBadge>
-        <FloatingBadge className="bottom-20 left-8 md:bottom-28 md:left-12 text-[#3178C6]" delay={3}>
-          <SiTypescript className="w-5 h-5" />
-        </FloatingBadge>
-        <FloatingBadge className="bottom-10 right-14 md:bottom-14 md:right-20 text-[#38B2AC]" delay={2}>
-          <SiTailwindcss className="w-6 h-6" />
-        </FloatingBadge>
+        {/* Dynamic Themed Icons & Statements */}
+        <ExpandingIconsOption />
 
         {/* Loading state while the 3D model loads */}
         {isLoading && (
-          <div className="absolute inset-0 z-30 flex items-center justify-center bg-transparent">
+          <div className="absolute inset-0 z-30 flex items-center justify-center bg-transparent pointer-events-none">
             <div className="w-8 h-8 border-4 border-zinc-200 dark:border-zinc-800 border-t-emerald-500 rounded-full animate-spin"></div>
           </div>
         )}
 
       </div>
+
     </div>
   );
 }
