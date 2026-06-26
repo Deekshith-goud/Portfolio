@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useRef } from "react";
 import { IoPlay, IoPause, IoMusicalNotes } from "react-icons/io5";
-import { motion } from "framer-motion";
 
 export default function AudioPlayer() {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -10,6 +9,18 @@ export default function AudioPlayer() {
   const audioRef = useRef<HTMLAudioElement>(null);
 
   const audioContextRef = useRef<AudioContext | null>(null);
+  const analyserRef = useRef<AnalyserNode | null>(null);
+  const dataArrayRef = useRef<Uint8Array | null>(null);
+  const animationRef = useRef<number | null>(null);
+  const barsRef = useRef<(HTMLDivElement | null)[]>([]);
+  const progressRef = useRef<HTMLDivElement>(null);
+
+  const vinylRef = useRef<HTMLDivElement>(null);
+  const isPlayingRef = useRef(isPlaying);
+  
+  useEffect(() => {
+    isPlayingRef.current = isPlaying;
+  }, [isPlaying]);
 
   useEffect(() => {
     setHasMounted(true);
@@ -23,6 +34,12 @@ export default function AudioPlayer() {
 
       const source = ctx.createMediaElementSource(audioRef.current);
 
+      const analyser = ctx.createAnalyser();
+      analyser.fftSize = 64; // 32 bins
+      analyser.smoothingTimeConstant = 0.85; // Makes the bar drops smoother
+      analyserRef.current = analyser;
+      dataArrayRef.current = new Uint8Array(analyser.frequencyBinCount);
+
       // Reduce bass to make beats lighter
       const filter = ctx.createBiquadFilter();
       filter.type = "lowshelf";
@@ -33,7 +50,9 @@ export default function AudioPlayer() {
       const gainNode = ctx.createGain();
       gainNode.gain.value = 0.5; // 50% volume
 
-      source.connect(filter);
+      // Connect analyser before filter to get raw beats
+      source.connect(analyser);
+      analyser.connect(filter);
       filter.connect(gainNode);
       gainNode.connect(ctx.destination);
     }
@@ -56,6 +75,67 @@ export default function AudioPlayer() {
     }
   }, [isPlaying]);
 
+  useEffect(() => {
+    let rotation = 0;
+    let currentSpeed = 0;
+
+    const updateLoop = () => {
+      const playing = isPlayingRef.current;
+
+      // 1. Equalizer Logic
+      if (playing && analyserRef.current && dataArrayRef.current) {
+        analyserRef.current.getByteFrequencyData(dataArrayRef.current);
+
+        const BARS_COUNT = 12;
+        // Arrange bins symmetrically so bass is in the center, forming a natural wave shape
+        const bins = [11, 9, 7, 5, 3, 1, 2, 4, 6, 8, 10, 12];
+
+        for (let i = 0; i < BARS_COUNT; i++) {
+          const bar = barsRef.current[i];
+          if (bar) {
+            const binIndex = bins[i];
+            const value = dataArrayRef.current[binIndex]; 
+            
+            // Higher frequencies naturally have less energy, so we boost them slightly
+            const boost = 1 + (binIndex * 0.1); 
+            let heightPercent = 15 + ((value / 255) * 85 * boost);
+            heightPercent = Math.min(100, heightPercent); // Cap at 100%
+
+            bar.style.height = `${heightPercent}%`;
+          }
+        }
+      } else {
+        barsRef.current.forEach(bar => {
+          if (bar) bar.style.height = "15%";
+        });
+      }
+
+      // 2. Vinyl Momentum Logic
+      const targetSpeed = playing ? 1.5 : 0; // 1.5 degrees per frame when playing
+      currentSpeed += (targetSpeed - currentSpeed) * 0.05; // Smooth acceleration/deceleration
+      rotation += currentSpeed;
+
+      if (vinylRef.current) {
+        vinylRef.current.style.transform = `rotate(${rotation}deg)`;
+      }
+
+      // 3. Progress Bar Logic
+      if (audioRef.current && progressRef.current) {
+        const { currentTime, duration } = audioRef.current;
+        const progressPercent = (currentTime / duration) * 100 || 0;
+        progressRef.current.style.width = `${progressPercent}%`;
+      }
+
+      animationRef.current = requestAnimationFrame(updateLoop);
+    };
+
+    animationRef.current = requestAnimationFrame(updateLoop);
+
+    return () => {
+      if (animationRef.current) cancelAnimationFrame(animationRef.current);
+    };
+  }, []);
+
   const handlePlayPause = () => {
     if (!isPlaying) {
       initAudio();
@@ -66,7 +146,7 @@ export default function AudioPlayer() {
   if (!hasMounted) return null;
 
   return (
-    <div className="flex items-center gap-3 bg-white/60 dark:bg-zinc-900/60 backdrop-blur-xl border border-white/40 dark:border-zinc-700/50 p-2 pl-3 pr-4 rounded-2xl shadow-sm w-max transition-all duration-300 hover:shadow-md">
+    <div className="flex items-center gap-3 bg-white/60 dark:bg-zinc-900/60 backdrop-blur-xl border border-white/40 dark:border-zinc-700/50 p-2 pl-3 pr-4 rounded-2xl shadow-sm w-max transition-all duration-300 hover:shadow-md relative">
       
       {/* Native HTML5 Audio */}
       <audio
@@ -84,7 +164,7 @@ export default function AudioPlayer() {
           className={`absolute left-0.5 top-0.5 w-9 h-9 rounded-full overflow-hidden shadow-md transition-all duration-700 ease-out z-0 bg-[#1a2744]
             ${isPlaying ? 'translate-x-[18px]' : 'translate-x-0'}`}
         >
-          <div className={`w-full h-full ${isPlaying ? 'animate-[spin_3s_linear_infinite]' : ''}`}>
+          <div ref={vinylRef} className="w-full h-full scale-[1.15]">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/images/vinyl-record.png" alt="Vinyl Record" className="w-full h-full object-contain scale-[1.15]" />
           </div>
@@ -105,31 +185,61 @@ export default function AudioPlayer() {
             Catwoman
           </span>
           {/* Equalizer */}
-          <div className="flex items-end gap-[1.5px] h-[11px] ml-1">
-            {[1, 2, 3, 4].map((bar) => {
-              const MotionDiv = motion.div as any;
+          <div className="flex items-end gap-[1px] h-[11px] ml-1">
+            {Array.from({ length: 12 }).map((_, index) => {
+              // Center bars (5, 6) represent heavy bass. Edges represent light treble.
+              const dist = Math.abs(index - 5.5);
+              
+              let opacity = "opacity-40";
+              
+              if (dist < 1) {
+                opacity = "opacity-100";
+              } else if (dist < 3) {
+                opacity = "opacity-80";
+              } else if (dist < 5) {
+                opacity = "opacity-60";
+              }
+
+              // Light mode uses the Hokusai wave blues, dark mode uses the custom brand greens
+              const colors = [
+                "bg-sky-200 dark:bg-tertiary-color", 
+                "bg-sky-300 dark:bg-secondary-color", 
+                "bg-sky-400 dark:bg-secondary-color", 
+                "bg-blue-400 dark:bg-primary-color", 
+                "bg-blue-500 dark:bg-primary-color", 
+                "bg-blue-600 dark:bg-primary-color",
+                "bg-blue-600 dark:bg-primary-color", 
+                "bg-blue-500 dark:bg-primary-color", 
+                "bg-blue-400 dark:bg-primary-color", 
+                "bg-sky-400 dark:bg-secondary-color", 
+                "bg-sky-300 dark:bg-secondary-color", 
+                "bg-sky-200 dark:bg-tertiary-color"
+              ];
+
               return (
-              <MotionDiv
-                key={bar}
-                className="w-[2px] bg-zinc-800/80 dark:bg-zinc-300/80 rounded-full"
-                animate={
-                  isPlaying
-                    ? { height: ["20%", "100%", "20%"] }
-                    : { height: "20%" }
-                }
-                transition={
-                  isPlaying
-                    ? { repeat: Infinity, duration: 0.6, ease: "easeInOut", delay: bar * 0.12 }
-                    : { duration: 0.3 }
-                }
-              />
+                <div
+                  key={index}
+                  ref={(el) => { barsRef.current[index] = el; }}
+                  className={`w-[1.5px] ${colors[index]} rounded-full ${opacity}`}
+                  style={{ height: "15%", transition: "height 0.05s ease-out" }}
+                />
               );
             })}
           </div>
         </div>
-        <span className="text-[10px] text-zinc-500 dark:text-zinc-400 uppercase tracking-widest font-semibold mt-0.5 truncate max-w-[120px]">
-          Afrobeat
-        </span>
+        <div className="flex flex-col mt-0.5">
+          <span className="text-[10px] text-zinc-500 dark:text-zinc-400 uppercase tracking-widest font-semibold truncate max-w-[120px]">
+            Afrobeat
+          </span>
+          {/* Micro Progress Bar */}
+          <div className="w-full h-[2px] bg-zinc-200 dark:bg-zinc-700/50 rounded-full mt-1 overflow-hidden">
+            <div 
+              ref={progressRef}
+              className="h-full bg-blue-500 dark:bg-primary-color rounded-full" 
+              style={{ width: "0%" }} 
+            />
+          </div>
+        </div>
       </div>
 
       {/* Controls */}
