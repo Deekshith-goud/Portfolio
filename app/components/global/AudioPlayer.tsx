@@ -106,8 +106,10 @@ export default function AudioPlayer() {
           </span>
           {/* Equalizer */}
           <div className="flex items-end gap-[1.5px] h-[11px] ml-1">
-            {[1, 2, 3, 4].map((bar) => (
-              <motion.div
+            {[1, 2, 3, 4].map((bar) => {
+              const MotionDiv = motion.div as any;
+              return (
+              <MotionDiv
                 key={bar}
                 className="w-[2px] bg-zinc-800/80 dark:bg-zinc-300/80 rounded-full"
                 animate={
@@ -121,7 +123,8 @@ export default function AudioPlayer() {
                     : { duration: 0.3 }
                 }
               />
-            ))}
+              );
+            })}
           </div>
         </div>
         <span className="text-[10px] text-zinc-500 dark:text-zinc-400 uppercase tracking-widest font-semibold mt-0.5 truncate max-w-[120px]">

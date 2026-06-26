@@ -11,7 +11,7 @@ const MotionSpan = motion.span as any;
 
 // --- Option: Blueprint Grid ---
 const BlueprintGrid = () => (
-  <MotionDiv 
+  <MotionDiv
     animate={{ backgroundPosition: ['0px 0px', '40px 40px'] }}
     transition={{ repeat: Infinity, ease: "linear", duration: 4 }}
     className="absolute -inset-20 z-0 opacity-40 dark:opacity-20 pointer-events-none"
@@ -70,11 +70,11 @@ const FloatingStatement = ({ text, className, delay }: { text: string, className
 const ExpandingIconsOption = () => {
   return (
     <>
-      {/* Tech Icons placed back into the asymmetrical layout */}
-      <ExpandingBadge icon={SiReact} label="React.js" className="top-[8%] left-[20%] md:top-[12%] md:left-[18%]" delay={0} />
-      <ExpandingBadge icon={SiNextdotjs} label="Next.js" className="top-[45%] right-[2%] md:top-[50%] md:-right-[2%]" delay={1.5} />
-      <ExpandingBadge icon={SiTypescript} label="TypeScript" className="bottom-[35%] left-[2%] md:bottom-[40%] md:-left-[2%]" delay={3} />
-      <ExpandingBadge icon={SiTailwindcss} label="Tailwind CSS" className="bottom-[8%] right-[20%] md:bottom-[12%] md:right-[18%]" delay={2} />
+      {/* Tech Icons placed back into the asymmetrical layout with functional labels */}
+      <ExpandingBadge icon={SiReact} label="UI Architecture" className="top-[8%] left-[20%] md:top-[12%] md:left-[18%]" delay={0} />
+      <ExpandingBadge icon={SiNextdotjs} label="Full-Stack" className="top-[45%] right-[2%] md:top-[50%] md:-right-[2%]" delay={1.5} />
+      <ExpandingBadge icon={SiTypescript} label="Type Safety" className="bottom-[35%] left-[2%] md:bottom-[40%] md:-left-[2%]" delay={3} />
+      <ExpandingBadge icon={SiTailwindcss} label="Rapid Styling" className="bottom-[8%] right-[20%] md:bottom-[12%] md:right-[18%]" delay={2} />
 
       {/* Statements (Blocky Technical Tags, avoiding icons) */}
       <FloatingStatement text="The building is how I learn." className="top-[2%] right-[5%] md:top-[4%] md:right-[2%]" delay={1} />
@@ -83,7 +83,7 @@ const ExpandingIconsOption = () => {
   );
 };
 
-export default function HeroSvg() { 
+export default function HeroSvg() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -96,18 +96,18 @@ export default function HeroSvg() {
 
   return (
     <div className="relative w-[320px] h-[320px] sm:w-[380px] sm:h-[380px] lg:w-[440px] lg:h-[440px] xl:w-[480px] xl:h-[480px] shrink-0 mx-auto xl:ml-auto">
-      
+
       {/* Decorative background glow behind the card */}
       <div className="absolute -inset-1 bg-gradient-to-r from-zinc-200 to-zinc-300 dark:from-zinc-800 dark:to-zinc-900 rounded-[2.5rem] blur-2xl opacity-50 pointer-events-none"></div>
-      
+
       {/* Blueprint Grid Backdrop */}
       <BlueprintGrid />
 
       {/* The Spline container */}
       <div className="relative w-full h-full flex items-center justify-center">
-        
+
         {/* Holographic Glitch Wrapper */}
-        <MotionDiv 
+        <MotionDiv
           className="w-full h-full absolute inset-0 z-10 scale-[1.35]"
           animate={{
             x: [0, -3, 3, -1, 1, 0, 0],
@@ -121,13 +121,13 @@ export default function HeroSvg() {
           }}
           transition={{ duration: 0.3, repeat: Infinity, repeatDelay: 10 }}
         >
-          <iframe 
-            src="https://my.spline.design/stackableglass-FQ4kmIx3cjy8bKHEpuujITrn-0N0/" 
-            frameBorder="0" 
-            width="100%" 
-            height="100%" 
+          <iframe
+            src="https://my.spline.design/stackableglass-FQ4kmIx3cjy8bKHEpuujITrn-0N0/"
+            frameBorder="0"
+            width="100%"
+            height="100%"
             className="w-full h-full"
-            style={{ 
+            style={{
               colorScheme: "light",
               clipPath: "polygon(0 0, 100% 0, 100% calc(100% - 70px), calc(100% - 170px) calc(100% - 70px), calc(100% - 170px) 100%, 0 100%)"
             }}

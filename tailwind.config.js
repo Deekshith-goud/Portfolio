@@ -46,10 +46,25 @@ module.exports = {
           "0%": { transform: "translateX(-50%)" },
           "100%": { transform: "translateX(0%)" },
         },
+        "drive-by": {
+          "0%": { transform: "translateX(0)", opacity: "1" },
+          "40%": { transform: "translateX(80px)", opacity: "1" },
+          "41%": { transform: "translateX(80px)", opacity: "0" },
+          "59%": { transform: "translateX(-80px)", opacity: "0" },
+          "60%": { transform: "translateX(-80px)", opacity: "1" },
+          "100%": { transform: "translateX(0)", opacity: "1" },
+        },
+        "smoke": {
+          "0%": { transform: "scale(0.2) translate(0, 0) rotate(0deg)", opacity: "0" },
+          "10%": { opacity: "0.8" },
+          "100%": { transform: "scale(3) translate(-15px, -8px) rotate(45deg)", opacity: "0" },
+        }
       },
       animation: {
         marquee: "marquee 25s linear infinite",
         "marquee-reverse": "marquee-reverse 25s linear infinite",
+        "drive-by": "drive-by 0.5s linear",
+        "smoke": "smoke 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards",
       },
     },
   },

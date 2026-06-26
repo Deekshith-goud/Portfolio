@@ -75,196 +75,38 @@ export default function HobbyCard({ hobby, index, layout = "grid" }: HobbyCardPr
         <div className={`${layout === "grid" ? "p-8" : "p-6"} flex flex-col gap-y-4 relative bg-white dark:bg-zinc-900`}>
           <div className="flex items-center gap-x-4">
             {hobby.name.toLowerCase().includes("formula") ? (
-              <motion.div className="p-3 rounded-2xl bg-primary-color bg-opacity-10 text-primary-color relative overflow-hidden">
-                <div className="relative w-10 h-8 flex items-center justify-center">
-                  <motion.div
-                    variants={{
-                      hover: {
-                        x: [0, 60, 60, -60, -60, 0],
-                        opacity: [1, 1, 0, 0, 1, 1],
-                        transition: {
-                          duration: 0.5,
-                          times: [0, 0.4, 0.41, 0.59, 0.6, 1],
-                          repeat: 1,
-                          ease: "linear",
-                        },
-                      },
-                    }}
-                  >
-                    <svg
-                      viewBox="0 0 200 60"
-                      width="65"
-                      height="20"
-                      preserveAspectRatio="xMidYMid meet"
-                    >
-                      <g>
-                        {/* 1. Body Clip & Mask */}
-                        <defs>
-                          <mask id="f1-body-mask">
-                            <rect width="200" height="60" fill="white" />
-                            {/* Wheel Arch Cutouts */}
-                            <circle cx="155" cy="42" r="14.5" fill="black" />
-                            <circle cx="45" cy="42" r="14.5" fill="black" />
-                            {/* Halo Gap - The air gap above the cockpit */}
-                            <path d="M 138,31 Q 125,18 112,31 Z" fill="black" />
-                          </mask>
-                          <linearGradient id="body-highlight" x1="0%" y1="0%" x2="0%" y2="100%">
-                            <stop offset="0%" stopColor="rgba(255,255,255,0.2)" />
-                            <stop offset="50%" stopColor="rgba(255,255,255,0)" />
-                            <stop offset="100%" stopColor="rgba(0,0,0,0.2)" />
-                          </linearGradient>
-                        </defs>
+              <div className="rounded-2xl bg-primary-color bg-opacity-10 text-primary-color relative overflow-hidden flex items-center justify-center w-[100px] h-[40px]">
 
-                        {/* 2. Main Chassis Panel Assembly */}
-                        {isDark ? (
-                          <>
-                            {/* Ferrari SF-24 HP Livery (Dark Mode) */}
-                            <path
-                              mask="url(#f1-body-mask)"
-                              d="M 188,52 L 188,50 L 175,44 L 165,38 L 142,38 L 142,30 L 138,30 Q 125,12 110,30 L 105,30 L 105,18 L 100,18 L 80,18 L 50,30 L 35,30 L 35,12 L 8,12 L 12,38 L 24,38 L 28,30 L 32,52 Z"
-                              fill="#e10600"
-                            />
-                            {/* White Top Engine Cover */}
-                            <path
-                              mask="url(#f1-body-mask)"
-                              d="M 110,0 L 200,0 L 200,60 L 110,60 Z"
-                              fill="#ffffff"
-                              clipPath="url(#body-clip)"
-                            />
-                            <defs>
-                              <clipPath id="body-clip">
-                                <path d="M 188,52 L 188,50 L 175,44 L 165,38 L 142,38 L 142,30 L 138,30 Q 125,12 110,30 L 105,30 L 105,18 L 100,18 L 80,18 L 50,30 L 35,30 L 35,12 L 8,12 L 12,38 L 24,38 L 28,30 L 32,52 Z" />
-                              </clipPath>
-                            </defs>
+                {/* Natural smoke effect */}
+                <div className="absolute inset-0 pointer-events-none z-0">
+                  {[...Array(3)].map((_, i) => (
+                    <div
+                      key={`smoke-${i}`}
+                      className="absolute bottom-[2px] left-[8px] w-6 h-6 opacity-0 group-hover:animate-smoke"
+                      style={{
+                        animationDelay: `${i * 0.15}s`,
+                        background: "radial-gradient(circle, rgba(156,163,175,0.7) 0%, rgba(156,163,175,0.2) 50%, transparent 100%)",
+                      }}
+                    />
+                  ))}
+                </div>
 
-                            {/* 3. Carbon Floor & Shading */}
-                            <path mask="url(#f1-body-mask)" d="M 0,44 L 200,44 L 200,60 L 0,60 Z" fill="rgba(0,0,0,0.4)" clipPath="url(#body-clip)" />
-                            <path mask="url(#f1-body-mask)" d="M 0,0 L 200,0 L 200,60 L 0,60 Z" fill="url(#body-highlight)" clipPath="url(#body-clip)" />
-
-                            {/* 4. Refined Sidepod & Branding */}
-                            <g mask="url(#f1-body-mask)">
-                              <path d="M 125,35 L 92,35 L 90,40 L 125,40 Z" fill="rgba(0,0,0,0.3)" />
-                              <path d="M 112,36 L 116,36 L 116,39 L 114,40 L 112,39 Z" fill="#ffeb3b" /> {/* Shield */}
-                              <text x="82" y="39" fontSize="4.5" fontWeight="900" fill="#ffffff" style={{ letterSpacing: '0.1px' }}>FERRARI</text>
-                              
-                              <path d="M 85,25 L 140,38" fill="none" stroke="#ffeb3b" strokeWidth="0.5" opacity="0.6" />
-                              <path d="M 85,27 L 140,40" fill="none" stroke="#fff" strokeWidth="0.4" opacity="0.4" />
-
-                              <circle cx="128" cy="33" r="4" fill="#0050ff" />
-                              <text x="125.8" y="34.8" fontSize="4.5" fontWeight="900" fill="white" style={{ fontFamily: 'serif' }}>hp</text>
-                              
-                              <text x="45" y="35" fontSize="2.2" fill="white" opacity="0.5">RICHARD MILLE</text>
-                              <text x="150" y="32" fontSize="7" fontWeight="900" fill="#e10600" style={{ fontStyle: 'italic' }}>44</text>
-                            </g>
-                          </>
-                        ) : (
-                          <>
-                            <path mask="url(#f1-body-mask)" d="M 188,52 L 188,50 L 175,44 L 165,38 L 142,38 L 142,30 L 138,30 Q 125,12 110,30 L 105,30 L 105,18 L 100,18 L 80,18 L 50,30 L 35,30 L 35,12 L 8,12 L 12,38 L 24,38 L 28,30 L 32,52 Z" fill="#111" />
-                            <path mask="url(#f1-body-mask)" d="M 125,37 L 92,37 L 90,42 L 125,42 Z" fill="#cbd5e1" />
-                            <text x="94" y="41" fontSize="5" fontWeight="900" fill="#000" style={{ fontFamily: 'Arial, sans-serif', fontStyle: 'italic', letterSpacing: '-0.4px' }}>AMG</text>
-                            <path mask="url(#f1-body-mask)" d="M 172,37 L 145,37 L 138,35 L 112,35 L 85,20 L 85,22 L 112,37 L 145,39 Z" fill="#00A19B" />
-                            <path mask="url(#f1-body-mask)" d="M 106,18 L 102,18 L 102,20 L 106,20 Z" fill="#00A19B" />
-                          </>
-                        )}
-
-                        {/* 5. Mechanicals (Wheels) */}
-                        <defs>
-                          <radialGradient id="tire-gradient" cx="50%" cy="50%" r="50%">
-                            <stop offset="70%" stopColor="#0a0a0a" />
-                            <stop offset="90%" stopColor="#1a1a1a" />
-                            <stop offset="100%" stopColor="#000000" />
-                          </radialGradient>
-                          <radialGradient id="rim-gradient" cx="50%" cy="50%" r="50%">
-                            <stop offset="0%" stopColor="#333" />
-                            <stop offset="80%" stopColor="#111" />
-                            <stop offset="100%" stopColor="#000" />
-                          </radialGradient>
-                          <path id="wheel-path" d="M -9,0 A 9,9 0 1,1 9,0" />
-                          <path id="wheel-path-bottom" d="M 9,0 A 9,9 0 1,1 -9,0" />
-                        </defs>
-
-                        {/* Front Wheel */}
-                        <g transform="translate(45, 42)">
-                          <circle r="12" fill="url(#tire-gradient)" stroke="white" strokeWidth="0.5" />
-                          <circle r="12" fill="none" stroke="rgba(255,255,255,0.1)" strokeWidth="0.2" />
-                          
-                          <text fontSize="2.2" fill="white" fontWeight="900" opacity="0.9" style={{ letterSpacing: '0.5px' }}>
-                            <textPath href="#wheel-path" startOffset="50%" textAnchor="middle">P ZERO</textPath>
-                          </text>
-                          <text fontSize="1.8" fill="white" fontWeight="700" opacity="0.6">
-                            <textPath href="#wheel-path-bottom" startOffset="50%" textAnchor="middle">PIRELLI</textPath>
-                          </text>
-
-                          <circle r="7.5" fill="url(#rim-gradient)" stroke="#222" strokeWidth="0.5" />
-                          {[...Array(12)].map((_, i) => (
-                            <line 
-                              key={i} 
-                              x1="0" y1="0" 
-                              x2={Math.cos(i * Math.PI / 6) * 7} 
-                              y2={Math.sin(i * Math.PI / 6) * 7} 
-                              stroke="rgba(255,255,255,0.05)" 
-                              strokeWidth="0.3" 
-                            />
-                          ))}
-                          <circle r="1.5" fill="#111" stroke="rgba(255,255,255,0.2)" strokeWidth="0.2" />
-                          <circle r="0.6" fill={isDark ? "#ffeb3b" : "#00f"} />
-                        </g>
-
-                        {/* Rear Wheel */}
-                        <g transform="translate(155, 42)">
-                          <circle r="12.5" fill="url(#tire-gradient)" stroke="white" strokeWidth="0.5" />
-                          <circle r="12.5" fill="none" stroke="rgba(255,255,255,0.1)" strokeWidth="0.2" />
-                          
-                          <text fontSize="2.2" fill="white" fontWeight="900" opacity="0.9" style={{ letterSpacing: '0.5px' }}>
-                            <textPath href="#wheel-path" startOffset="50%" textAnchor="middle">P ZERO</textPath>
-                          </text>
-                          <text fontSize="1.8" fill="white" fontWeight="700" opacity="0.6">
-                            <textPath href="#wheel-path-bottom" startOffset="50%" textAnchor="middle">PIRELLI</textPath>
-                          </text>
-
-                          <circle r="7.5" fill="url(#rim-gradient)" stroke="#222" strokeWidth="0.5" />
-                          {[...Array(12)].map((_, i) => (
-                            <line 
-                              key={i} 
-                              x1="0" y1="0" 
-                              x2={Math.cos(i * Math.PI / 6) * 7} 
-                              y2={Math.sin(i * Math.PI / 6) * 7} 
-                              stroke="rgba(255,255,255,0.05)" 
-                              strokeWidth="0.3" 
-                            />
-                          ))}
-                          <circle r="1.5" fill="#111" stroke="rgba(255,255,255,0.2)" strokeWidth="0.2" />
-                          <circle r="0.6" fill={isDark ? "#ffeb3b" : "#00f"} />
-                        </g>
-                      </g>
-                    </svg>
-                  </motion.div>
-
-                  <div className="absolute inset-0 pointer-events-none">
-                    {[...Array(3)].map((_, i) => (
-                      <motion.div
-                        key={i}
-                        variants={{
-                          hover: {
-                            x: [0, -40],
-                            opacity: [0, 0.4, 0],
-                            scale: [0.5, 1.2],
-                            transition: {
-                              duration: 0.6,
-                              repeat: Infinity,
-                              delay: i * 0.2,
-                            },
-                          },
-                        }}
-                        className="absolute right-0 w-8 h-[1px] bg-primary-color opacity-0"
-                        style={{ top: 15 + i * 5 }}
-                      />
-                    ))}
+                <div className="relative w-full h-full flex items-center justify-center">
+                  <div className="relative z-10 w-full flex justify-center group-hover:animate-drive-by">
+                    <Image
+                      src={resolvedTheme === "dark" ? "/images/image.png" : "/images/image-light.png"}
+                      alt="Formula 1 Car"
+                      width={400}
+                      height={150}
+                      quality={100}
+                      unoptimized
+                      className="object-contain w-[90px] h-auto"
+                    />
                   </div>
                 </div>
-              </motion.div>
+              </div>
             ) : hobby.name.toLowerCase().includes("gaming") ? (
-              <motion.div 
+              <motion.div
                 variants={{
                   hover: {
                     x: [0, -1, 1, -2, 2, -4, 4, 0],
@@ -292,13 +134,13 @@ export default function HobbyCard({ hobby, index, layout = "grid" }: HobbyCardPr
                   {[...Array(8)].map((_, i) => {
                     const random1 = (i * 17) % 100 / 100;
                     const random2 = (i * 31) % 100 / 100;
-                    
+
                     const angle = (i / 8) * Math.PI * 2;
                     const distance = 30 + random1 * 60;
                     const x = Math.cos(angle) * distance;
                     const y = Math.sin(angle) * distance;
                     const size = 4 + random2 * 6;
-                    
+
                     const grayShade = Math.floor(40 + random1 * 100);
                     const startColor = `rgb(${grayShade}, ${grayShade}, ${grayShade})`;
 
@@ -313,8 +155,8 @@ export default function HobbyCard({ hobby, index, layout = "grid" }: HobbyCardPr
                             scale: [0, 1.2, 0],
                             backgroundColor: [startColor, "#ffffff"],
                             opacity: [0, 1, 0],
-                            transition: { 
-                              duration: 0.4, 
+                            transition: {
+                              duration: 0.4,
                               delay: 1.8 + random2 * 0.1,
                               ease: "easeOut"
                             }
@@ -341,10 +183,10 @@ export default function HobbyCard({ hobby, index, layout = "grid" }: HobbyCardPr
                   }}
                   className="relative z-10"
                 >
-                  <svg 
-                    viewBox="0 0 100 100" 
-                    width="28" 
-                    height="28" 
+                  <svg
+                    viewBox="0 0 100 100"
+                    width="28"
+                    height="28"
                     className="rounded-md shadow-md overflow-hidden"
                     style={{ shapeRendering: "crispEdges" }}
                   >
@@ -395,8 +237,8 @@ export default function HobbyCard({ hobby, index, layout = "grid" }: HobbyCardPr
             ) : hobby.name.toLowerCase().includes("space") ? (
               <motion.div
                 className="rounded-2xl relative overflow-visible flex items-center justify-center w-[52px] h-[52px]"
-                style={{ 
-                  background: isDark 
+                style={{
+                  background: isDark
                     ? "radial-gradient(ellipse at 30% 20%, #1a1a3e 0%, #0a0b1a 70%, #050510 100%)"
                     : "radial-gradient(ellipse at 30% 20%, #ffffff 0%, #f0fdfa 70%, #ccfbf1 100%)"
                 }}
@@ -715,7 +557,7 @@ export default function HobbyCard({ hobby, index, layout = "grid" }: HobbyCardPr
                     {/* Isometric Strategy Grid */}
                     <path d="M 50,20 L 80,40 L 50,60 L 20,40 Z" fill="none" stroke="rgba(255,255,255,0.2)" strokeWidth="1" />
                     <path d="M 50,40 L 80,60 L 50,80 L 20,60 Z" fill="none" stroke="rgba(255,255,255,0.2)" strokeWidth="1" />
-                    
+
                     {/* Active Strategic Node */}
                     <motion.circle
                       cx="50" cy="40" r="4"
@@ -752,7 +594,7 @@ export default function HobbyCard({ hobby, index, layout = "grid" }: HobbyCardPr
                     <circle cx="50" cy="50" r="40" fill="none" stroke="rgba(255,255,255,0.1)" strokeWidth="0.5" />
                     <ellipse cx="50" cy="50" rx="40" ry="15" fill="none" stroke="rgba(255,255,255,0.1)" strokeWidth="0.5" />
                     <ellipse cx="50" cy="50" rx="15" ry="40" fill="none" stroke="rgba(255,255,255,0.1)" strokeWidth="0.5" />
-                    
+
                     <text x="50" y="58" fontSize="20" textAnchor="middle" fill="#fff" className="font-mono tracking-widest uppercase">ESP</text>
                     <motion.rect
                       x="30" y="65" width="40" height="1"

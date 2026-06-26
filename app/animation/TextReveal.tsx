@@ -9,7 +9,7 @@ export function TextReveal({ text }: { text: string }) {
   const [isReady, setIsReady] = useState(false);
   const [isComplete, setIsComplete] = useState(false);
   
-  const ref = useRef<HTMLSpanElement>(null);
+  const ref = useRef<HTMLSpanElement>(null!);
   const isInView = useInView(ref, { once: true, margin: "-10%" });
 
   useEffect(() => {
@@ -51,8 +51,10 @@ export function TextReveal({ text }: { text: string }) {
     return () => clearInterval(interval);
   }, [text, isReady]);
 
+  const MotionSpan = motion.span as any;
+
   return (
-    <motion.span 
+    <MotionSpan 
       ref={ref} 
       className="inline-block min-h-[1.5em]" 
       style={{ whiteSpace: "pre-wrap" }}
@@ -71,6 +73,6 @@ export function TextReveal({ text }: { text: string }) {
       {!isComplete && (
         <span className="animate-pulse ml-[2px] opacity-80">_</span>
       )}
-    </motion.span>
+    </MotionSpan>
   );
 }
