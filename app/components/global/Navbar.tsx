@@ -5,12 +5,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, useScroll, useSpring } from "framer-motion";
-import { useState } from "react";
-import Logo from "@/public/logo.png";
+import { useState, useEffect } from "react";
 import Theme from "./Theme";
 import UnmountStudio from "./Unmount";
 import MobileMenu from "./MobileMenu";
 import Magnetic from "./Magnetic";
+import SignatureLogo from "./SignatureLogo";
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -49,9 +49,11 @@ export default function Navbar() {
           <Magnetic>
             <Link
               href="/"
-              className="hover:scale-110 active:scale-90 transition-transform duration-300"
+              className="hover:scale-110 active:scale-90 transition-transform duration-300 block w-[80px] h-[50px] relative"
             >
-              <Image src={Logo} width={35} height={35} alt="logo" />
+              <div id="navbar-logo" className="absolute top-1/2 left-0 -translate-y-1/2 w-[1000px] origin-left scale-[0.12]">
+                <SignatureLogo isAnimated={false} className="w-full h-auto text-zinc-900 dark:text-white drop-shadow-none pointer-events-none" />
+              </div>
             </Link>
           </Magnetic>
 
