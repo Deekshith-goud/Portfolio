@@ -20,8 +20,13 @@ export default function Theme() {
       return;
     }
 
-    const x = event.clientX;
-    const y = event.clientY;
+    // Fix for Chromium DPI scaling bug: Use percentages instead of absolute pixels.
+    const rect = event.currentTarget.getBoundingClientRect();
+    const x = rect.left + rect.width / 2;
+    const y = rect.top + rect.height / 2;
+
+    const xPercent = (x / window.innerWidth) * 100;
+    const yPercent = (y / window.innerHeight) * 100;
 
     const endRadius = Math.hypot(
       Math.max(x, innerWidth - x),
@@ -36,8 +41,8 @@ export default function Theme() {
 
     transition.ready.then(() => {
       const clipPath = [
-        `circle(0px at ${x}px ${y}px)`,
-        `circle(${endRadius}px at ${x}px ${y}px)`,
+        `circle(0px at ${xPercent}% ${yPercent}%)`,
+        `circle(${endRadius}px at ${xPercent}% ${yPercent}%)`,
       ];
       document.documentElement.animate(
         {
