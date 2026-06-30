@@ -6,6 +6,7 @@ import Constellation from "./Constellation";
 import SignatureLogo from "./SignatureLogo";
 
 const MotionDiv = motion.div as any;
+const MotionSpan = motion.span as any;
 
 const ScrambleText = ({ text }: { text: string }) => {
   const [displayChars, setDisplayChars] = useState<{ char: string; isLocked: boolean }[]>([]);
@@ -52,7 +53,7 @@ const ScrambleText = ({ text }: { text: string }) => {
         );
       })}
       {/* Always render to prevent layout shift, just control opacity */}
-      <motion.span
+      <MotionSpan
         animate={currentIndex >= text.length ? { opacity: [1, 0, 1] } : { opacity: 0 }}
         transition={{ duration: 0.8, repeat: Infinity }}
         className="inline-block w-1.5 h-3 ml-1 bg-zinc-300"
@@ -83,7 +84,7 @@ export default function Loader() {
       controls.stop();
       clearTimeout(timer);
     };
-  }, []);
+  }, [progressValue]);
 
   const overlayVariants = {
     exit: {
@@ -147,7 +148,7 @@ export default function Loader() {
             >
               <div className="text-zinc-500 font-mono text-xs tracking-[0.4em] uppercase flex items-center gap-6">
                 <ScrambleText text="INITIALIZING" />
-                <motion.span className="text-zinc-300 w-8 text-right">{progressText}</motion.span>
+                <MotionSpan className="text-zinc-300 w-8 text-right">{progressText}</MotionSpan>
               </div>
               
               {/* 1px Sleek Progress Bar */}
