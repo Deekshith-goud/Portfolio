@@ -56,8 +56,8 @@ export default function Constellation() {
       }
 
       update() {
-        if (this.x < 0 || this.x > canvas.width) this.vx = -this.vx;
-        if (this.y < 0 || this.y > canvas.height) this.vy = -this.vy;
+        if (this.x < 0 || this.x > canvas!.width) this.vx = -this.vx;
+        if (this.y < 0 || this.y > canvas!.height) this.vy = -this.vy;
         this.x += this.vx;
         this.y += this.vy;
         this.draw();
@@ -66,7 +66,7 @@ export default function Constellation() {
 
     const initParticles = () => {
       particles = [];
-      const numParticles = Math.floor((canvas.width * canvas.height) / 10000);
+      const numParticles = Math.floor((canvas!.width * canvas!.height) / 10000);
       for (let i = 0; i < numParticles; i++) {
         particles.push(new Particle());
       }
@@ -74,7 +74,7 @@ export default function Constellation() {
 
     const animate = () => {
       if (!ctx) return;
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.clearRect(0, 0, canvas!.width, canvas!.height);
       
       for (let i = 0; i < particles.length; i++) {
         // Mouse interaction (repel particles slightly)

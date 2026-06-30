@@ -18,8 +18,8 @@ export default function SignatureLogo({ layoutId, isAnimated = false, isSimple =
       pathLength: 1,
       opacity: 1,
       transition: { 
-        pathLength: { duration: 1.6, ease: [0.65, 0, 0.35, 1], delay: 0.1 },
-        opacity: { duration: 0.01, delay: 0.1 }
+        pathLength: { duration: 2.4, ease: "easeInOut", delay: 0.2 },
+        opacity: { duration: 0.01, delay: 0.2 }
       }
     }
   };
