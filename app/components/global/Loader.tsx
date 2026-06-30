@@ -1,58 +1,113 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useMotionValue, useTransform, animate } from "framer-motion";
 import Constellation from "./Constellation";
 import SignatureLogo from "./SignatureLogo";
 
-export default function Loader() {
-  const [isLoading, setIsLoading] = useState(true);
-  const [dest, setDest] = useState({ x: "-41vw", y: "-43vh", scale: 0.12 });
+const MotionDiv = motion.div as any;
+
+const ScrambleText = ({ text }: { text: string }) => {
+  const [displayChars, setDisplayChars] = useState<{ char: string; isLocked: boolean }[]>([]);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+-=[]{}|;:,./<>?";
 
   useEffect(() => {
-    // Dynamically calculate the exact center of the Navbar logo
-    const targetEl = document.getElementById("navbar-logo");
-    if (targetEl) {
-      const rect = targetEl.getBoundingClientRect();
-      const targetX = rect.left + rect.width / 2;
-      const targetY = rect.top + rect.height / 2;
-      
-      const centerX = window.innerWidth / 2;
-      const centerY = window.innerHeight / 2;
-      
-      const containerWidth = Math.min(window.innerWidth * 0.85, 768);
-      const scaleToFit = rect.width / containerWidth;
+    let iteration = 0;
+    const interval = setInterval(() => {
+      setCurrentIndex(Math.floor(iteration));
+      setDisplayChars(
+        text.split("").map((letter, index) => {
+          if (index < iteration) {
+            return { char: text[index], isLocked: true };
+          }
+          return { char: chars[Math.floor(Math.random() * chars.length)], isLocked: false };
+        })
+      );
 
-      setDest({
-        x: `${targetX - centerX}px`,
-        y: `${targetY - centerY}px`,
-        scale: scaleToFit,
-      });
-    }
+      if (iteration >= text.length) {
+        clearInterval(interval);
+      }
 
-    // Hide loader after animation finishes
+      iteration += 1 / 4;
+    }, 30);
+
+    return () => clearInterval(interval);
+  }, [text]);
+
+  return (
+    <span className="inline-flex items-center font-mono">
+      {displayChars.map((item, i) => {
+        const isCurrent = i === currentIndex && currentIndex < text.length;
+        return (
+          <span
+            key={i}
+            className={`
+              ${item.isLocked ? "text-zinc-200" : "text-zinc-600 dark:text-zinc-500"}
+              ${isCurrent ? "bg-zinc-300 text-zinc-900" : ""}
+            `}
+          >
+            {item.char}
+          </span>
+        );
+      })}
+      {/* Always render to prevent layout shift, just control opacity */}
+      <motion.span
+        animate={currentIndex >= text.length ? { opacity: [1, 0, 1] } : { opacity: 0 }}
+        transition={{ duration: 0.8, repeat: Infinity }}
+        className="inline-block w-1.5 h-3 ml-1 bg-zinc-300"
+      />
+    </span>
+  );
+};
+
+export default function Loader() {
+  const [isLoading, setIsLoading] = useState(true);
+  const progressValue = useMotionValue(0);
+  const progressText = useTransform(progressValue, (latest) => `${Math.round(latest)}%`);
+  const progressWidth = useTransform(progressValue, (latest) => `${latest}%`);
+
+  useEffect(() => {
+    // Smoothly animate the progress value from 0 to 100 over 2.6 seconds
+    const controls = animate(progressValue, 100, {
+      duration: 2.6,
+      ease: "easeInOut", // easeInOut makes the counting feel natural
+    });
+
+    // Wait for the signature to finish drawing
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 2800); 
-    
-    return () => clearTimeout(timer);
+    }, 3200);
+
+    return () => {
+      controls.stop();
+      clearTimeout(timer);
+    };
   }, []);
 
   const overlayVariants = {
-    exit: { 
+    exit: {
       opacity: 0,
-      transition: { duration: 0.7, delay: 0.3, ease: "easeInOut" } 
+      transition: { duration: 1.0, ease: "easeInOut", delay: 0.8 }
+    }
+  };
+
+  const backgroundVariants = {
+    exit: {
+      scale: 1.35,
+      opacity: 0,
+      transition: { duration: 1.8, ease: [0.65, 0, 0.35, 1] }
     }
   };
 
   const logoContainerVariants = {
     exit: {
-      y: dest.y,
-      x: dest.x,
-      scale: dest.scale,
-      transition: { 
-        duration: 1.0, 
-        ease: [0.76, 0, 0.24, 1]
+      opacity: 0,
+      scale: 0.6,
+      filter: "blur(16px)",
+      transition: {
+        duration: 1.8,
+        ease: [0.65, 0, 0.35, 1]
       }
     }
   };
@@ -60,20 +115,51 @@ export default function Loader() {
   return (
     <AnimatePresence>
       {isLoading && (
-        <motion.div
+        <MotionDiv
           className="fixed inset-0 z-[100] flex items-center justify-center bg-[#0d1017] overflow-hidden"
           initial={{ opacity: 1 }}
           exit="exit"
           variants={overlayVariants}
         >
-          <Constellation />
-          <motion.div variants={logoContainerVariants} exit="exit" className="z-10 flex items-center justify-center">
-            <SignatureLogo 
-              isAnimated={true} 
-              className="w-[85vw] max-w-3xl h-auto drop-shadow-2xl pointer-events-none" 
-            />
-          </motion.div>
-        </motion.div>
+          {/* Subtle Constellation Background that scales up */}
+          <MotionDiv variants={backgroundVariants} exit="exit" className="absolute inset-0 w-full h-full pointer-events-none opacity-60">
+            <Constellation />
+          </MotionDiv>
+
+          {/* Wrapper to maintain exact natural flex layout */}
+          <div className="z-10 flex flex-col items-center justify-center w-full">
+            
+            {/* Minimalist Drawing Signature with 3D Parallax Exit */}
+            <MotionDiv variants={logoContainerVariants} exit="exit">
+              <SignatureLogo 
+                isAnimated={true} 
+                className="w-[85vw] max-w-3xl h-auto drop-shadow-2xl pointer-events-none mb-12" 
+              />
+            </MotionDiv>
+
+            {/* Elegant Progress Indicator (Separated to prevent blur bulging) */}
+            <MotionDiv 
+              className="flex flex-col items-center gap-4"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9, transition: { duration: 1.8, ease: [0.65, 0, 0.35, 1] } }}
+              transition={{ delay: 0, duration: 1.2 }}
+            >
+              <div className="text-zinc-500 font-mono text-xs tracking-[0.4em] uppercase flex items-center gap-6">
+                <ScrambleText text="INITIALIZING" />
+                <motion.span className="text-zinc-300 w-8 text-right">{progressText}</motion.span>
+              </div>
+              
+              {/* 1px Sleek Progress Bar */}
+              <div className="w-64 h-[1px] bg-zinc-800/50 relative">
+                <MotionDiv 
+                  className="absolute top-0 left-0 bottom-0 bg-gradient-to-r from-transparent via-blue-400/80 to-blue-200"
+                  style={{ width: progressWidth }}
+                />
+              </div>
+            </MotionDiv>
+          </div>
+        </MotionDiv>
       )}
     </AnimatePresence>
   );
