@@ -10,7 +10,7 @@ import Theme from "./Theme";
 import UnmountStudio from "./Unmount";
 import MobileMenu from "./MobileMenu";
 import Magnetic from "./Magnetic";
-import SignatureLogo from "./SignatureLogo";
+import SignatureNavLogo from "./SignatureNavLogo";
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -46,16 +46,18 @@ export default function Navbar() {
     <UnmountStudio>
       <header className="sticky top-0 z-50 text-sm py-4 md:px-16 px-6 border-b dark:border-zinc-800 border-zinc-200 bg-white/60 dark:bg-zinc-900/60 backdrop-blur-xl transition-all duration-300 md:mb-28 mb-10">
         <div className="max-w-6xl mx-auto flex items-center justify-between">
-          <Magnetic>
+          <div className="flex items-center w-[120px]">
             <Link
               href="/"
-              className="hover:scale-110 active:scale-90 transition-transform duration-300 block w-[80px] h-[50px] relative"
+              className="active:scale-90 transition-transform duration-300 inline-block relative h-[50px] w-full"
             >
-              <div id="navbar-logo" className="absolute top-1/2 left-0 -translate-y-1/2 w-[1000px] origin-left scale-[0.12]">
-                <SignatureLogo isAnimated={false} className="w-full h-auto text-zinc-900 dark:text-white drop-shadow-none pointer-events-none" />
+              <div className="absolute top-1/2 left-0 -translate-y-1/2">
+                <div className="w-[120px]">
+                  <SignatureNavLogo />
+                </div>
               </div>
             </Link>
-          </Magnetic>
+          </div>
 
           <nav className="md:block hidden">
             <ul className="flex items-center gap-x-2">
