@@ -63,15 +63,17 @@ const Cube = ({
         }}
       >
         {/* Top Face */}
-        <div className="absolute w-full h-full transition-all duration-300" style={{ 
+        <div className="absolute w-full h-full transition-all duration-300 box-border" style={{ 
           backgroundColor: colorTop, 
+          border: `1px solid ${count > 0 ? 'rgba(51, 224, 146, 0.4)' : 'rgba(161, 161, 170, 0.2)'}`,
           transform: `translateZ(${height}px)`,
           boxShadow: count > 0 ? `0 0 ${8 + count*2}px ${colorTop}` : 'none'
         }} />
         
         {/* Front Face (Y-axis) */}
-        <div className="absolute origin-bottom transition-all duration-300" style={{ 
+        <div className="absolute origin-bottom transition-all duration-300 box-border" style={{ 
           backgroundColor: colorLeft, 
+          border: `1px solid ${count > 0 ? 'rgba(51, 224, 146, 0.4)' : 'rgba(161, 161, 170, 0.2)'}`,
           width: size, 
           height: height, 
           top: size - height,
@@ -79,13 +81,45 @@ const Cube = ({
         }} />
 
         {/* Right Face (X-axis) */}
-        <div className="absolute origin-left transition-all duration-300" style={{ 
-          backgroundColor: colorRight, 
+        <div className="absolute origin-left transition-all duration-300 box-border" style={{ 
+          backgroundColor: colorRight,
+          border: `1px solid ${count > 0 ? 'rgba(51, 224, 146, 0.4)' : 'rgba(161, 161, 170, 0.2)'}`,
           width: height, 
           height: size, 
           left: size,
           top: 0,
           transform: `rotateY(-90deg)`
+        }} />
+
+        {/* Back Face (Y-axis) - Appears on hover */}
+        <div className="absolute origin-bottom transition-all duration-300 box-border" style={{ 
+          backgroundColor: 'transparent', 
+          border: isHovered && count > 0 ? `1px solid #33E092` : 'none',
+          opacity: isHovered ? 1 : 0,
+          width: size, 
+          height: height, 
+          top: -height,
+          transform: `rotateX(-90deg)`
+        }} />
+
+        {/* Left Face (X-axis) - Appears on hover */}
+        <div className="absolute origin-left transition-all duration-300 box-border" style={{ 
+          backgroundColor: 'transparent', 
+          border: isHovered && count > 0 ? `1px solid #33E092` : 'none',
+          opacity: isHovered ? 1 : 0,
+          width: height, 
+          height: size, 
+          left: 0,
+          top: 0,
+          transform: `rotateY(-90deg)`
+        }} />
+
+        {/* Bottom Face (Base Footprint) - Appears on hover */}
+        <div className="absolute w-full h-full transition-all duration-300 box-border" style={{ 
+          backgroundColor: 'transparent', 
+          border: isHovered && count > 0 ? `1px solid #33E092` : 'none',
+          opacity: isHovered ? 1 : 0,
+          transform: `translateZ(0px)`
         }} />
       </div>
     </div>
