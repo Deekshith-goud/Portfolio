@@ -8,6 +8,7 @@ import { Slide } from "../animation/Slide";
 import { sanityFetch } from "@/lib/sanity.client";
 import PageHeading from "../components/shared/PageHeading";
 import { urlFor } from "@/lib/sanity.image";
+import GithubStats from "../components/pages/GithubStats";
 
 export const metadata: Metadata = {
   title: "Projects | Deekshith Goud",
@@ -72,6 +73,9 @@ export default async function Project() {
           <EmptyState value="Projects" />
         )}
       </Slide>
+      
+      {/* GitHub Stats section */}
+      <GithubStats />
     </main>
   );
 }
