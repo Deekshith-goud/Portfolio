@@ -23,7 +23,7 @@ export default async function FeaturedPosts({ params }: { params?: string }) {
           >
             <Link
               href={`/blog/${post.slug}`}
-              className="flex flex-col gap-4 dark:bg-primary-bg bg-secondary-bg p-5 rounded-lg border dark:border-zinc-800 border-zinc-200"
+              className="relative overflow-hidden group flex flex-col gap-4 dark:bg-primary-bg bg-secondary-bg p-5 rounded-lg border dark:border-zinc-800 border-zinc-200"
             >
               <Image
                 src={urlFor(post.coverImage).width(400).height(230).url()}
@@ -31,7 +31,7 @@ export default async function FeaturedPosts({ params }: { params?: string }) {
                 alt={post.coverImage?.alt || post.title}
                 width={400}
                 height={230}
-                placeholder={post.coverImage ? "blur" : "empty"}
+                placeholder={post.coverImage?.lqip ? "blur" : "empty"}
                 blurDataURL={post.coverImage?.lqip || ""}
                 quality={100}
                 loading="lazy"
@@ -44,6 +44,8 @@ export default async function FeaturedPosts({ params }: { params?: string }) {
                   {post.description.slice(0, 80).padEnd(83, "...")}
                 </p>
               </div>
+              {/* Rainbow hover underline */}
+              <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-[linear-gradient(90deg,#8B5CF6,#F97316,#FBBF24,#34D399,#3B82F6)] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             </Link>
           </article>
         )

@@ -85,8 +85,8 @@ export default async function About() {
                     height={400}
                     quality={100}
                     alt={profile.profileImage.alt || profile.fullName}
-                    placeholder="blur"
-                    blurDataURL={profile?.lqip}
+                    placeholder={profile?.lqip ? "blur" : "empty"}
+                    blurDataURL={profile?.lqip || ""}
                     priority
                   />
                 ) : (
@@ -97,19 +97,23 @@ export default async function About() {
                   <div className="flex items-center gap-x-3">
                     <RefLink
                       href="https://deekshithgoud-resume.netlify.app/"
-                      className="flex items-center justify-center text-center gap-x-2 basis-[90%] dark:bg-primary-bg bg-zinc-100 border border-transparent dark:hover:border-zinc-700 hover:border-zinc-200 rounded-md py-2 text-lg font-incognito font-semibold"
+                      className="relative overflow-hidden flex items-center justify-center text-center gap-x-2 basis-[90%] dark:bg-primary-bg bg-zinc-100 border border-transparent dark:hover:border-zinc-700 hover:border-zinc-200 rounded-md py-2 text-lg font-incognito font-semibold group"
                     >
                       View Résumé <BiLinkExternal className="text-base" />
+                      {/* Rainbow underline */}
+                      <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-[linear-gradient(90deg,#8B5CF6,#F97316,#FBBF24,#34D399,#3B82F6)] opacity-80 group-hover:opacity-100 transition-opacity" />
                     </RefLink>
                     <a
                       href={`${profile?.resumeURL}?dl=${profile?.fullName}-resume.pdf`}
-                      className="flex items-center justify-center text-center dark:text-primary-color text-secondary-color hover:underline basis-[10%] dark:bg-primary-bg bg-zinc-100 border border-transparent dark:hover:border-zinc-700 hover:border-zinc-200 rounded-md py-3 text-lg"
+                      className="relative overflow-hidden flex items-center justify-center text-center dark:text-primary-color text-secondary-color hover:underline basis-[10%] dark:bg-primary-bg bg-zinc-100 border border-transparent dark:hover:border-zinc-700 hover:border-zinc-200 rounded-md py-3 text-lg group"
                       title="Download Resume"
                     >
                       <BiSolidDownload
                         className="text-lg"
                         aria-label="Download Resume"
                       />
+                      {/* Rainbow underline */}
+                      <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-[linear-gradient(90deg,#8B5CF6,#F97316,#FBBF24,#34D399,#3B82F6)] opacity-80 group-hover:opacity-100 transition-opacity" />
                     </a>
                   </div>
 

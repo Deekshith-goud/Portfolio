@@ -42,7 +42,7 @@ export default async function Project() {
               <Link
                 href={`/projects/${project.slug}`}
                 key={project._id}
-                className="flex items-center gap-x-4 dark:bg-primary-bg bg-zinc-50 border border-transparent dark:hover:border-zinc-700 hover:border-zinc-200 p-4 rounded-lg"
+                className="relative overflow-hidden group flex items-center gap-x-4 dark:bg-primary-bg bg-zinc-50 border border-transparent dark:hover:border-zinc-700 hover:border-zinc-200 p-4 rounded-lg"
               >
                 {project.logo ? (
                   <Image
@@ -63,6 +63,8 @@ export default async function Project() {
                     {project.tagline}
                   </div>
                 </div>
+                {/* Rainbow hover underline */}
+                <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-[linear-gradient(90deg,#8B5CF6,#F97316,#FBBF24,#34D399,#3B82F6)] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               </Link>
             ))}
           </section>

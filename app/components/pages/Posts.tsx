@@ -29,7 +29,7 @@ export default async function Posts() {
               <article key={post._id}>
                 <Link
                   href={`/blog/${post.slug}`}
-                  className="flex lg:flex-row flex-col lg:items-center items-start gap-8 dark:bg-primary-bg bg-secondary-bg p-6 rounded-lg border dark:border-zinc-800 border-zinc-200 group"
+                  className="relative overflow-hidden flex lg:flex-row flex-col lg:items-center items-start gap-8 dark:bg-primary-bg bg-secondary-bg p-6 rounded-lg border dark:border-zinc-800 border-zinc-200 group"
                 >
                   <div className="relative lg:w-[450px] lg:h-52 w-full h-56 overflow-clip">
                     <Image
@@ -37,7 +37,7 @@ export default async function Posts() {
                       className="dark:bg-zinc-800 bg-zinc-100 rounded-md object-cover group-hover:scale-125 duration-300"
                       alt={post.coverImage?.alt || post.title}
                       layout="fill"
-                      placeholder={post.coverImage ? "blur" : "empty"}
+                      placeholder={post.coverImage?.lqip ? "blur" : "empty"}
                       blurDataURL={post.coverImage?.lqip || ""}
                     />
                   </div>
@@ -67,6 +67,8 @@ export default async function Posts() {
                       </div>
                     </div>
                   </div>
+                  {/* Rainbow hover underline */}
+                  <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-[linear-gradient(90deg,#8B5CF6,#F97316,#FBBF24,#34D399,#3B82F6)] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 </Link>
               </article>
             )
