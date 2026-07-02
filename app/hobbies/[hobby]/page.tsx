@@ -75,8 +75,8 @@ export default async function HobbyPage({ params }: Props) {
               fill
               className="object-cover"
               priority
-              placeholder="blur"
-              blurDataURL={hobby.lqip}
+              placeholder={hobby.lqip ? "blur" : "empty"}
+              blurDataURL={hobby.lqip || ""}
             />
           </div>
         )}

@@ -55,8 +55,8 @@ export default function HobbyCard({ hobby, index, layout = "grid" }: HobbyCardPr
               alt={hobby.name}
               fill
               className="object-cover group-hover:scale-110 duration-1000 transition-transform"
-              placeholder="blur"
-              blurDataURL={hobby.lqip}
+              placeholder={hobby.lqip ? "blur" : "empty"}
+              blurDataURL={hobby.lqip || ""}
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             />
           ) : (

@@ -31,8 +31,8 @@ export default function PhotoCard({ photo }: { photo: PhotoType }) {
             alt={photo.alt || "Photo"}
             width={600}
             height={800}
-            placeholder="blur"
-            blurDataURL={photo.lqip}
+            placeholder={photo.lqip ? "blur" : "empty"}
+            blurDataURL={photo.lqip || ""}
             className="w-full h-auto object-cover rounded-3xl shadow-sm border border-zinc-200 dark:border-zinc-800"
           />
           {hasCaption && (

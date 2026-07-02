@@ -16,10 +16,10 @@ export default function ImageComponent({ src, alt, className }: imageProp) {
       loading="lazy"
       width={1920}
       height={1080}
-      placeholder="blur"
+      placeholder={(src as any)?.lqip ? "blur" : "empty"}
       quality={100}
       sizes="100vw"
-      blurDataURL={urlFor(src).blur(10).quality(10).url()}
+      blurDataURL={(src as any)?.lqip || ""}
     />
   );
 }
