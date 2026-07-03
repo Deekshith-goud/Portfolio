@@ -95,8 +95,11 @@ export default function NativeTopLangsWidget() {
             {/* Minimal Progress Bar Track */}
             <div className="w-full h-1.5 bg-zinc-200 dark:bg-zinc-800 rounded-full overflow-hidden">
               <motion.div
-                className="h-full rounded-full"
-                style={{ backgroundColor: lang.color }}
+                style={{ 
+                  backgroundColor: lang.color, 
+                  height: "100%", 
+                  borderRadius: "9999px" 
+                }}
                 initial={{ width: 0 }}
                 animate={{ width: `${lang.percentage}%` }}
                 transition={{ duration: 0.8, delay: idx * 0.1, ease: "easeOut" }}
