@@ -39,6 +39,23 @@ const profile = {
       validation: (rule) => rule.required(),
     }),
     defineField({
+      name: "profileImageDark",
+      title: "Profile Image (Dark Mode)",
+      type: "image",
+      description: "Optional: Upload a profile picture specifically for dark mode. If not provided, the regular Profile Image is used.",
+      options: {
+        hotspot: true,
+        metadata: ["lqip"],
+      },
+      fields: [
+        {
+          name: "alt",
+          title: "Alt",
+          type: "string",
+        },
+      ],
+    }),
+    defineField({
       name: "shortBio",
       title: "Short Bio",
       type: "text",

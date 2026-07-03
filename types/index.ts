@@ -22,6 +22,7 @@ export type ProfileType = {
   fullName: string;
   headline: string;
   profileImage: any;
+  profileImageDark?: any;
   lqip: string;
   shortBio: string;
   email: string;

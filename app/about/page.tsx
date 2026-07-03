@@ -78,17 +78,32 @@ export default async function About() {
             <Slide delay={0.1}>
               <div className="sticky top-10">
                 {profile?.profileImage ? (
-                  <Image
-                    className="rounded-2xl mb-4 object-cover max-h-96 min-h-96 bg-top"
-                    src={urlFor(profile.profileImage).width(400).height(400).url()}
-                    width={400}
-                    height={400}
-                    quality={100}
-                    alt={profile.profileImage.alt || profile.fullName}
-                    placeholder={profile?.lqip ? "blur" : "empty"}
-                    blurDataURL={profile?.lqip || ""}
-                    priority
-                  />
+                  <>
+                    {/* Light Mode Image (hidden in dark mode if dark image exists) */}
+                    <Image
+                      className={`rounded-2xl mb-4 object-cover max-h-96 min-h-96 bg-top ${profile.profileImageDark ? 'dark:hidden' : ''}`}
+                      src={urlFor(profile.profileImage).width(400).height(400).url()}
+                      width={400}
+                      height={400}
+                      quality={100}
+                      alt={profile.profileImage.alt || profile.fullName}
+                      placeholder={profile?.lqip ? "blur" : "empty"}
+                      blurDataURL={profile?.lqip || ""}
+                      priority
+                    />
+                    {/* Dark Mode Image (only visible in dark mode, if it exists) */}
+                    {profile?.profileImageDark && (
+                      <Image
+                        className="rounded-2xl mb-4 object-cover max-h-96 min-h-96 bg-top hidden dark:block"
+                        src={urlFor(profile.profileImageDark).width(400).height(400).url()}
+                        width={400}
+                        height={400}
+                        quality={100}
+                        alt={profile.profileImageDark.alt || profile.fullName}
+                        priority
+                      />
+                    )}
+                  </>
                 ) : (
                   <div className="h-96 w-[400px] bg-zinc-500 mb-4"></div>
                 )}

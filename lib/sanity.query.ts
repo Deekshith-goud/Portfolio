@@ -18,6 +18,7 @@ export const profileQuery = groq`*[_type == "profile"][0]{
   fullName,
   headline,
   profileImage,
+  profileImageDark,
   "lqip": profileImage.asset->metadata.lqip,
   shortBio,
   location,
