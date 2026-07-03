@@ -89,6 +89,7 @@ const Cube = React.memo(({
       className="relative cursor-pointer" 
       style={{ width: size, height: size, transformStyle: 'preserve-3d' }}
       onMouseEnter={() => onHover(dayData)}
+      onMouseLeave={() => onHover(null)}
     >
       <div 
         className="w-full h-full absolute transition-transform duration-300 ease-out" 
@@ -100,7 +101,7 @@ const Cube = React.memo(({
         {/* Top Face */}
         <div className="absolute w-full h-full transition-transform duration-300 box-border" style={{ 
           background: colorTop, 
-          boxShadow: count > 0 ? `${baseOutline}, 0 0 ${8 + count*2}px ${colorTop}` : baseOutline,
+          boxShadow: baseOutline,
           transform: `translateZ(${height}px)`
         }} />
         
@@ -160,32 +161,43 @@ const Cube = React.memo(({
         {/* Data Particles for high activity */}
         {isTop5 && (
           <div className="absolute w-full h-full pointer-events-none" style={{ transform: `translateZ(${height}px)`, transformStyle: 'preserve-3d' }}>
-             {[...Array(3)].map((_, i) => (
-                <MotionDiv
-                  key={i}
-                  className="absolute w-1 h-1 rounded-full bg-[#33E092] shadow-[0_0_8px_#33E092]"
-                  style={{ 
-                    left: `${Math.random() * 60 + 20}%`, 
-                    top: `${Math.random() * 60 + 20}%` 
-                  }}
-                  animate={{ 
-                    translateZ: [0, 30 + Math.random() * 40],
-                    opacity: [0, 1, 0],
-                  }}
-                  transition={{
-                    duration: 1.5 + Math.random() * 2,
-                    repeat: Infinity,
-                    delay: Math.random() * 2,
-                    ease: "easeOut"
-                  }}
-                />
-             ))}
+             {[...Array(5)].map((_, i) => {
+                const size = Math.random() > 0.5 ? 'w-1 h-1' : 'w-0.5 h-0.5';
+                const color = Math.random() > 0.7 
+                  ? (isDark ? 'bg-white shadow-[0_0_5px_white]' : 'bg-zinc-500 shadow-[0_0_5px_rgba(113,113,122,0.5)]') 
+                  : (isDark ? 'bg-[#33E092] shadow-[0_0_8px_#33E092]' : 'bg-[#16a34a] shadow-[0_0_8px_#16a34a]');
+                return (
+                  <MotionDiv
+                    key={i}
+                    className={`absolute rounded-full ${size} ${color}`}
+                    style={{ 
+                      left: `${Math.random() * 60 + 20}%`, 
+                      top: `${Math.random() * 60 + 20}%` 
+                    }}
+                    animate={{ 
+                      translateZ: [0, 40 + Math.random() * 50],
+                      x: [0, (Math.random() - 0.5) * 15],
+                      y: [0, (Math.random() - 0.5) * 15],
+                      opacity: [0, 1, 0],
+                      scale: [0.5, 1, 0.5]
+                    }}
+                    transition={{
+                      duration: 2 + Math.random() * 2,
+                      repeat: Infinity,
+                      delay: Math.random() * 3,
+                      ease: "easeOut"
+                    }}
+                  />
+                );
+             })}
           </div>
         )}
       </div>
     </div>
   );
 });
+
+Cube.displayName = "Cube";
 
 
 export default function CustomActivityGraph() {
@@ -269,7 +281,7 @@ export default function CustomActivityGraph() {
   return (
     <div className="w-full flex flex-col font-incognito h-full relative overflow-hidden">
       <div className="flex justify-between items-center mb-6 z-10 relative pointer-events-none">
-        <h3 className="text-lg font-bold tracking-widest uppercase bg-clip-text text-transparent bg-gradient-to-r from-[#33E092] to-purple-500 hidden sm:block">
+        <h3 className="text-xl font-bold text-zinc-800 dark:text-zinc-200">
           Activity Matrix
         </h3>
       </div>
