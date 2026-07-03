@@ -40,6 +40,10 @@ export const metadata: Metadata = {
   alternates: {
     canonical: options.url,
   },
+  icons: {
+    icon: "/favicon.ico",
+    apple: "/apple-icon.png",
+  },
   other: {
     "google-site-verification": "IzcWMgn5Qjf-LCtA337KTGjivsf9bmod_1pZ-jxYQh8",
   },

@@ -12,6 +12,25 @@ import MobileMenu from "./MobileMenu";
 import Magnetic from "./Magnetic";
 import SignatureNavLogo from "./SignatureNavLogo";
 
+const data = [
+  {
+    title: "About",
+    href: "/about",
+  },
+  {
+    title: "Projects",
+    href: "/projects",
+  },
+  {
+    title: "Blog",
+    href: "/blog",
+  },
+  {
+    title: "Photos",
+    href: "/photos",
+  },
+];
+
 export default function Navbar() {
   const pathname = usePathname();
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
@@ -42,7 +61,7 @@ export default function Navbar() {
     } else {
       setDotVisible(false);
     }
-  }, [pathname]);
+  }, [pathname, dotX]);
 
   useEffect(() => {
     if (!navRef.current) return;
@@ -67,25 +86,6 @@ export default function Navbar() {
     damping: 30,
     restDelta: 0.001,
   });
-
-  const data = [
-    {
-      title: "About",
-      href: "/about",
-    },
-    {
-      title: "Projects",
-      href: "/projects",
-    },
-    {
-      title: "Blog",
-      href: "/blog",
-    },
-    {
-      title: "Photos",
-      href: "/photos",
-    },
-  ];
 
   return (
     <UnmountStudio>
