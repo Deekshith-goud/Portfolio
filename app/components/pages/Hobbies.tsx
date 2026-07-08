@@ -23,7 +23,6 @@ export default function Hobbies({ hobbies }: { hobbies: HobbyType[] }) {
       <Slide delay={0.1}>
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-y-4 mb-8">
           <div className="flex items-center gap-x-3">
-            <BiCompass className="text-3xl text-primary-color" />
             <h2 className="text-4xl font-bold tracking-tight">
               Hobbies & Interests
             </h2>

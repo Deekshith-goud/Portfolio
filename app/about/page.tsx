@@ -179,11 +179,11 @@ export default async function About() {
           <Principles />
         </Slide>
         
-        <Heroes />
-
         <Slide delay={0.16}>
           <HobbiesSection hobbies={hobbies} />
         </Slide>
+        
+        <Heroes />
 
       </div>
     </main>

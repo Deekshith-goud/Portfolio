@@ -69,7 +69,7 @@ export default function CoreTechnologies() {
   const categories = Array.from(new Set(techIcons.map((t) => t.category)));
 
   return (
-    <section className="mt-12 max-w-5xl flex flex-col">
+    <section className="mt-12 mb-16 max-w-5xl flex flex-col">
       <div className="flex w-full items-center justify-between mb-10">
         <div className="text-left">
           <h2 className="text-4xl font-bold tracking-tight mb-2">Tech Arsenal</h2>
