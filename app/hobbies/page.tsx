@@ -42,7 +42,7 @@ export default async function HobbiesPage() {
       <section className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-8 mt-12 mb-20">
         {hobbies.map((hobby, index) => (
           <Slide key={hobby._id}>
-            <HobbyCard hobby={hobby} index={index} layout="list" />
+            <HobbyCard hobby={hobby} index={index} layout="grid" />
           </Slide>
         ))}
       </section>
