@@ -11,6 +11,7 @@ import quiz from "./quiz";
 
 import photo from "./photo";
 import hobby from "./hobby";
+import visitor from "./visitor";
 
 export const schemaTypes = [
   profile,
@@ -27,6 +28,7 @@ export const schemaTypes = [
   youtube,
   table,
   quiz,
+  visitor,
 ];
 
 
