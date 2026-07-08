@@ -14,7 +14,7 @@ import { urlFor } from "@/lib/sanity.image";
 interface HobbyCardProps {
   hobby: HobbyType;
   index: number;
-  layout?: "grid" | "list";
+  layout?: "grid" | "grid-sm" | "horizontal" | "tile";
 }
 
 export default function HobbyCard({ hobby, index, layout = "grid" }: HobbyCardProps) {
@@ -43,12 +43,14 @@ export default function HobbyCard({ hobby, index, layout = "grid" }: HobbyCardPr
     >
       <Link
         href={`/hobbies/${hobby.slug}`}
-        className="flex flex-col group overflow-hidden rounded-[2.5rem] border dark:border-zinc-800 border-zinc-200 dark:bg-zinc-900 bg-white hover:border-primary-color duration-500 relative"
+        className={`flex group overflow-hidden border dark:border-zinc-800 border-zinc-200 dark:bg-zinc-900 bg-white hover:border-primary-color duration-500 relative ${
+          layout === "grid" ? "flex-col rounded-[2.5rem]" : layout === "grid-sm" ? "flex-col rounded-3xl" : layout === "horizontal" ? "flex-row h-48 rounded-3xl" : "flex-col aspect-square rounded-3xl h-64 md:h-auto"
+        }`}
       >
         {/* Playful Glow Effect */}
         <div className="absolute -inset-1 bg-gradient-to-r from-primary-color to-secondary-color opacity-0 group-hover:opacity-10 blur-2xl transition-opacity duration-500" />
 
-        <div className={`relative w-full ${layout === "grid" ? "h-80" : "h-64"} overflow-hidden bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center`}>
+        <div className={`relative ${layout === "grid" ? "w-full h-80" : layout === "grid-sm" ? "w-full h-56" : layout === "horizontal" ? "w-2/5 h-full shrink-0" : "absolute inset-0 w-full h-full"} overflow-hidden bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center`}>
           {hobby.thumbnail ? (
             <Image
               src={urlFor(hobby.thumbnail).width(800).url()}
@@ -68,12 +70,14 @@ export default function HobbyCard({ hobby, index, layout = "grid" }: HobbyCardPr
             </div>
           )}
 
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 duration-500 flex items-end p-8">
-          </div>
+          {layout === "tile" && (
+            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent group-hover:opacity-80 transition-opacity duration-500 z-10" />
+          )}
         </div>
 
-        <div className={`${layout === "grid" ? "p-8" : "p-6"} flex flex-col gap-y-4 relative bg-white dark:bg-zinc-900`}>
+        <div className={`${layout === "grid" ? "p-8" : layout === "grid-sm" ? "p-6" : layout === "horizontal" ? "p-6 w-full justify-center" : "absolute inset-0 p-6 justify-end"} flex flex-col ${layout === "grid-sm" ? "gap-y-3" : "gap-y-4"} relative ${layout === "tile" ? "z-20" : "bg-white dark:bg-zinc-900"}`}>
           <div className="flex items-center gap-x-4">
+            <div className={layout === "grid-sm" ? "scale-75 origin-left" : ""}>
             {hobby.name.toLowerCase().includes("formula") ? (
               <div className="rounded-2xl bg-primary-color bg-opacity-10 text-primary-color relative overflow-hidden flex items-center justify-center w-[100px] h-[40px]">
 
@@ -659,14 +663,17 @@ export default function HobbyCard({ hobby, index, layout = "grid" }: HobbyCardPr
                 {getIcon(hobby.iconName)}
               </motion.div>
             )}
-            <h3 className="text-2xl font-semibold tracking-tight group-hover:text-primary-color duration-300">
+            </div>
+            <h3 className={`${layout === "grid" ? "text-2xl" : "text-xl"} font-semibold tracking-tight duration-300 ${layout === "tile" ? "text-white" : "group-hover:text-primary-color"}`}>
               {hobby.name}
             </h3>
           </div>
 
-          <p className="dark:text-zinc-400 text-zinc-600 leading-relaxed line-clamp-3 text-base">
-            {hobby.description}
-          </p>
+          {layout !== "tile" && (
+            <p className={`dark:text-zinc-400 text-zinc-600 leading-relaxed ${layout === "horizontal" || layout === "grid-sm" ? "line-clamp-2 text-sm" : "line-clamp-3 text-base"}`}>
+              {hobby.description}
+            </p>
+          )}
         </div>
       </Link>
     </motion.div>
