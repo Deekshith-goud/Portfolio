@@ -8,6 +8,7 @@ import { CustomPortableText } from "../components/shared/CustomPortableText";
 import Heroes from "../components/pages/Heroes";
 import CoreTechnologies from "../components/pages/CoreTechnologies";
 import { Slide } from "../animation/Slide";
+import Principles from "../components/pages/Principles";
 import { sanityFetch } from "@/lib/sanity.client";
 import RefLink from "../components/shared/RefLink";
 import { hobbiesQuery } from "@/lib/sanity.query";
@@ -169,11 +170,20 @@ export default async function About() {
           </aside>
 
         </section>
-        <Slide delay={0.14}>
+        
+        <Slide delay={0.12}>
           <CoreTechnologies />
+        </Slide>
+
+        <Slide delay={0.14}>
+          <Principles />
+        </Slide>
+        
+        <Heroes />
+
+        <Slide delay={0.16}>
           <HobbiesSection hobbies={hobbies} />
         </Slide>
-        <Heroes />
 
       </div>
     </main>
