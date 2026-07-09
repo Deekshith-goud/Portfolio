@@ -14,7 +14,7 @@ export default async function Home() {
   });
 
   return (
-    <main className="max-w-7xl mx-auto md:px-16 px-6 lg:mt-32 mt-20">
+    <main className="max-w-7xl mx-auto md:px-16 px-6 lg:mt-32 mt-20 overflow-x-clip">
       <section className="flex xl:flex-row flex-col xl:items-center items-start xl:justify-center justify-between gap-x-12 mb-16">
         <div key={profile?._id} className="lg:max-w-2xl max-w-2xl">
           <Slide>
@@ -29,9 +29,11 @@ export default async function Home() {
             <Social type="social" />
           </Slide>
         </div>
-        <Slide delay={0.14}>
-          <HeroSvg />
-        </Slide>
+        <div className="w-full flex justify-center mt-10 xl:mt-0">
+          <Slide delay={0.14}>
+            <HeroSvg />
+          </Slide>
+        </div>
       </section>
       <ContributionGraph />
       <Job />

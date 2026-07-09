@@ -49,48 +49,49 @@ h4 {
   }
 }
 
-/* --- Custom Scrollbar Styles --- */
+/* --- Custom Scrollbar Styles (Desktop Only) --- */
+@media (pointer: fine) {
+  ::-webkit-scrollbar {
+    width: 14px;
+    height: 14px;
+  }
 
-::-webkit-scrollbar {
-  width: 14px;
-  height: 14px;
-}
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
 
-::-webkit-scrollbar-track {
-  background: transparent;
-}
+  ::-webkit-scrollbar-thumb {
+    background: #d4d4d8; /* zinc-300 */
+    border-radius: 9999px;
+    border: 4px solid transparent;
+    background-clip: padding-box;
+    transition: background-color 0.2s ease;
+  }
 
-::-webkit-scrollbar-thumb {
-  background: #d4d4d8; /* zinc-300 */
-  border-radius: 9999px;
-  border: 4px solid transparent;
-  background-clip: padding-box;
-  transition: background-color 0.2s ease;
-}
+  ::-webkit-scrollbar-thumb:hover {
+    background: #a1a1aa; /* zinc-400 */
+    border: 3px solid transparent;
+    background-clip: padding-box;
+  }
 
-::-webkit-scrollbar-thumb:hover {
-  background: #a1a1aa; /* zinc-400 */
-  border: 3px solid transparent;
-  background-clip: padding-box;
-}
+  ::-webkit-scrollbar-button {
+    display: none;
+  }
 
-::-webkit-scrollbar-button {
-  display: none;
-}
+  /* Dark Theme Scrollbar */
+  .dark ::-webkit-scrollbar-track {
+    background: transparent;
+  }
 
-/* Dark Theme Scrollbar */
-.dark ::-webkit-scrollbar-track {
-  background: transparent;
-}
+  .dark ::-webkit-scrollbar-thumb {
+    background: #3f3f46; /* zinc-700 */
+    border: 4px solid transparent;
+    background-clip: padding-box;
+  }
 
-.dark ::-webkit-scrollbar-thumb {
-  background: #3f3f46; /* zinc-700 */
-  border: 4px solid transparent;
-  background-clip: padding-box;
-}
-
-.dark ::-webkit-scrollbar-thumb:hover {
-  background: #10b981; /* emerald-500 (Mint color) */
-  border: 3px solid transparent; /* Expands visually on hover */
-  background-clip: padding-box;
+  .dark ::-webkit-scrollbar-thumb:hover {
+    background: #10b981; /* emerald-500 (Mint color) */
+    border: 3px solid transparent; /* Expands visually on hover */
+    background-clip: padding-box;
+  }
 }
