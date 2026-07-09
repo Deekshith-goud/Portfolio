@@ -192,19 +192,20 @@ export default function BlackHole() {
     <div className="w-full h-full min-h-[350px] flex items-center justify-center relative overflow-hidden bg-transparent">
       {/* Subtle ambient glow */}
       <div
-        className="absolute rounded-full blur-3xl pointer-events-none"
+        className="absolute rounded-full blur-3xl pointer-events-none max-w-full"
         style={{
-          width: "260px",
-          height: "260px",
+          width: "min(260px, 80%)",
+          height: "min(260px, 80%)",
           background: "radial-gradient(ellipse, rgba(180, 40, 160, 0.15), rgba(100, 20, 160, 0.08), transparent 70%)",
         }}
       />
       <canvas
         ref={canvasRef}
-        className="relative z-10"
+        className="relative z-10 max-w-full"
         style={{
-          width: "400px",
-          height: "300px",
+          width: "min(400px, 100%)",
+          height: "auto",
+          aspectRatio: "4 / 3",
           imageRendering: "pixelated",
         }}
       />

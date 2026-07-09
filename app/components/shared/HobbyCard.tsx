@@ -35,6 +35,7 @@ export default function HobbyCard({ hobby, index, layout = "grid" }: HobbyCardPr
 
   return (
     <motion.div
+      className="w-full h-full"
       whileHover="hover"
       initial="initial"
       whileTap={{ scale: 0.98 }}
@@ -43,7 +44,7 @@ export default function HobbyCard({ hobby, index, layout = "grid" }: HobbyCardPr
     >
       <Link
         href={`/hobbies/${hobby.slug}`}
-        className={`flex group overflow-hidden border dark:border-zinc-800 border-zinc-200 dark:bg-zinc-900 bg-white hover:border-primary-color duration-500 relative ${
+        className={`w-full flex group overflow-hidden border dark:border-zinc-800 border-zinc-200 dark:bg-zinc-900 bg-white hover:border-primary-color duration-500 relative ${
           layout === "grid" ? "flex-col rounded-[2.5rem]" : layout === "grid-sm" ? "flex-col rounded-3xl" : layout === "horizontal" ? "flex-row h-48 rounded-3xl" : "flex-col aspect-square rounded-3xl h-64 md:h-auto"
         }`}
       >

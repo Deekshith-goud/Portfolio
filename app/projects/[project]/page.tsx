@@ -59,7 +59,7 @@ export default async function Project({ params }: Props) {
               {project.name}
             </h1>
 
-            <div className="flex items-center gap-x-2">
+            <div className="flex items-center gap-x-2 flex-wrap gap-y-2">
               <a
                 href={project.projectUrl}
                 rel="noreferrer noopener"

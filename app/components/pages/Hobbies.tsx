@@ -41,26 +41,33 @@ export default function Hobbies({ hobbies }: { hobbies: HobbyType[] }) {
         </div>
       </Slide>
 
-      <div className="flex flex-wrap lg:flex-nowrap gap-8 items-stretch">
-        {/* Left Side: Hobbies */}
-        <div className="flex flex-col md:flex-row gap-6 shrink-0">
-          {hobbies.slice(0, 2).map((hobby, index) => (
-            <div key={hobby._id} className="w-full md:w-[360px] shrink-0 h-full">
-              <Slide delay={0.1 * index}>
-                <HobbyCard hobby={hobby} index={index} layout="grid-sm" />
-              </Slide>
-            </div>
-          ))}
-        </div>
+      <div className="flex flex-col lg:flex-row gap-6 lg:gap-8 items-stretch w-full">
+        {/* Hobby 1 */}
+        {hobbies.length > 0 && (
+          <div className="w-full lg:w-[360px] shrink-0 h-full order-1">
+            <Slide delay={0}>
+              <HobbyCard hobby={hobbies[0]} index={0} layout="grid-sm" />
+            </Slide>
+          </div>
+        )}
 
-        {/* Right Side: Playful Space */}
-        <div className="flex-1 w-full min-w-[300px] flex flex-col gap-6 h-full">
+        {/* Black Hole */}
+        <div className="flex-1 w-full flex flex-col gap-6 h-full order-2 lg:order-3">
            <Slide delay={0.3} className="h-full">
              <div className="w-full h-full flex items-center justify-center">
                <BlackHole />
              </div>
            </Slide>
         </div>
+
+        {/* Hobby 2 */}
+        {hobbies.length > 1 && (
+          <div className="w-full lg:w-[360px] shrink-0 h-full order-3 lg:order-2">
+            <Slide delay={0.1}>
+              <HobbyCard hobby={hobbies[1]} index={1} layout="grid-sm" />
+            </Slide>
+          </div>
+        )}
       </div>
     </section>
   );

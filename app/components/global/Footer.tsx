@@ -54,23 +54,23 @@ export default function Footer() {
       <footer className="border-t dark:border-zinc-800 border-zinc-100 mt-44 lg:min-h-[250px] min-h-full relative">
         <div className="max-w-7xl mx-auto flex flex-col gap-y-10 md:px-16 px-6 py-16">
           {/* Top Section */}
-          <div className="flex justify-between items-center w-full">
+          <div className="flex flex-col sm:flex-row justify-between items-center gap-y-4 w-full">
             {visitorData !== null ? (
               <div className="group flex items-center gap-x-2 font-sans transition-all duration-300 animate-in fade-in slide-in-from-bottom-2 duration-700">
                 <div className="p-2 transition-all duration-300">
                   <BiUser className="w-7 h-7 dark:text-zinc-400 text-zinc-500" />
                 </div>
-                <span className="font-thin tracking-wide flex items-baseline">
-                  <span className="text-2xl dark:text-zinc-400 text-zinc-500">You are </span>
-                  <span className="text-3xl font-light dark:text-zinc-200 text-zinc-800 ml-2">
+                <span className="font-thin tracking-wide flex items-baseline flex-wrap">
+                  <span className="text-lg sm:text-2xl dark:text-zinc-400 text-zinc-500">You are </span>
+                  <span className="text-xl sm:text-3xl font-light dark:text-zinc-200 text-zinc-800 ml-2">
                     {visitorData.position}
-                    <sup className="text-lg font-thin dark:text-zinc-400 text-zinc-500 ml-0.5">{getOrdinalSuffix(visitorData.position)}</sup>
+                    <sup className="text-sm sm:text-lg font-thin dark:text-zinc-400 text-zinc-500 ml-0.5">{getOrdinalSuffix(visitorData.position)}</sup>
                   </span>
-                  <span className="text-2xl dark:text-zinc-500 text-zinc-400 px-2 font-thin">/</span>
-                  <span className="text-2xl font-thin dark:text-zinc-400 text-zinc-500">
+                  <span className="text-lg sm:text-2xl dark:text-zinc-500 text-zinc-400 px-2 font-thin">/</span>
+                  <span className="text-lg sm:text-2xl font-thin dark:text-zinc-400 text-zinc-500">
                     {visitorData.count.toLocaleString()}
                   </span>
-                  <span className="text-2xl font-thin dark:text-zinc-400 text-zinc-500 ml-1.5">visitors</span>
+                  <span className="text-lg sm:text-2xl font-thin dark:text-zinc-400 text-zinc-500 ml-1.5">visitors</span>
                 </span>
               </div>
             ) : (

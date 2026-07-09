@@ -168,7 +168,7 @@ export default function Principles() {
         initial="hidden"
         whileInView="show"
         viewport={{ once: true, margin: "-50px" }}
-        className="grid grid-cols-1 md:grid-cols-3 gap-4 auto-rows-[220px]"
+        className="grid grid-cols-1 md:grid-cols-3 gap-4 auto-rows-auto md:auto-rows-[220px]"
       >
         {principles.map((item, index) => (
           <PrincipleCard key={index} item={item} />

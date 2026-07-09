@@ -41,7 +41,7 @@ export default function ContributionGraph() {
 
   return (
     <div className="flex xl:flex-row flex-col gap-4">
-      <div className="dark:bg-primary-bg bg-secondary-bg border dark:border-zinc-800 border-zinc-200 p-8 rounded-lg max-w-fit max-h-fit">
+      <div className="dark:bg-primary-bg bg-secondary-bg border dark:border-zinc-800 border-zinc-200 p-4 sm:p-8 rounded-lg max-w-full max-h-fit overflow-x-auto">
         <GitHubCalendar
           username={username}
           theme={github}

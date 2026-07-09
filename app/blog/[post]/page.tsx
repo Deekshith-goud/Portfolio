@@ -154,7 +154,7 @@ export default async function Post({ params }: Props) {
             </div>
           </div>
 
-          <aside className="flex flex-col lg:max-h-full h-max gap-y-8 sticky top-2 bottom-auto right-0 py-10 lg:px-6 px-0">
+          <aside className="flex flex-col lg:max-h-full h-max gap-y-8 lg:sticky static top-2 bottom-auto right-0 py-10 lg:px-6 px-0">
             <section className="border-b dark:border-zinc-800 border-zinc-200 pb-10">
               <p className="dark:text-zinc-400 text-zinc-500 text-sm">
                 Written By

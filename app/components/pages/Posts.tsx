@@ -31,7 +31,7 @@ export default async function Posts() {
                   href={`/blog/${post.slug}`}
                   className="relative overflow-hidden flex lg:flex-row flex-col lg:items-center items-start gap-8 dark:bg-primary-bg bg-secondary-bg p-6 rounded-lg border dark:border-zinc-800 border-zinc-200 group"
                 >
-                  <div className="relative lg:w-[450px] lg:h-52 w-full h-56 overflow-clip">
+                  <div className="relative lg:w-[450px] lg:h-52 w-full h-48 sm:h-56 overflow-clip">
                     <Image
                       src={post.coverImage ? urlFor(post.coverImage).width(800).url() : fallbackImage}
                       className="dark:bg-zinc-800 bg-zinc-100 rounded-md object-cover group-hover:scale-125 duration-300"

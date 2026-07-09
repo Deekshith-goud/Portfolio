@@ -12,7 +12,7 @@ export default async function Heroes() {
   });
 
   return (
-    <section className="mt-32 max-w-5xl">
+    <section className="mt-32 max-w-full">
       <Slide delay={0.17}>
         <h2 className="text-4xl mb-4 font-bold tracking-tight">Heroes</h2>
         <p className="dark:text-zinc-400 text-zinc-600 max-w-2xl">
