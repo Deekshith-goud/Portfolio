@@ -11,6 +11,7 @@ import UnmountStudio from "./Unmount";
 import MobileMenu from "./MobileMenu";
 import Magnetic from "./Magnetic";
 import SignatureNavLogo from "./SignatureNavLogo";
+import MobileDock from "./MobileDock";
 
 const data = [
   {
@@ -165,7 +166,8 @@ export default function Navbar() {
 
           <div className="flex items-center gap-x-4">
             <Theme />
-            <MobileMenu />
+            {/* Hiding old burger menu for now */}
+            {/* <MobileMenu /> */}
           </div>
         </div>
 
@@ -175,6 +177,8 @@ export default function Navbar() {
           style={{ scaleX }}
         />
         </motion.header>
+        {/* Injecting Final Mobile Dock */}
+        <MobileDock />
       </>
     </UnmountStudio>
   );
