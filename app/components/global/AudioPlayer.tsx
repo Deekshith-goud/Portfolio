@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import Image from "next/image";
 import { IoPlay, IoPause, IoMusicalNotes } from "react-icons/io5";
 
 export default function AudioPlayer() {
@@ -146,7 +147,7 @@ export default function AudioPlayer() {
   if (!hasMounted) return null;
 
   return (
-    <div className="flex items-center gap-3 bg-white/60 dark:bg-zinc-900/60 backdrop-blur-xl border border-white/40 dark:border-zinc-700/50 p-2 pl-3 pr-4 rounded-2xl shadow-sm w-max transition-all duration-300 hover:shadow-md relative">
+    <div className="flex items-center gap-3 bg-white/60 dark:bg-zinc-900/60 backdrop-blur-xl border border-white/40 dark:border-zinc-700/50 p-2 pl-3 pr-4 rounded-2xl shadow-sm w-max max-w-full transition-all duration-300 hover:shadow-md relative">
       
       {/* Native HTML5 Audio */}
       <audio
@@ -165,15 +166,13 @@ export default function AudioPlayer() {
             ${isPlaying ? 'translate-x-[18px]' : 'translate-x-0'}`}
         >
           <div ref={vinylRef} className="w-full h-full scale-[1.15]">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/images/vinyl-record.png" alt="Vinyl Record" className="w-full h-full object-contain scale-[1.15]" />
+            <Image src="/images/vinyl-record.png" alt="Vinyl Record" width={40} height={40} className="w-full h-full object-contain scale-[1.15]" />
           </div>
         </div>
 
         {/* The Album Cover */}
         <div className="relative w-10 h-10 rounded-md overflow-hidden shadow-sm z-10 bg-zinc-800">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/images/catwoman-cover.png" alt="Catwoman Cover" className="w-full h-full object-cover" />
+          <Image src="/images/catwoman-cover.png" alt="Catwoman Cover" width={40} height={40} className="w-full h-full object-cover" />
         </div>
 
       </div>

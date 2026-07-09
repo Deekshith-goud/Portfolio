@@ -52,7 +52,7 @@ export default async function About() {
   });
 
   return (
-    <main className="relative lg:max-w-7xl mx-auto max-w-3xl md:px-16 px-6">
+    <main className="relative lg:max-w-7xl mx-auto max-w-3xl md:px-16 px-6 overflow-hidden">
       <div key={profile?._id}>
         <section className="relative grid lg:grid-cols-custom grid-cols-1 gap-x-6 justify-items-center">
 
@@ -82,11 +82,10 @@ export default async function About() {
                   <>
                     {/* Light Mode Image (hidden in dark mode if dark image exists) */}
                     <Image
-                      className={`rounded-2xl mb-4 object-cover max-h-96 min-h-96 bg-top ${profile.profileImageDark ? 'dark:hidden' : ''}`}
-                      src={urlFor(profile.profileImage).width(400).height(400).url()}
-                      width={400}
-                      height={400}
-                      quality={100}
+                      className={`rounded-2xl mb-4 object-cover max-h-96 min-h-96 bg-top w-full mx-auto ${profile.profileImageDark ? 'dark:hidden' : ''}`}
+                      src={urlFor(profile.profileImage).width(800).height(800).url()}
+                      width={800}
+                      height={800}
                       alt={profile.profileImage.alt || profile.fullName}
                       placeholder={profile?.lqip ? "blur" : "empty"}
                       blurDataURL={profile?.lqip || ""}
@@ -95,33 +94,32 @@ export default async function About() {
                     {/* Dark Mode Image (only visible in dark mode, if it exists) */}
                     {profile?.profileImageDark && (
                       <Image
-                        className="rounded-2xl mb-4 object-cover max-h-96 min-h-96 bg-top hidden dark:block"
-                        src={urlFor(profile.profileImageDark).width(400).height(400).url()}
-                        width={400}
-                        height={400}
-                        quality={100}
+                        className="rounded-2xl mb-4 object-cover max-h-96 min-h-96 bg-top hidden dark:block w-full mx-auto"
+                        src={urlFor(profile.profileImageDark).width(800).height(800).url()}
+                        width={800}
+                        height={800}
                         alt={profile.profileImageDark.alt || profile.fullName}
                         priority
                       />
                     )}
                   </>
                 ) : (
-                  <div className="h-96 w-[400px] bg-zinc-500 mb-4"></div>
+                  <div className="h-96 w-full bg-zinc-500 mb-4 rounded-2xl"></div>
                 )}
 
-                <div className="flex flex-col text-center gap-y-4">
-                  <div className="flex items-center gap-x-3">
+                <div className="flex flex-col text-center gap-y-4 w-full">
+                  <div className="flex items-center gap-x-3 w-full">
                     <RefLink
                       href="https://deekshithgoud-resume.netlify.app/"
-                      className="relative overflow-hidden flex items-center justify-center text-center gap-x-2 basis-[90%] dark:bg-primary-bg bg-zinc-100 border border-transparent dark:hover:border-zinc-700 hover:border-zinc-200 rounded-md py-2 text-lg font-incognito font-semibold group"
+                      className="relative overflow-hidden flex items-center justify-center text-center gap-x-2 flex-1 dark:bg-primary-bg bg-zinc-100 border border-transparent dark:hover:border-zinc-700 hover:border-zinc-200 rounded-md py-2 text-lg font-incognito font-semibold group"
                     >
-                      View Résumé <BiLinkExternal className="text-base" />
+                      View Résumé <BiLinkExternal className="text-base shrink-0" />
                       {/* Rainbow underline */}
                       <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-[linear-gradient(90deg,#8B5CF6,#F97316,#FBBF24,#34D399,#3B82F6)] opacity-80 group-hover:opacity-100 transition-opacity" />
                     </RefLink>
                     <a
                       href={`${profile?.resumeURL}?dl=${profile?.fullName}-resume.pdf`}
-                      className="relative overflow-hidden flex items-center justify-center text-center dark:text-primary-color text-secondary-color hover:underline basis-[10%] dark:bg-primary-bg bg-zinc-100 border border-transparent dark:hover:border-zinc-700 hover:border-zinc-200 rounded-md py-3 text-lg group"
+                      className="relative overflow-hidden flex items-center justify-center text-center dark:text-primary-color text-secondary-color hover:underline w-14 shrink-0 dark:bg-primary-bg bg-zinc-100 border border-transparent dark:hover:border-zinc-700 hover:border-zinc-200 rounded-md py-3 text-lg group"
                       title="Download Resume"
                     >
                       <BiSolidDownload
