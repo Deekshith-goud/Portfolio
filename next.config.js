@@ -15,4 +15,10 @@ module.exports = {
       { hostname: "images.unsplash.com" },
     ],
   },
+  modularizeImports: {
+    "react-icons/?((?:[a-zA-Z0-9]+)*)": {
+      transform: "react-icons/{{ matches.[1] }}/{{member}}",
+      skipDefaultConversion: true,
+    },
+  },
 };
