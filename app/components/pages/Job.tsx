@@ -43,6 +43,7 @@ export default async function Job() {
                     alt={`${job.name} logo`}
                     width={50}
                     height={50}
+                    quality={95}
                   />
                 </RefLink>
                 <div className="flex flex-col items-start">

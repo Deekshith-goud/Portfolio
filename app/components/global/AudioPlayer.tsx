@@ -154,7 +154,7 @@ export default function AudioPlayer() {
         ref={audioRef}
         src="/audio/catwoman.mp3"
         loop
-        preload="auto"
+        preload="none"
       />
 
       {/* Album Art & Sliding Vinyl */}
@@ -242,7 +242,11 @@ export default function AudioPlayer() {
       </div>
 
       {/* Controls */}
-      <button onClick={handlePlayPause} className="w-8 h-8 flex items-center justify-center rounded-full bg-zinc-200/50 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-100 hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-all ml-1">
+      <button
+        onClick={handlePlayPause}
+        aria-label={isPlaying ? "Pause music" : "Play music"}
+        className="w-8 h-8 flex items-center justify-center rounded-full bg-zinc-200/50 dark:bg-zinc-800/50 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-300/50 dark:hover:bg-zinc-700/50 transition-colors"
+      >
         {isPlaying ? <IoPause size={13} /> : <IoPlay size={13} className="ml-0.5" />}
       </button>
     </div>

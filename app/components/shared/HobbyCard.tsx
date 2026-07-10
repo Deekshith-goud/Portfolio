@@ -5,11 +5,15 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { useTheme } from "next-themes";
-import { useEffect, useState } from "react";
+import { useEffect, useState, memo } from "react";
 import { HobbyType } from "@/types";
-import * as BiIcons from "react-icons/bi";
-import * as SiIcons from "react-icons/si";
+import { BiHeart } from "react-icons/bi";
 import { urlFor } from "@/lib/sanity.image";
+
+const LazyIcon = memo(({ iconName, className }: { iconName: string; className?: string }) => {
+  return <BiHeart className={className || "text-2xl"} />;
+});
+LazyIcon.displayName = "LazyIcon";
 
 interface HobbyCardProps {
   hobby: HobbyType;
@@ -27,8 +31,7 @@ export default function HobbyCard({ hobby, index, layout = "grid" }: HobbyCardPr
   }, []);
 
   const getIcon = (iconName: string) => {
-    const Icon = (BiIcons as any)[iconName] || (SiIcons as any)[iconName] || BiIcons.BiHeart;
-    return <Icon className="text-2xl" />;
+    return <LazyIcon iconName={iconName} className="text-2xl" />;
   };
 
   if (!mounted) return null;
@@ -103,8 +106,7 @@ export default function HobbyCard({ hobby, index, layout = "grid" }: HobbyCardPr
                       alt="Formula 1 Car"
                       width={400}
                       height={150}
-                      quality={100}
-                      unoptimized
+                      quality={95}
                       className="object-contain w-[90px] h-auto"
                     />
                   </div>

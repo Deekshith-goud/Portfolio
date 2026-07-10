@@ -142,8 +142,8 @@ export default async function Post({ params }: Props) {
                 className="rounded-xl border dark:border-zinc-800 border-zinc-100 object-cover"
                 layout="fill"
                 src={post.coverImage ? urlFor(post.coverImage).width(1200).url() : fallbackImage}
+                quality={95}
                 alt={post.coverImage?.alt || post.title}
-                quality={100}
                 placeholder={post.coverImage?.lqip ? `blur` : "empty"}
                 blurDataURL={post.coverImage?.lqip || ""}
               />

@@ -1,5 +1,5 @@
-import { TableRow } from "@sanity/table";
-import { PortableTextBlock } from "sanity";
+import type { TableRow } from "@sanity/table";
+import type { PortableTextBlock } from "sanity";
 
 export interface Table {
   rows?: TableRow[];

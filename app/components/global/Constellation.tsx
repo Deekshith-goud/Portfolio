@@ -14,18 +14,6 @@ export default function Constellation() {
 
     let particles: Particle[] = [];
     let animationFrameId: number;
-    let mouse = { x: -1000, y: -1000 };
-
-    const handleMouseMove = (e: MouseEvent) => {
-      mouse.x = e.clientX;
-      mouse.y = e.clientY;
-    };
-    
-    const handleMouseLeave = () => {
-      mouse.x = -1000;
-      mouse.y = -1000;
-    };
-
     const resize = () => {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
@@ -66,7 +54,7 @@ export default function Constellation() {
 
     const initParticles = () => {
       particles = [];
-      const numParticles = Math.floor((canvas!.width * canvas!.height) / 10000);
+      const numParticles = Math.min(80, Math.floor((canvas!.width * canvas!.height) / 10000));
       for (let i = 0; i < numParticles; i++) {
         particles.push(new Particle());
       }
@@ -77,23 +65,6 @@ export default function Constellation() {
       ctx.clearRect(0, 0, canvas!.width, canvas!.height);
       
       for (let i = 0; i < particles.length; i++) {
-        // Mouse interaction (repel particles slightly)
-        const dxMouse = mouse.x - particles[i].x;
-        const dyMouse = mouse.y - particles[i].y;
-        const distMouse = Math.sqrt(dxMouse * dxMouse + dyMouse * dyMouse);
-        
-        if (distMouse < 150) {
-          particles[i].x -= dxMouse * 0.02;
-          particles[i].y -= dyMouse * 0.02;
-          
-          // Draw line to mouse
-          ctx.beginPath();
-          ctx.strokeStyle = `rgba(140, 168, 255, ${0.3 - distMouse / 500})`;
-          ctx.lineWidth = 1;
-          ctx.moveTo(particles[i].x, particles[i].y);
-          ctx.lineTo(mouse.x, mouse.y);
-          ctx.stroke();
-        }
 
         particles[i].update();
         for (let j = i; j < particles.length; j++) {
@@ -115,15 +86,11 @@ export default function Constellation() {
     };
 
     window.addEventListener("resize", resize);
-    window.addEventListener("mousemove", handleMouseMove);
-    window.addEventListener("mouseleave", handleMouseLeave);
     resize();
     animate();
 
     return () => {
       window.removeEventListener("resize", resize);
-      window.removeEventListener("mousemove", handleMouseMove);
-      window.removeEventListener("mouseleave", handleMouseLeave);
       cancelAnimationFrame(animationFrameId);
     };
   }, []);

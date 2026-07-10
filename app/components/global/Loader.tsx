@@ -3,7 +3,9 @@
 import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence, useMotionValue, useTransform, animate } from "framer-motion";
 import Constellation from "./Constellation";
-import SignatureLogo from "./SignatureLogo";
+import dynamic from "next/dynamic";
+
+const SignatureLogo = dynamic(() => import("./SignatureLogo"), { ssr: false });
 
 const MotionDiv = motion.div as any;
 const MotionSpan = motion.span as any;

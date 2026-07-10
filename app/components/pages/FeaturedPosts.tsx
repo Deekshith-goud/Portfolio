@@ -1,5 +1,5 @@
 import Link from "next/link";
-import Image from "next/legacy/image";
+import Image from "next/image";
 import { postsQuery } from "@/lib/sanity.query";
 import type { PostType } from "@/types";
 import { sanityFetch } from "@/lib/sanity.client";
@@ -33,7 +33,7 @@ export default async function FeaturedPosts({ params }: { params?: string }) {
                 height={230}
                 placeholder={post.coverImage?.lqip ? "blur" : "empty"}
                 blurDataURL={post.coverImage?.lqip || ""}
-                quality={100}
+                quality={95}
                 loading="lazy"
               />
               <div className="max-w-lg">

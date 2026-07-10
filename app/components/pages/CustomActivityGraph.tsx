@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, useRef } from "react";
 import { useTheme } from "next-themes";
 import { motion, AnimatePresence, useMotionValue, PanInfo } from "framer-motion";
 
@@ -92,21 +92,21 @@ const Cube = React.memo(({
       onMouseLeave={() => onHover(null)}
     >
       <div 
-        className="w-full h-full absolute transition-transform duration-300 ease-out" 
+        className={`w-full h-full absolute ease-out ${isHovered ? 'transition-transform duration-300' : ''}`} 
         style={{ 
           transformStyle: 'preserve-3d', 
           transform: isHovered ? 'translateZ(10px)' : 'translateZ(0px)' 
         }}
       >
         {/* Top Face */}
-        <div className="absolute w-full h-full transition-transform duration-300 box-border" style={{ 
+        <div className={`absolute w-full h-full box-border ${isHovered ? 'transition-transform duration-300' : ''}`} style={{ 
           background: colorTop, 
           boxShadow: baseOutline,
           transform: `translateZ(${height}px)`
         }} />
         
         {/* Front Face (Y-axis) */}
-        <div className="absolute origin-bottom transition-transform duration-300 box-border" style={{ 
+        <div className={`absolute origin-bottom box-border ${isHovered ? 'transition-transform duration-300' : ''}`} style={{ 
           background: gradientLeft, 
           boxShadow: baseOutline,
           width: size, 
@@ -116,7 +116,7 @@ const Cube = React.memo(({
         }} />
 
         {/* Right Face (X-axis) */}
-        <div className="absolute origin-left transition-transform duration-300 box-border" style={{ 
+        <div className={`absolute origin-left box-border ${isHovered ? 'transition-transform duration-300' : ''}`} style={{ 
           background: gradientRight,
           boxShadow: baseOutline,
           width: height, 
@@ -128,7 +128,7 @@ const Cube = React.memo(({
 
         {/* --- Dynamic Hover Wireframes (Back, Left, Bottom) --- */}
         {/* Back Face (Y-axis) */}
-        <div className="absolute origin-bottom transition-transform duration-300 box-border" style={{ 
+        <div className={`absolute origin-bottom box-border ${isHovered ? 'transition-transform duration-300' : ''}`} style={{ 
           background: 'transparent', 
           boxShadow: hoverOutline,
           opacity: isHovered ? 1 : 0,
@@ -139,7 +139,7 @@ const Cube = React.memo(({
         }} />
 
         {/* Left Face (X-axis) */}
-        <div className="absolute origin-left transition-transform duration-300 box-border" style={{ 
+        <div className={`absolute origin-left box-border ${isHovered ? 'transition-transform duration-300' : ''}`} style={{ 
           background: 'transparent', 
           boxShadow: hoverOutline,
           opacity: isHovered ? 1 : 0,
@@ -151,7 +151,7 @@ const Cube = React.memo(({
         }} />
 
         {/* Bottom Face (Base Footprint) */}
-        <div className="absolute w-full h-full transition-transform duration-300 box-border" style={{ 
+        <div className={`absolute w-full h-full box-border ${isHovered ? 'transition-transform duration-300' : ''}`} style={{ 
           background: 'transparent', 
           boxShadow: hoverOutline,
           opacity: isHovered ? 1 : 0,
@@ -161,30 +161,31 @@ const Cube = React.memo(({
         {/* Data Particles for high activity */}
         {isTop5 && (
           <div className="absolute w-full h-full pointer-events-none" style={{ transform: `translateZ(${height}px)`, transformStyle: 'preserve-3d' }}>
-             {[...Array(5)].map((_, i) => {
-                const size = Math.random() > 0.5 ? 'w-1 h-1' : 'w-0.5 h-0.5';
-                const color = Math.random() > 0.7 
-                  ? (isDark ? 'bg-white shadow-[0_0_5px_white]' : 'bg-zinc-500 shadow-[0_0_5px_rgba(113,113,122,0.5)]') 
-                  : (isDark ? 'bg-[#33E092] shadow-[0_0_8px_#33E092]' : 'bg-[#16a34a] shadow-[0_0_8px_#16a34a]');
+             {[...Array(2)].map((_, i) => {
+                const size = i === 0 ? 'w-1 h-1' : 'w-0.5 h-0.5';
+                const color = i === 0 
+                  ? (isDark ? 'bg-[#33E092] shadow-[0_0_8px_#33E092]' : 'bg-[#16a34a] shadow-[0_0_8px_#16a34a]')
+                  : (isDark ? 'bg-white shadow-[0_0_5px_white]' : 'bg-zinc-500 shadow-[0_0_5px_rgba(113,113,122,0.5)]');
                 return (
                   <MotionDiv
                     key={i}
                     className={`absolute rounded-full ${size} ${color}`}
                     style={{ 
-                      left: `${Math.random() * 60 + 20}%`, 
-                      top: `${Math.random() * 60 + 20}%` 
+                      left: `${30 + i * 40}%`, 
+                      top: `${30 + i * 30}%` 
                     }}
                     animate={{ 
-                      translateZ: [0, 40 + Math.random() * 50],
-                      x: [0, (Math.random() - 0.5) * 15],
-                      y: [0, (Math.random() - 0.5) * 15],
+                      translateZ: [0, 40 + i * 30],
+                      x: [0, (i === 0 ? 1 : -1) * 8],
+                      y: [0, (i === 0 ? -1 : 1) * 8],
                       opacity: [0, 1, 0],
                       scale: [0.5, 1, 0.5]
                     }}
                     transition={{
-                      duration: 2 + Math.random() * 2,
+                      duration: 3 + i,
                       repeat: Infinity,
-                      delay: Math.random() * 3,
+                      repeatDelay: 1,
+                      delay: i * 1.5,
                       ease: "easeOut"
                     }}
                   />
@@ -214,7 +215,11 @@ export default function CustomActivityGraph() {
   const rotateX = useMotionValue(60);
   const rotateZ = useMotionValue(-45);
   
+  const lastDragTime = useRef(0);
   const handleDrag = (event: any, info: PanInfo) => {
+    const now = performance.now();
+    if (now - lastDragTime.current < 16) return; // Throttle to ~60fps
+    lastDragTime.current = now;
     rotateX.set(Math.max(0, Math.min(90, rotateX.get() - info.delta.y * 0.5)));
     rotateZ.set(rotateZ.get() - info.delta.x * 0.5);
   };

@@ -6,9 +6,7 @@ import { HobbyType } from "@/types";
 import { sanityFetch } from "@/lib/sanity.client";
 import { Slide } from "../animation/Slide";
 import PageHeading from "../components/shared/PageHeading";
-import * as BiIcons from "react-icons/bi";
-import * as SiIcons from "react-icons/si";
-
+import { BiArrowBack } from "react-icons/bi";
 export const metadata: Metadata = {
   title: "Hobbies | Deekshith Goud",
   description: "Explore my interests and hobbies beyond coding.",
@@ -29,7 +27,7 @@ export default async function HobbiesPage() {
           href="/about"
           className="flex items-center gap-x-2 text-zinc-500 hover:text-primary-color mb-6 group"
         >
-          <BiIcons.BiArrowBack className="group-hover:-translate-x-1 duration-300" />
+          <BiArrowBack className="group-hover:-translate-x-1 duration-300" />
           Back to About
         </Link>
         <PageHeading

@@ -39,7 +39,7 @@ const ExpandingBadge = ({ icon: Icon, label, className, delay }: { icon: React.E
         className="flex items-center h-12 md:h-14 rounded-full bg-white/40 dark:bg-white/5 backdrop-blur-md border border-black/5 dark:border-white/10 shadow-lg cursor-pointer text-zinc-700 dark:text-zinc-300 transition-colors hover:bg-white/60 dark:hover:bg-white/10 overflow-hidden"
       >
         <div className="w-12 h-12 md:w-14 md:h-14 flex items-center justify-center shrink-0">
-          <Icon className="w-4 h-4 md:w-5 md:h-5" />
+          <Icon className="w-4 h-4 md:w-5 md:h-5" aria-label={label} role="img" />
         </div>
         <MotionSpan
           variants={{
@@ -126,6 +126,7 @@ export default function HeroSvg() {
             frameBorder="0"
             width="100%"
             height="100%"
+            title="3D Spline Glass Design"
             className="w-full h-full"
             style={{
               colorScheme: "light",

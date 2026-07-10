@@ -97,6 +97,7 @@ export default function Navbar() {
           <div className="flex items-center w-[120px]">
             <Link
               href="/"
+              aria-label="Home"
               className="active:scale-90 transition-transform duration-300 inline-block relative h-[50px] w-full"
             >
               <div className="absolute top-1/2 left-0 -translate-y-1/2">

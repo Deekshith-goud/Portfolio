@@ -27,10 +27,12 @@ export default function PhotoCard({ photo }: { photo: PhotoType }) {
           style={{ backfaceVisibility: "hidden" }}
         >
           <Image
-            src={urlFor(photo.image).width(800).url()}
+            src={urlFor(photo.image).url()}
             alt={photo.alt || "Photo"}
             width={600}
             height={800}
+            quality={95}
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             placeholder={photo.lqip ? "blur" : "empty"}
             blurDataURL={photo.lqip || ""}
             className="w-full h-auto object-cover rounded-3xl shadow-sm border border-zinc-200 dark:border-zinc-800"

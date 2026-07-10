@@ -17,7 +17,7 @@ export default function ImageComponent({ src, alt, className }: imageProp) {
       width={1920}
       height={1080}
       placeholder={(src as any)?.lqip ? "blur" : "empty"}
-      quality={100}
+      quality={95}
       sizes="100vw"
       blurDataURL={(src as any)?.lqip || ""}
     />

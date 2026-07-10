@@ -58,6 +58,10 @@ module.exports = {
           "0%": { transform: "scale(0.2) translate(0, 0) rotate(0deg)", opacity: "0" },
           "10%": { opacity: "0.8" },
           "100%": { transform: "scale(3) translate(-15px, -8px) rotate(45deg)", opacity: "0" },
+        },
+        "fade-in-up": {
+          "0%": { opacity: "0", transform: "translateY(15px)" },
+          "100%": { opacity: "1", transform: "translateY(0)" },
         }
       },
       animation: {
@@ -65,6 +69,7 @@ module.exports = {
         "marquee-reverse": "marquee-reverse 25s linear infinite",
         "drive-by": "drive-by 0.5s linear",
         "smoke": "smoke 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards",
+        "fade-in-up": "fade-in-up 0.5s ease-out forwards",
       },
     },
   },

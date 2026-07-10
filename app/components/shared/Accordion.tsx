@@ -24,7 +24,11 @@ export default function Accordion({
         <h3 className="text-lg mb-1 dark:text-white text-zinc-700">
           {question}
         </h3>
-        <button className="p-1 rounded-full text-sm cursor-[inherit] duration-100 dark:bg-primary-bg bg-secondary-bg">
+        <button 
+          aria-label={active === id ? "Collapse answer" : "Expand answer"} 
+          aria-expanded={active === id}
+          className="p-1 rounded-full text-sm cursor-[inherit] duration-100 dark:bg-primary-bg bg-secondary-bg"
+        >
           {active === id ? <BiMinus /> : <BiPlus />}
         </button>
       </div>

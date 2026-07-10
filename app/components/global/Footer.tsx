@@ -4,9 +4,11 @@ import sanitylogo from "@/public/sanity.png";
 import vercellogo from "@/public/vercel.svg";
 import nextjslogo from "@/public/nextjs.svg";
 import UnmountStudio from "./Unmount";
-import AudioPlayer from "./AudioPlayer";
+import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 import { BiUser } from "react-icons/bi";
+
+const AudioPlayer = dynamic(() => import("./AudioPlayer"), { ssr: false });
 
 function getOrdinalSuffix(i: number) {
   const j = i % 10,

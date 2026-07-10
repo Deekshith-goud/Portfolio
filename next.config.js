@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {};
-
-module.exports = {
+const nextConfig = {
+  poweredByHeader: false,
+  compress: true,
   images: {
     remotePatterns: [
       {
@@ -15,10 +15,13 @@ module.exports = {
       { hostname: "images.unsplash.com" },
     ],
   },
-  modularizeImports: {
-    "react-icons/?((?:[a-zA-Z0-9]+)*)": {
-      transform: "react-icons/{{ matches.[1] }}/{{member}}",
-      skipDefaultConversion: true,
-    },
+  experimental: {
+    optimizePackageImports: ["react-icons"],
   },
 };
+
+const withBundleAnalyzer = require("@next/bundle-analyzer")({
+  enabled: process.env.ANALYZE === "true",
+});
+
+module.exports = withBundleAnalyzer(nextConfig);

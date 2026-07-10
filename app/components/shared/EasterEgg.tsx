@@ -21,7 +21,7 @@ export default function EasterEgg({ isMet }: { isMet: boolean }) {
 
   return (
     <>
-      <button onClick={toggleImage}>
+      <button onClick={toggleImage} aria-label="Toggle Easter Egg">
         {isMet !== true ? (
           <BiCheckbox
             className="text-3xl dark:text-zinc-300 text-zinc-600"

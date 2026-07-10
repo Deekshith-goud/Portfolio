@@ -23,18 +23,19 @@ export default function NativeStreakWidget() {
       try {
         const username = process.env.NEXT_PUBLIC_GITHUB_USERNAME || "Deekshith-goud";
         
-        // Fetch Commits Data
-        const commitsRes = await fetch(`https://github-contributions-api.deno.dev/${username}.json`);
+        // Fetch all data in parallel instead of sequentially
+        const [commitsRes, prsRes, issuesRes] = await Promise.all([
+          fetch(`https://github-contributions-api.deno.dev/${username}.json`),
+          fetch(`https://api.github.com/search/issues?q=author:${username}+type:pr`),
+          fetch(`https://api.github.com/search/issues?q=author:${username}+type:issue`),
+        ]);
+
         const commitsJson = await commitsRes.json();
         let totalCommits = commitsJson.totalContributions || 0;
 
-        // Fetch PRs
-        const prsRes = await fetch(`https://api.github.com/search/issues?q=author:${username}+type:pr`);
         const prsJson = prsRes.ok ? await prsRes.json() : { total_count: 0 };
         const totalPRs = prsJson.total_count || 0;
 
-        // Fetch Issues
-        const issuesRes = await fetch(`https://api.github.com/search/issues?q=author:${username}+type:issue`);
         const issuesJson = issuesRes.ok ? await issuesRes.json() : { total_count: 0 };
         const totalIssues = issuesJson.total_count || 0;
 

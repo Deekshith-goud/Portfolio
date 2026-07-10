@@ -83,9 +83,10 @@ export default async function About() {
                     {/* Light Mode Image (hidden in dark mode if dark image exists) */}
                     <Image
                       className={`rounded-2xl mb-4 object-cover max-h-96 min-h-96 bg-top w-full mx-auto ${profile.profileImageDark ? 'dark:hidden' : ''}`}
-                      src={urlFor(profile.profileImage).width(800).height(800).url()}
+                      src={urlFor(profile.profileImage).url()}
                       width={800}
                       height={800}
+                      quality={95}
                       alt={profile.profileImage.alt || profile.fullName}
                       placeholder={profile?.lqip ? "blur" : "empty"}
                       blurDataURL={profile?.lqip || ""}
@@ -95,9 +96,10 @@ export default async function About() {
                     {profile?.profileImageDark && (
                       <Image
                         className="rounded-2xl mb-4 object-cover max-h-96 min-h-96 bg-top hidden dark:block w-full mx-auto"
-                        src={urlFor(profile.profileImageDark).width(800).height(800).url()}
+                        src={urlFor(profile.profileImageDark).url()}
                         width={800}
                         height={800}
+                        quality={95}
                         alt={profile.profileImageDark.alt || profile.fullName}
                         priority
                       />

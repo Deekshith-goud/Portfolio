@@ -1,11 +1,28 @@
 "use client";
 
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 
 export default function BlackHole() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
+
+  // Observe visibility
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => setIsVisible(entry.isIntersecting),
+      { threshold: 0.1 }
+    );
+    observer.observe(container);
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
+    if (!isVisible) return;
+
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
@@ -186,10 +203,10 @@ export default function BlackHole() {
 
     draw();
     return () => cancelAnimationFrame(animId);
-  }, []);
+  }, [isVisible]);
 
   return (
-    <div className="w-full h-full min-h-[350px] flex items-center justify-center relative overflow-hidden bg-transparent">
+    <div ref={containerRef} className="w-full h-full min-h-[350px] flex items-center justify-center relative overflow-hidden bg-transparent">
       {/* Subtle ambient glow */}
       <div
         className="absolute rounded-full blur-3xl pointer-events-none max-w-full"

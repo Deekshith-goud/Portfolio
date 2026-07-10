@@ -49,7 +49,7 @@ export default function MobileDock() {
         transition={{ type: "spring", stiffness: 500, damping: 30 }}
         animate={{ gap: isCompact ? "0px" : "4px" }}
         className="relative flex items-center bg-white/70 dark:bg-zinc-900/70 backdrop-blur-xl border border-zinc-200/50 dark:border-zinc-800/50 p-1 shadow-[0_8px_30px_rgb(0,0,0,0.12)] overflow-hidden"
-        style={{ borderRadius: 32, height: "56px" }}
+        style={{ borderRadius: 32, height: "56px", gap: isCompact ? "0px" : "4px" }}
       >
         {/* The single, unified sliding ring */}
         <motion.div
@@ -76,11 +76,13 @@ export default function MobileDock() {
                 opacity: showItem ? 1 : 0,
                 scale: showItem ? 1 : 0.8
               }}
+              style={{ width: showItem ? 48 : 0 }}
               transition={{ type: "spring", stiffness: 500, damping: 30 }}
               className="overflow-hidden z-10"
             >
                 <Link
                   href={item.href}
+                  aria-label={item.title}
                   className="relative w-12 h-12 flex items-center justify-center"
                   onClick={() => {
                     setIsCompact(false);
