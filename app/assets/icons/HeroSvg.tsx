@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import { useDevicePerformance } from "../../hooks/useDevicePerformance";
 
 // Reverting back to the tech stack icons
 import { SiReact, SiNextdotjs, SiTailwindcss, SiTypescript } from "react-icons/si";
@@ -85,6 +86,8 @@ const ExpandingIconsOption = () => {
 
 export default function HeroSvg() {
   const [isLoading, setIsLoading] = useState(true);
+  const tier = useDevicePerformance();
+  const isLowEnd = tier === "low";
 
   useEffect(() => {
     // Hide loading spinner after a short delay allowing Spline to mount
@@ -110,8 +113,8 @@ export default function HeroSvg() {
         <MotionDiv
           className="w-full h-full absolute inset-0 z-10 scale-[1.35]"
           animate={{
-            x: [0, -3, 3, -1, 1, 0, 0],
-            filter: [
+            x: isLowEnd ? 0 : [0, -3, 3, -1, 1, 0, 0],
+            filter: isLowEnd ? "none" : [
               "drop-shadow(0px 0 0 rgba(255,0,0,0)) drop-shadow(0px 0 0 rgba(0,255,255,0))",
               "drop-shadow(-4px 0 0 rgba(255,0,0,0.6)) drop-shadow(4px 0 0 rgba(0,255,255,0.6))",
               "drop-shadow(4px 0 0 rgba(255,0,0,0.6)) drop-shadow(-4px 0 0 rgba(0,255,255,0.6))",

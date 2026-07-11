@@ -1,9 +1,12 @@
 "use client";
 import React, { useState } from "react";
 import { motion } from "framer-motion";
+import { useDevicePerformance } from "../../hooks/useDevicePerformance";
 
 export default function SignatureNavLogo() {
   const [isHovered, setIsHovered] = useState(false);
+  const tier = useDevicePerformance();
+  const isLowEnd = tier === "low";
 
   const drawMain = {
     hidden: { pathLength: 0, opacity: 0 },
@@ -118,18 +121,18 @@ export default function SignatureNavLogo() {
         
         {/* LIGHT MODE: Polished Obsidian Tube */}
         <g className="dark:hidden transition-opacity duration-300" style={{ opacity: isHovered ? 0.1 : 1 }}>
-          <path d={PATH_D} stroke="#18181B" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" fill="none" filter="url(#tube-3d-light)" />
-          <path d={UNDERLINE_D} stroke="#18181B" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" fill="none" filter="url(#tube-3d-light)" />
+          <path d={PATH_D} stroke="#18181B" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" fill="none" filter={isLowEnd ? "none" : "url(#tube-3d-light)"} />
+          <path d={UNDERLINE_D} stroke="#18181B" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" fill="none" filter={isLowEnd ? "none" : "url(#tube-3d-light)"} />
         </g>
 
         {/* DARK MODE: Early Metallic Tubes */}
         <g className="hidden dark:block transition-opacity duration-300" style={{ opacity: isHovered ? 0.1 : 1 }}>
-          <path d={PATH_D} stroke="url(#chrome-nav-dark)" strokeWidth="4.5" strokeLinecap="round" strokeLinejoin="round" fill="none" filter="url(#shadow-dark)" />
-          <path d={PATH_D} stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.8" transform="translate(0 -1)" />
-          <path d={PATH_D} stroke="#0F172A" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.4" transform="translate(0 1.5)" />
+          <path d={PATH_D} stroke="url(#chrome-nav-dark)" strokeWidth="4.5" strokeLinecap="round" strokeLinejoin="round" fill="none" filter={isLowEnd ? "none" : "url(#shadow-dark)"} />
+          <path d={PATH_D} stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity={isLowEnd ? 0 : 0.8} transform="translate(0 -1)" />
+          <path d={PATH_D} stroke="#0F172A" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity={isLowEnd ? 0 : 0.4} transform="translate(0 1.5)" />
 
-          <path d={UNDERLINE_D} stroke="url(#chrome-nav-dark)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" fill="none" filter="url(#shadow-dark)" />
-          <path d={UNDERLINE_D} stroke="#FFFFFF" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.8" transform="translate(0 -0.5)" />
+          <path d={UNDERLINE_D} stroke="url(#chrome-nav-dark)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" fill="none" filter={isLowEnd ? "none" : "url(#shadow-dark)"} />
+          <path d={UNDERLINE_D} stroke="#FFFFFF" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity={isLowEnd ? 0 : 0.8} transform="translate(0 -0.5)" />
         </g>
 
         {/* 2. Magical 3D Emerald Drawing Animation */}
@@ -137,23 +140,23 @@ export default function SignatureNavLogo() {
           {/* ----- LIGHT MODE DRAWING ----- */}
           <g className="dark:hidden">
             <g mask="url(#reveal-mask-main)">
-              <path d={PATH_D} stroke="url(#emerald-nav)" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" fill="none" filter="url(#tube-3d-light)" />
+              <path d={PATH_D} stroke="url(#emerald-nav)" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" fill="none" filter={isLowEnd ? "none" : "url(#tube-3d-light)"} />
             </g>
             <g mask="url(#reveal-mask-underline)">
-              <path d={UNDERLINE_D} stroke="url(#emerald-nav)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" fill="none" filter="url(#tube-3d-light)" />
+              <path d={UNDERLINE_D} stroke="url(#emerald-nav)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" fill="none" filter={isLowEnd ? "none" : "url(#tube-3d-light)"} />
             </g>
           </g>
 
           {/* ----- DARK MODE DRAWING (Matches Early Metallic Tubes Depth) ----- */}
           <g className="hidden dark:block">
             <g mask="url(#reveal-mask-main)">
-              <path d={PATH_D} stroke="url(#emerald-nav-dark)" strokeWidth="4.5" strokeLinecap="round" strokeLinejoin="round" fill="none" filter="url(#shadow-dark)" />
-              <path d={PATH_D} stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.8" transform="translate(0 -1)" />
-              <path d={PATH_D} stroke="#022C22" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.8" transform="translate(0 1.5)" />
+              <path d={PATH_D} stroke="url(#emerald-nav-dark)" strokeWidth="4.5" strokeLinecap="round" strokeLinejoin="round" fill="none" filter={isLowEnd ? "none" : "url(#shadow-dark)"} />
+              <path d={PATH_D} stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity={isLowEnd ? 0 : 0.8} transform="translate(0 -1)" />
+              <path d={PATH_D} stroke="#022C22" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity={isLowEnd ? 0 : 0.8} transform="translate(0 1.5)" />
             </g>
             <g mask="url(#reveal-mask-underline)">
-              <path d={UNDERLINE_D} stroke="url(#emerald-nav-dark)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" fill="none" filter="url(#shadow-dark)" />
-              <path d={UNDERLINE_D} stroke="#FFFFFF" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.8" transform="translate(0 -0.5)" />
+              <path d={UNDERLINE_D} stroke="url(#emerald-nav-dark)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" fill="none" filter={isLowEnd ? "none" : "url(#shadow-dark)"} />
+              <path d={UNDERLINE_D} stroke="#FFFFFF" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity={isLowEnd ? 0 : 0.8} transform="translate(0 -0.5)" />
             </g>
           </g>
         </g>
