@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence, useMotionValue, useTransform, animate } from "framer-motion";
 import Constellation from "./Constellation";
 import dynamic from "next/dynamic";
+import { useDevicePerformance } from "../../hooks/useDevicePerformance";
 
 const SignatureLogo = dynamic(() => import("./SignatureLogo"), { ssr: false });
 
@@ -65,6 +66,7 @@ const ScrambleText = ({ text }: { text: string }) => {
 };
 
 export default function Loader() {
+  const tier = useDevicePerformance();
   const [isLoading, setIsLoading] = useState(true);
   const progressValue = useMotionValue(0);
   const progressText = useTransform(progressValue, (latest) => `${Math.round(latest)}%`);
@@ -107,7 +109,7 @@ export default function Loader() {
     exit: {
       opacity: 0,
       scale: 0.6,
-      filter: "blur(16px)",
+      filter: tier === "low" ? "none" : "blur(16px)",
       transition: {
         duration: 1.8,
         ease: [0.65, 0, 0.35, 1]

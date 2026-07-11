@@ -45,7 +45,6 @@ export default function MobileDock() {
   return (
     <div className="md:hidden fixed bottom-6 left-1/2 -translate-x-1/2 z-50 flex justify-center">
       <motion.div
-        layout
         transition={{ type: "spring", stiffness: 500, damping: 30 }}
         animate={{ gap: isCompact ? "0px" : "4px" }}
         className="relative flex items-center bg-white/70 dark:bg-zinc-900/70 backdrop-blur-xl border border-zinc-200/50 dark:border-zinc-800/50 p-1 shadow-[0_8px_30px_rgb(0,0,0,0.12)] overflow-hidden"
@@ -68,7 +67,6 @@ export default function MobileDock() {
 
           return (
             <motion.div
-              layout
               key={item.title}
               initial={false}
               animate={{ 

@@ -1,9 +1,11 @@
 "use client";
 
 import React, { useEffect, useRef } from "react";
+import { useDevicePerformance } from "../../hooks/useDevicePerformance";
 
 export default function Constellation() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const tier = useDevicePerformance();
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -54,7 +56,8 @@ export default function Constellation() {
 
     const initParticles = () => {
       particles = [];
-      const numParticles = Math.min(80, Math.floor((canvas!.width * canvas!.height) / 10000));
+      const maxParticles = tier === "low" ? 30 : 80;
+      const numParticles = Math.min(maxParticles, Math.floor((canvas!.width * canvas!.height) / 10000));
       for (let i = 0; i < numParticles; i++) {
         particles.push(new Particle());
       }
@@ -72,9 +75,11 @@ export default function Constellation() {
           const dy = particles[i].y - particles[j].y;
           const distance = Math.sqrt(dx * dx + dy * dy);
 
-          if (distance < 140) {
+          const maxDistance = tier === "low" ? 90 : 140;
+
+          if (distance < maxDistance) {
             ctx.beginPath();
-            ctx.strokeStyle = `rgba(140, 168, 255, ${0.15 - distance / 1400})`;
+            ctx.strokeStyle = `rgba(140, 168, 255, ${0.15 - distance / (maxDistance * 10)})`;
             ctx.lineWidth = 0.8;
             ctx.moveTo(particles[i].x, particles[i].y);
             ctx.lineTo(particles[j].x, particles[j].y);
@@ -93,7 +98,7 @@ export default function Constellation() {
       window.removeEventListener("resize", resize);
       cancelAnimationFrame(animationFrameId);
     };
-  }, []);
+  }, [tier]);
 
   return (
     <canvas
