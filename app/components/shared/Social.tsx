@@ -4,7 +4,7 @@
 import { socialLinks } from "../../data/social";
 import RefLink from "./RefLink";
 import Magnetic from "../global/Magnetic";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 
 export default function Social({ type }: { type: "social" | "publication" }) {
   return (
@@ -14,7 +14,7 @@ export default function Social({ type }: { type: "social" | "publication" }) {
         .map((value) => (
           <li key={value.id}>
             <Magnetic>
-              <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+              <m.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
                 <RefLink
                   href={value.url}
                   className="flex items-center border-b dark:border-b-zinc-800 border-zinc-200 group pb-1"
@@ -26,7 +26,7 @@ export default function Social({ type }: { type: "social" | "publication" }) {
                   &nbsp;
                   {value.name}
                 </RefLink>
-              </motion.div>
+              </m.div>
             </Magnetic>
           </li>
         ))}

@@ -1,6 +1,6 @@
 // @ts-nocheck
 "use client";
-import { motion, useInView, useAnimation, AnimationProps } from "framer-motion";
+import { m, useInView, useAnimation, AnimationProps } from "framer-motion";
 import { useRef, useEffect, RefObject } from "react";
 import { useDevicePerformance } from "../hooks/useDevicePerformance";
 
@@ -25,7 +25,7 @@ export const Slide = ({ children, className, delay }: SlideProps) => {
   const isLowEnd = tier === "low";
 
   return (
-    <motion.div
+    <m.div
       ref={ref}
       variants={{
         start: { opacity: 0, translateY: 15, filter: isLowEnd ? "none" : "blur(8px)" },
@@ -41,6 +41,6 @@ export const Slide = ({ children, className, delay }: SlideProps) => {
       initial="start"
     >
       <div className={className}>{children}</div>
-    </motion.div>
+    </m.div>
   );
 };

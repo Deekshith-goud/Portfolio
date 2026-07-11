@@ -2,10 +2,10 @@
 
 import React, { useEffect, useState, useCallback, useRef } from "react";
 import { useTheme } from "next-themes";
-import { motion, AnimatePresence, useMotionValue, PanInfo } from "framer-motion";
+import { m, AnimatePresence, useMotionValue, PanInfo } from "framer-motion";
 
 // Bypass Framer Motion / Sanity TS type collisions 
-const MotionDiv = motion.div as any;
+const MotionDiv = m.div as any;
 type Contribution = {
   date: string;
   contributionCount: number;

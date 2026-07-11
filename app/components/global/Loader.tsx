@@ -1,65 +1,72 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { motion, AnimatePresence, useMotionValue, useTransform, animate } from "framer-motion";
 import Constellation from "./Constellation";
 import dynamic from "next/dynamic";
 import { useDevicePerformance } from "../../hooks/useDevicePerformance";
 
 const SignatureLogo = dynamic(() => import("./SignatureLogo"), { ssr: false });
 
-const MotionDiv = motion.div as any;
-const MotionSpan = motion.span as any;
+const SCRAMBLE_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+-=[]{}|;:,./<>?";
+const SCRAMBLE_TICK_MS = 30;
+const SCRAMBLE_STEP = 0.25;
 
-const ScrambleText = ({ text }: { text: string }) => {
-  const [displayChars, setDisplayChars] = useState<{ char: string; isLocked: boolean }[]>([]);
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+-=[]{}|;:,./<>?";
+const randomChar = () => SCRAMBLE_CHARS[Math.floor(Math.random() * SCRAMBLE_CHARS.length)];
+const randomTail = (length: number) => Array.from({ length }, randomChar).join("");
+
+function usePrefersReducedMotion() {
+  const [reduced, setReduced] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    setReduced(mq.matches);
+    const onChange = () => setReduced(mq.matches);
+    mq.addEventListener("change", onChange);
+    return () => mq.removeEventListener("change", onChange);
+  }, []);
+  return reduced;
+}
+
+const ScrambleText = ({ text, reducedMotion }: { text: string; reducedMotion: boolean }) => {
+  const [revealCount, setRevealCount] = useState(reducedMotion ? text.length : 0);
+  const [tail, setTail] = useState(() => (reducedMotion ? "" : randomTail(text.length)));
 
   useEffect(() => {
+    if (reducedMotion) {
+      setRevealCount(text.length);
+      setTail("");
+      return;
+    }
+
     let iteration = 0;
     const interval = setInterval(() => {
-      setCurrentIndex(Math.floor(iteration));
-      setDisplayChars(
-        text.split("").map((letter, index) => {
-          if (index < iteration) {
-            return { char: text[index], isLocked: true };
-          }
-          return { char: chars[Math.floor(Math.random() * chars.length)], isLocked: false };
-        })
-      );
+      iteration += SCRAMBLE_STEP;
+      const locked = Math.min(text.length, Math.ceil(iteration));
+      setRevealCount(locked);
+      setTail(randomTail(text.length - locked));
 
-      if (iteration >= text.length) {
-        clearInterval(interval);
-      }
-
-      iteration += 1 / 4;
-    }, 30);
+      if (locked >= text.length) clearInterval(interval);
+    }, SCRAMBLE_TICK_MS);
 
     return () => clearInterval(interval);
-  }, [text]);
+  }, [text, reducedMotion]);
+
+  const isComplete = revealCount >= text.length;
 
   return (
     <span className="inline-flex items-center font-mono">
-      {displayChars.map((item, i) => {
-        const isCurrent = i === currentIndex && currentIndex < text.length;
-        return (
-          <span
-            key={i}
-            className={`
-              ${item.isLocked ? "text-zinc-200" : "text-zinc-600 dark:text-zinc-500"}
-              ${isCurrent ? "bg-zinc-300 text-zinc-900" : ""}
-            `}
-          >
-            {item.char}
-          </span>
-        );
-      })}
-      {/* Always render to prevent layout shift, just control opacity */}
-      <MotionSpan
-        animate={currentIndex >= text.length ? { opacity: [1, 0, 1] } : { opacity: 0 }}
-        transition={{ duration: 0.8, repeat: Infinity }}
-        className="inline-block w-1.5 h-3 ml-1 bg-zinc-300"
+      <span className="text-zinc-200">{text.slice(0, revealCount)}</span>
+      {tail.split("").map((char, i) => (
+        <span
+          key={revealCount + i}
+          className={`text-zinc-600 dark:text-zinc-500 ${i === 0 && !isComplete ? "bg-zinc-300 text-zinc-900" : ""}`}
+        >
+          {char}
+        </span>
+      ))}
+      <span
+        className={`inline-block w-1.5 h-3 ml-1 bg-zinc-300 transition-opacity duration-300 ${
+          isComplete ? "animate-[pulse_0.8s_ease-in-out_infinite]" : "opacity-0"
+        }`}
       />
     </span>
   );
@@ -67,105 +74,122 @@ const ScrambleText = ({ text }: { text: string }) => {
 
 export default function Loader() {
   const tier = useDevicePerformance();
-  const [isLoading, setIsLoading] = useState(true);
-  const progressValue = useMotionValue(0);
-  const progressText = useTransform(progressValue, (latest) => `${Math.round(latest)}%`);
-  const progressWidth = useTransform(progressValue, (latest) => `${latest}%`);
+  const prefersReducedMotion = usePrefersReducedMotion();
+  
+  const [isMounted, setIsMounted] = useState(true);
+  const [isExiting, setIsExiting] = useState(false);
+  const [progressVisible, setProgressVisible] = useState(false);
+  const [progress, setProgress] = useState(0);
 
   useEffect(() => {
-    // Smoothly animate the progress value from 0 to 100 over 2.6 seconds
-    const controls = animate(progressValue, 100, {
-      duration: 2.6,
-      ease: "easeInOut", // easeInOut makes the counting feel natural
-    });
+    // Start progress bar animation right after mount
+    const rafId = requestAnimationFrame(() => setProgressVisible(true));
+    
+    // Simulate easeInOut progress text (0 to 100 over 2.6s)
+    let start = performance.now();
+    let frame: number;
+    const duration = 2600;
+    
+    const update = (time: number) => {
+      const elapsed = time - start;
+      const p = Math.min(100, (elapsed / duration) * 100);
+      // easeInOutSine approximation
+      const eased = -(Math.cos(Math.PI * (p / 100)) - 1) / 2 * 100;
+      setProgress(Math.round(eased));
+      if (elapsed < duration) {
+        frame = requestAnimationFrame(update);
+      }
+    };
+    frame = requestAnimationFrame(update);
 
-    // Wait for the signature to finish drawing
-    const timer = setTimeout(() => {
-      setIsLoading(false);
+    const exitTimer = setTimeout(() => {
+      setIsExiting(true);
     }, 3200);
 
+    const unmountTimer = setTimeout(() => {
+      setIsMounted(false);
+    }, 5000); // Wait for 1.8s exit animation to finish
+
     return () => {
-      controls.stop();
-      clearTimeout(timer);
+      cancelAnimationFrame(rafId);
+      cancelAnimationFrame(frame);
+      clearTimeout(exitTimer);
+      clearTimeout(unmountTimer);
     };
-  }, [progressValue]);
+  }, []);
 
-  const overlayVariants = {
-    exit: {
-      opacity: 0,
-      transition: { duration: 1.0, ease: "easeInOut", delay: 0.8 }
-    }
-  };
+  if (!isMounted) return null;
 
-  const backgroundVariants = {
-    exit: {
-      scale: 1.35,
-      opacity: 0,
-      transition: { duration: 1.8, ease: [0.65, 0, 0.35, 1] }
-    }
-  };
-
-  const logoContainerVariants = {
-    exit: {
-      opacity: 0,
-      scale: 0.6,
-      filter: tier === "low" ? "none" : "blur(16px)",
-      transition: {
-        duration: 1.8,
-        ease: [0.65, 0, 0.35, 1]
-      }
-    }
-  };
-
+  const easeCubic = "cubic-bezier(0.65, 0, 0.35, 1)";
+  
   return (
-    <AnimatePresence>
-      {isLoading && (
-        <MotionDiv
-          className="fixed inset-0 z-[100] flex items-center justify-center bg-[#0d1017] overflow-hidden"
-          initial={{ opacity: 1 }}
-          exit="exit"
-          variants={overlayVariants}
+    <div
+      className={`fixed inset-0 z-[100] flex items-center justify-center bg-[#0d1017] overflow-hidden transition-opacity`}
+      style={{
+        opacity: isExiting ? 0 : 1,
+        transitionDuration: "1000ms",
+        transitionDelay: isExiting ? "800ms" : "0ms",
+        transitionTimingFunction: "ease-in-out"
+      }}
+    >
+      {/* Background */}
+      <div 
+        className="absolute inset-0 w-full h-full pointer-events-none transition-all"
+        style={{
+          opacity: isExiting ? 0 : 0.6,
+          transform: isExiting && !prefersReducedMotion ? "scale(1.35)" : "scale(1)",
+          transitionDuration: prefersReducedMotion ? "600ms" : "1800ms",
+          transitionTimingFunction: prefersReducedMotion ? "ease-in-out" : easeCubic
+        }}
+      >
+        <Constellation />
+      </div>
+
+      <div className="z-10 flex flex-col items-center justify-center w-full">
+        {/* Signature */}
+        <div
+          className="transition-all"
+          style={{
+            opacity: isExiting ? 0 : 1,
+            transform: isExiting ? (prefersReducedMotion ? "scale(1)" : "scale(0.6)") : "scale(1)",
+            filter: isExiting && tier !== "low" && !prefersReducedMotion ? "blur(16px)" : "none",
+            transitionDuration: prefersReducedMotion ? "600ms" : "1800ms",
+            transitionTimingFunction: easeCubic
+          }}
         >
-          {/* Subtle Constellation Background that scales up */}
-          <MotionDiv variants={backgroundVariants} exit="exit" className="absolute inset-0 w-full h-full pointer-events-none opacity-60">
-            <Constellation />
-          </MotionDiv>
+          <SignatureLogo
+            isAnimated={true}
+            className="w-[85vw] max-w-3xl h-auto drop-shadow-2xl pointer-events-none mb-12"
+          />
+        </div>
 
-          {/* Wrapper to maintain exact natural flex layout */}
-          <div className="z-10 flex flex-col items-center justify-center w-full">
-            
-            {/* Minimalist Drawing Signature with 3D Parallax Exit */}
-            <MotionDiv variants={logoContainerVariants} exit="exit">
-              <SignatureLogo 
-                isAnimated={true} 
-                className="w-[85vw] max-w-3xl h-auto drop-shadow-2xl pointer-events-none mb-12" 
-              />
-            </MotionDiv>
-
-            {/* Elegant Progress Indicator (Separated to prevent blur bulging) */}
-            <MotionDiv 
-              className="flex flex-col items-center gap-4"
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.9, transition: { duration: 1.8, ease: [0.65, 0, 0.35, 1] } }}
-              transition={{ delay: 0, duration: 1.2 }}
-            >
-              <div className="text-zinc-500 font-mono text-xs tracking-[0.4em] uppercase flex items-center gap-6">
-                <ScrambleText text="INITIALIZING" />
-                <MotionSpan className="text-zinc-300 w-8 text-right">{progressText}</MotionSpan>
-              </div>
-              
-              {/* 1px Sleek Progress Bar */}
-              <div className="w-64 h-[1px] bg-zinc-800/50 relative">
-                <MotionDiv 
-                  className="absolute top-0 left-0 bottom-0 bg-gradient-to-r from-transparent via-blue-400/80 to-blue-200"
-                  style={{ width: progressWidth }}
-                />
-              </div>
-            </MotionDiv>
+        {/* Progress Indicator */}
+        <div
+          className="flex flex-col items-center gap-4 transition-all"
+          style={{
+            opacity: isExiting ? 0 : (progressVisible ? 1 : 0),
+            transform: isExiting ? "scale(0.9)" : (progressVisible ? "translateY(0)" : "translateY(10px)"),
+            transitionDuration: isExiting ? "1800ms" : "1200ms",
+            transitionTimingFunction: isExiting ? easeCubic : "ease-out"
+          }}
+        >
+          <div className="text-zinc-500 font-mono text-xs tracking-[0.4em] uppercase flex items-center gap-6">
+            <ScrambleText text="INITIALIZING" reducedMotion={prefersReducedMotion} />
+            <span className="text-zinc-300 w-8 text-right">{progress}%</span>
           </div>
-        </MotionDiv>
-      )}
-    </AnimatePresence>
+
+          <div className="w-64 h-[1px] bg-zinc-800/50 relative">
+            <div
+              className="absolute inset-y-0 left-0 w-full origin-left bg-gradient-to-r from-transparent via-blue-400/80 to-blue-200 transition-transform"
+              style={{
+                transform: progressVisible ? "scaleX(1)" : "scaleX(0)",
+                transitionDuration: "2600ms",
+                transitionTimingFunction: "ease-in-out"
+              }}
+            />
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }

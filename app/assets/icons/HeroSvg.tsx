@@ -1,14 +1,14 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { useDevicePerformance } from "../../hooks/useDevicePerformance";
 
 // Reverting back to the tech stack icons
 import { SiReact, SiNextdotjs, SiTailwindcss, SiTypescript } from "react-icons/si";
 
-const MotionDiv = motion.div as any;
-const MotionSpan = motion.span as any;
+const MotionDiv = m.div as any;
+const MotionSpan = m.span as any;
 
 // --- Option: Blueprint Grid ---
 const BlueprintGrid = () => (

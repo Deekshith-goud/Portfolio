@@ -1,7 +1,7 @@
 // @ts-nocheck
 "use client";
 
-import { motion, useMotionTemplate, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { m, useMotionTemplate, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { MouseEvent } from "react";
 import { 
   LuCrown, 
@@ -91,14 +91,14 @@ function PrincipleCard({ item }: { item: typeof principles[0] }) {
   };
 
   return (
-    <motion.div
+    <m.div
       variants={itemVariants}
       // @ts-ignore
       onMouseMove={handleMouseMove}
       className={`group relative overflow-hidden rounded-3xl p-8 flex flex-col gap-y-4 backdrop-blur-md bg-white/50 dark:bg-zinc-900/60 border border-zinc-200 transition-all duration-500 cursor-default shadow-sm hover:shadow-xl hover:-translate-y-1 ${item.className}`}
     >
       {/* Light Mode Spotlight Glow Effect */}
-      <motion.div
+      <m.div
         className="pointer-events-none absolute -inset-px rounded-3xl opacity-0 transition duration-300 group-hover:opacity-100 dark:hidden"
         style={{
           background: useMotionTemplate`
@@ -112,7 +112,7 @@ function PrincipleCard({ item }: { item: typeof principles[0] }) {
       />
       
       {/* Dark Mode Spotlight Glow Effect (Stronger) */}
-      <motion.div
+      <m.div
         className="pointer-events-none absolute -inset-px rounded-3xl opacity-0 transition duration-300 group-hover:opacity-100 hidden dark:block"
         style={{
           background: useMotionTemplate`
@@ -126,12 +126,12 @@ function PrincipleCard({ item }: { item: typeof principles[0] }) {
       />
 
       {/* Magnetic Watermark Icon */}
-      <motion.div 
+      <m.div 
         style={{ x: watermarkX, y: watermarkY, rotate: watermarkRotate }}
         className="absolute -right-6 -bottom-6 opacity-5 dark:opacity-20 group-hover:opacity-10 dark:group-hover:opacity-40 transition-opacity duration-500 pointer-events-none"
       >
         <Icon className={`text-9xl ${item.iconClass}`} />
-      </motion.div>
+      </m.div>
       
       <div className={`relative z-10 flex items-center justify-center w-12 h-12 rounded-full bg-white shadow-sm border border-zinc-200 group-hover:scale-110 transition-transform duration-500 ${item.badgeClass}`}>
         <Icon className={`text-2xl ${item.iconClass}`} />
@@ -145,7 +145,7 @@ function PrincipleCard({ item }: { item: typeof principles[0] }) {
           {item.description}
         </p>
       </div>
-    </motion.div>
+    </m.div>
   );
 }
 
@@ -163,7 +163,7 @@ export default function Principles() {
       <h2 className="font-incognito font-semibold tracking-tight text-4xl mb-8">
         Principles
       </h2>
-      <motion.div 
+      <m.div 
         variants={containerVariants}
         initial="hidden"
         whileInView="show"
@@ -173,7 +173,7 @@ export default function Principles() {
         {principles.map((item, index) => (
           <PrincipleCard key={index} item={item} />
         ))}
-      </motion.div>
+      </m.div>
     </section>
   );
 }

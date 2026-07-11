@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { useRef, useState } from "react";
 
 export default function Magnetic({ children }: { children: React.ReactNode }) {
@@ -21,7 +21,7 @@ export default function Magnetic({ children }: { children: React.ReactNode }) {
 
   const { x, y } = position;
   return (
-    <motion.div
+    <m.div
       style={{ position: "relative" }}
       ref={ref}
       {...({
@@ -32,6 +32,6 @@ export default function Magnetic({ children }: { children: React.ReactNode }) {
       transition={{ type: "spring", stiffness: 150, damping: 15, mass: 0.1 }}
     >
       {children}
-    </motion.div>
+    </m.div>
   );
 }

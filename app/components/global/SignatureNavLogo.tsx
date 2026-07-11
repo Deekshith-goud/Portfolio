@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { useDevicePerformance } from "../../hooks/useDevicePerformance";
 
 export default function SignatureNavLogo() {
@@ -41,7 +41,7 @@ export default function SignatureNavLogo() {
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <motion.svg
+      <m.svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="70 -10 310 190"
         className="w-[120px] h-auto overflow-visible drop-shadow-lg"
@@ -89,7 +89,7 @@ export default function SignatureNavLogo() {
           </linearGradient>
 
           <mask id="reveal-mask-main">
-            <motion.path
+            <m.path
               d={PATH_D}
               stroke="white"
               strokeWidth="5" 
@@ -103,7 +103,7 @@ export default function SignatureNavLogo() {
           </mask>
           
           <mask id="reveal-mask-underline">
-            <motion.path
+            <m.path
               d={UNDERLINE_D}
               stroke="white"
               strokeWidth="5" 
@@ -160,7 +160,7 @@ export default function SignatureNavLogo() {
             </g>
           </g>
         </g>
-      </motion.svg>
+      </m.svg>
     </div>
   );
 }
