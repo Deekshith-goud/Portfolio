@@ -119,7 +119,7 @@ export default function SignatureLogo({ layoutId, isAnimated = false, isSimple =
       </defs>
       
       {isSimple || isLowEnd ? (
-        <g style={{ filter: isLowEnd && isAnimated ? "drop-shadow(0px 0px 8px rgba(140, 168, 255, 0.4))" : "none" }}>
+        <g>
           {/* Clean Metallic Logo for the Navbar */}
           <motion.path
             variants={isAnimated ? mask1Variants : undefined}

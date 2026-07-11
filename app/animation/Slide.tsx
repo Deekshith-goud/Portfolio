@@ -2,6 +2,7 @@
 "use client";
 import { motion, useInView, useAnimation, AnimationProps } from "framer-motion";
 import { useRef, useEffect, RefObject } from "react";
+import { useDevicePerformance } from "../hooks/useDevicePerformance";
 
 interface SlideProps extends AnimationProps {
   children: React.ReactNode;
@@ -20,12 +21,15 @@ export const Slide = ({ children, className, delay }: SlideProps) => {
     }
   }, [controls, isInview]);
 
+  const tier = useDevicePerformance();
+  const isLowEnd = tier === "low";
+
   return (
     <motion.div
       ref={ref}
       variants={{
-        start: { opacity: 0, translateY: 15, filter: "blur(8px)" },
-        stop: { opacity: 1, translateY: 0, filter: "blur(0px)" },
+        start: { opacity: 0, translateY: 15, filter: isLowEnd ? "none" : "blur(8px)" },
+        stop: { opacity: 1, translateY: 0, filter: isLowEnd ? "none" : "blur(0px)" },
       }}
       transition={{
         type: "spring",
