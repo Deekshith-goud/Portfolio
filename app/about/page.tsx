@@ -6,7 +6,6 @@ import { PortableText } from "@portabletext/react";
 import { BiEnvelope, BiLinkExternal, BiSolidDownload } from "react-icons/bi";
 import { CustomPortableText } from "../components/shared/CustomPortableText";
 import Heroes from "../components/pages/Heroes";
-import CoreTechnologies from "../components/pages/CoreTechnologies";
 import { Slide } from "../animation/Slide";
 import Principles from "../components/pages/Principles";
 import { sanityFetch } from "@/lib/sanity.client";
@@ -168,12 +167,7 @@ export default async function About() {
               </div>
             </Slide>
           </aside>
-
         </section>
-        
-        <Slide delay={0.12}>
-          <CoreTechnologies />
-        </Slide>
 
         <Slide delay={0.14}>
           <Principles />

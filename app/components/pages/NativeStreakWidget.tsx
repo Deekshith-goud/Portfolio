@@ -1,9 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { m } from "framer-motion";
+import { motion } from "framer-motion";
 
-const MotionCircle = m.circle as any;
+const MotionCircle = motion.circle as any;
 
 export default function NativeStreakWidget() {
   const [data, setData] = useState<{

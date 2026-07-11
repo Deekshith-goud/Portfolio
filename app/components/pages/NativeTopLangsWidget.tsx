@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { m } from "framer-motion";
+import { motion } from "framer-motion";
 
 const languageColors: Record<string, string> = {
   JavaScript: "#f1e05a",
@@ -94,7 +94,7 @@ export default function NativeTopLangsWidget() {
             
             {/* Minimal Progress Bar Track */}
             <div className="w-full h-1.5 bg-zinc-200 dark:bg-zinc-800 rounded-full overflow-hidden">
-              <m.div
+              <motion.div
                 style={{ 
                   backgroundColor: lang.color, 
                   height: "100%", 

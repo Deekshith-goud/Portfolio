@@ -5,6 +5,7 @@ import Job from "./components/pages/Job";
 import Social from "./components/shared/Social";
 import { Slide } from "./animation/Slide";
 import { sanityFetch } from "@/lib/sanity.client";
+import CoreTechnologies from "./components/pages/CoreTechnologies";
 import dynamic from "next/dynamic";
 
 const ContributionGraph = dynamic(
@@ -39,6 +40,7 @@ export default async function Home() {
         </div>
       </section>
       <ContributionGraph />
+      <CoreTechnologies />
       <Job />
     </main>
   );

@@ -3,7 +3,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { m } from "framer-motion";
+import { motion } from "framer-motion";
 import { PhotoType } from "@/types";
 import { urlFor } from "@/lib/sanity.image";
 
@@ -14,7 +14,7 @@ export default function PhotoCard({ photo }: { photo: PhotoType }) {
 
   return (
     <div className="relative mb-6 break-inside-avoid group perspective-1000">
-      <m.div
+      <motion.div
         className="relative w-full h-full transition-all duration-500"
         animate={{ rotateY: isFlipped ? 180 : 0 }}
         transition={{ duration: 0.7, type: "spring", stiffness: 200, damping: 20 }}
@@ -69,7 +69,7 @@ export default function PhotoCard({ photo }: { photo: PhotoType }) {
             </div>
           </div>
         )}
-      </m.div>
+      </motion.div>
     </div>
   );
 }

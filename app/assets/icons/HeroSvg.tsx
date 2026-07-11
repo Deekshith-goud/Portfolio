@@ -1,14 +1,14 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { m } from "framer-motion";
+import { motion } from "framer-motion";
 import { useDevicePerformance } from "../../hooks/useDevicePerformance";
 
 // Reverting back to the tech stack icons
 import { SiReact, SiNextdotjs, SiTailwindcss, SiTypescript } from "react-icons/si";
 
-const MotionDiv = m.div as any;
-const MotionSpan = m.span as any;
+const MotionDiv = motion.div as any;
+const MotionSpan = motion.span as any;
 
 // --- Option: Blueprint Grid ---
 const BlueprintGrid = () => (
@@ -111,7 +111,7 @@ export default function HeroSvg() {
 
         {/* Holographic Glitch Wrapper */}
         <MotionDiv
-          className="w-full h-full absolute inset-0 z-10 scale-[1.35]"
+          className="hidden md:block w-full h-full absolute inset-0 z-10 scale-[1.35]"
           animate={{
             x: isLowEnd ? 0 : [0, -3, 3, -1, 1, 0, 0],
             filter: isLowEnd ? "none" : [

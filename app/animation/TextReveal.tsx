@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState, useRef } from "react";
-import { useInView, m } from "framer-motion";
+import { useInView, motion } from "framer-motion";
 
 const SYMBOLS = "!@#$%^&*()_+{}[]\\|:;<>?,./~";
 
@@ -51,7 +51,7 @@ export function TextReveal({ text }: { text: string }) {
     return () => clearInterval(interval);
   }, [text, isReady]);
 
-  const MotionSpan = m.span as any;
+  const MotionSpan = motion.span as any;
 
   return (
     <MotionSpan 

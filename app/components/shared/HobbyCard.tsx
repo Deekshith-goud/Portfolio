@@ -3,7 +3,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { m } from "framer-motion";
+import { motion } from "framer-motion";
 import { useTheme } from "next-themes";
 import { useEffect, useState, memo } from "react";
 import { HobbyType } from "@/types";
@@ -37,7 +37,7 @@ export default function HobbyCard({ hobby, index, layout = "grid" }: HobbyCardPr
   if (!mounted) return null;
 
   return (
-    <m.div
+    <motion.div
       className="w-full h-full"
       whileHover="hover"
       initial="initial"
@@ -113,7 +113,7 @@ export default function HobbyCard({ hobby, index, layout = "grid" }: HobbyCardPr
                 </div>
               </div>
             ) : hobby.name.toLowerCase().includes("gaming") ? (
-              <m.div
+              <motion.div
                 variants={{
                   hover: {
                     x: [0, -1, 1, -2, 2, -4, 4, 0],
@@ -124,7 +124,7 @@ export default function HobbyCard({ hobby, index, layout = "grid" }: HobbyCardPr
                 className="p-3 rounded-2xl relative overflow-visible flex items-center justify-center bg-primary-color/10"
               >
                 {/* Shockwave */}
-                <m.div
+                <motion.div
                   variants={{
                     initial: { opacity: 0, scale: 0.5 },
                     hover: {
@@ -152,7 +152,7 @@ export default function HobbyCard({ hobby, index, layout = "grid" }: HobbyCardPr
                     const startColor = `rgb(${grayShade}, ${grayShade}, ${grayShade})`;
 
                     return (
-                      <m.div
+                      <motion.div
                         key={i}
                         variants={{
                           initial: { opacity: 0, scale: 0, x: 0, y: 0 },
@@ -180,7 +180,7 @@ export default function HobbyCard({ hobby, index, layout = "grid" }: HobbyCardPr
                   })}
                 </div>
 
-                <m.div
+                <motion.div
                   variants={{
                     hover: {
                       scale: [1, 1.1, 1.05, 1.2, 1.15, 1.4, 0, 0, 1],
@@ -239,10 +239,10 @@ export default function HobbyCard({ hobby, index, layout = "grid" }: HobbyCardPr
                       </>
                     )}
                   </svg>
-                </m.div>
-              </m.div>
+                </motion.div>
+              </motion.div>
             ) : hobby.name.toLowerCase().includes("space") ? (
-              <m.div
+              <motion.div
                 className="rounded-2xl relative overflow-visible flex items-center justify-center w-[52px] h-[52px]"
                 style={{
                   background: isDark
@@ -266,7 +266,7 @@ export default function HobbyCard({ hobby, index, layout = "grid" }: HobbyCardPr
 
                 {/* Twinkling star animation */}
                 {[0, 1, 2].map((i) => (
-                  <m.div
+                  <motion.div
                     key={`twinkle-${i}`}
                     className={`absolute rounded-full pointer-events-none ${isDark ? "bg-white" : "bg-teal-400"}`}
                     style={{
@@ -293,7 +293,7 @@ export default function HobbyCard({ hobby, index, layout = "grid" }: HobbyCardPr
                   const downDrift = 12 + Math.abs(spread) * 0.5 + (i % 3) * 4;
                   const size = 4 + (i % 4) * 2;
                   return (
-                    <m.div
+                    <motion.div
                       key={`smoke-${i}`}
                       className="absolute rounded-full pointer-events-none"
                       style={{
@@ -325,7 +325,7 @@ export default function HobbyCard({ hobby, index, layout = "grid" }: HobbyCardPr
                 })}
 
                 {/* Rocket + flame assembly */}
-                <m.div
+                <motion.div
                   className="relative z-10"
                   variants={{
                     initial: { y: 0, rotate: 0 },
@@ -362,7 +362,7 @@ export default function HobbyCard({ hobby, index, layout = "grid" }: HobbyCardPr
                     </defs>
 
                     {/* === FLICKERING FIRE — turbulent, high-velocity exhaust === */}
-                    <m.g
+                    <motion.g
                       filter="url(#flame-glow)"
                       variants={{
                         initial: { opacity: 0, scaleY: 0.2 },
@@ -378,7 +378,7 @@ export default function HobbyCard({ hobby, index, layout = "grid" }: HobbyCardPr
                       style={{ originX: "50px", originY: "88px" }}
                     >
                       {/* --- Left tongue (orange) --- */}
-                      <m.path
+                      <motion.path
                         d="M 36,88 C 37,88 35,92 37,100 C 38,108 36,116 38,124 C 39,130 40,134 41,132 C 42,128 40,120 41,112 C 42,104 40,96 42,88 C 40,88 38,88 36,88 Z"
                         fill="url(#fg-orange)"
                         variants={{
@@ -393,7 +393,7 @@ export default function HobbyCard({ hobby, index, layout = "grid" }: HobbyCardPr
                       />
 
                       {/* --- Left-center tongue (yellow-orange) --- */}
-                      <m.path
+                      <motion.path
                         d="M 40,88 C 41,88 39,96 41,106 C 42,114 40,122 42,132 C 43,138 44,142 45,140 C 46,136 44,128 45,118 C 46,108 44,98 46,88 C 44,88 42,88 40,88 Z"
                         fill="url(#fg-yellow)"
                         variants={{
@@ -408,7 +408,7 @@ export default function HobbyCard({ hobby, index, layout = "grid" }: HobbyCardPr
                       />
 
                       {/* --- Center tongue (bright — the tallest) --- */}
-                      <m.path
+                      <motion.path
                         d="M 44,88 C 45,88 43,98 45,112 C 46,122 44,132 47,144 C 48,150 49,154 50,156 C 51,154 52,150 53,144 C 56,132 54,122 55,112 C 57,98 55,88 56,88 C 54,88 52,88 50,88 C 48,88 46,88 44,88 Z"
                         fill="url(#fg-pale)"
                         variants={{
@@ -421,7 +421,7 @@ export default function HobbyCard({ hobby, index, layout = "grid" }: HobbyCardPr
                         style={{ originX: "50px", originY: "88px" }}
                       />
                       {/* White hot core */}
-                      <m.path
+                      <motion.path
                         d="M 47,88 C 47,88 46,96 48,108 C 49,118 48,128 49,136 C 49.5,140 50,142 50,142 C 50,142 50.5,140 51,136 C 52,128 51,118 52,108 C 54,96 53,88 53,88 C 52,88 51,88 50,88 C 49,88 48,88 47,88 Z"
                         fill="#fff"
                         opacity="0.95"
@@ -438,7 +438,7 @@ export default function HobbyCard({ hobby, index, layout = "grid" }: HobbyCardPr
                       />
 
                       {/* --- Right-center tongue (yellow-orange) --- */}
-                      <m.path
+                      <motion.path
                         d="M 54,88 C 56,98 54,108 55,118 C 56,128 54,136 55,140 C 56,142 57,138 58,132 C 60,122 58,114 59,106 C 61,96 59,88 60,88 C 58,88 56,88 54,88 Z"
                         fill="url(#fg-yellow)"
                         variants={{
@@ -453,7 +453,7 @@ export default function HobbyCard({ hobby, index, layout = "grid" }: HobbyCardPr
                       />
 
                       {/* --- Right tongue (orange) --- */}
-                      <m.path
+                      <motion.path
                         d="M 58,88 C 60,96 58,104 59,112 C 60,120 58,128 59,132 C 60,134 61,130 62,124 C 64,116 62,108 63,100 C 65,92 63,88 64,88 C 62,88 60,88 58,88 Z"
                         fill="url(#fg-orange)"
                         variants={{
@@ -466,14 +466,14 @@ export default function HobbyCard({ hobby, index, layout = "grid" }: HobbyCardPr
                         }}
                         style={{ originX: "61px", originY: "88px" }}
                       />
-                    </m.g>
+                    </motion.g>
 
                     {/* === IGNITION SPARKS (before liftoff) === */}
                     {[...Array(6)].map((_, i) => {
                       const sx = (i - 2.5) * 6;
                       const sy = 8 + (i % 3) * 5;
                       return (
-                        <m.circle
+                        <motion.circle
                           key={`spark-${i}`}
                           cx={50 + sx * 0.2}
                           cy="90"
@@ -539,10 +539,10 @@ export default function HobbyCard({ hobby, index, layout = "grid" }: HobbyCardPr
                       <path d="M 44,86 L 42,92 L 58,92 L 56,86 Z" fill={isDark ? "#667788" : "#94a3b8"} />
                     </g>
                   </svg>
-                </m.div>
-              </m.div>
+                </motion.div>
+              </motion.div>
             ) : hobby.name.toLowerCase().includes("chess") ? (
-              <m.div
+              <motion.div
                 className="p-3 rounded-2xl bg-[#0a0a0a] relative overflow-hidden flex items-center justify-center w-14 h-14 border border-white/10"
                 whileHover="hover"
               >
@@ -551,7 +551,7 @@ export default function HobbyCard({ hobby, index, layout = "grid" }: HobbyCardPr
                     <rect width="100%" height="100%" fill="url(#grid)" />
                   </svg>
                 </div>
-                <m.div
+                <motion.div
                   variants={{
                     hover: {
                       rotateX: 45,
@@ -566,7 +566,7 @@ export default function HobbyCard({ hobby, index, layout = "grid" }: HobbyCardPr
                     <path d="M 50,40 L 80,60 L 50,80 L 20,60 Z" fill="none" stroke="rgba(255,255,255,0.2)" strokeWidth="1" />
 
                     {/* Active Strategic Node */}
-                    <m.circle
+                    <motion.circle
                       cx="50" cy="40" r="4"
                       fill="#fff"
                       variants={{
@@ -580,14 +580,14 @@ export default function HobbyCard({ hobby, index, layout = "grid" }: HobbyCardPr
                     />
                     <line x1="50" y1="40" x2="50" y2="80" stroke="#3b82f6" strokeWidth="0.5" strokeDasharray="2 2" />
                   </svg>
-                </m.div>
-              </m.div>
+                </motion.div>
+              </motion.div>
             ) : hobby.name.toLowerCase().includes("spanish") ? (
-              <m.div
+              <motion.div
                 className="p-3 rounded-2xl bg-[#0a0a0a] relative overflow-hidden flex items-center justify-center w-14 h-14 border border-white/10"
                 whileHover="hover"
               >
-                <m.div
+                <motion.div
                   variants={{
                     hover: {
                       rotate: 15,
@@ -603,7 +603,7 @@ export default function HobbyCard({ hobby, index, layout = "grid" }: HobbyCardPr
                     <ellipse cx="50" cy="50" rx="15" ry="40" fill="none" stroke="rgba(255,255,255,0.1)" strokeWidth="0.5" />
 
                     <text x="50" y="58" fontSize="20" textAnchor="middle" fill="#fff" className="font-mono tracking-widest uppercase">ESP</text>
-                    <m.rect
+                    <motion.rect
                       x="30" y="65" width="40" height="1"
                       fill="#3b82f6"
                       initial={{ scaleX: 0 }}
@@ -612,14 +612,14 @@ export default function HobbyCard({ hobby, index, layout = "grid" }: HobbyCardPr
                       }}
                     />
                   </svg>
-                </m.div>
-              </m.div>
+                </motion.div>
+              </motion.div>
             ) : hobby.name.toLowerCase().includes("art") ? (
-              <m.div
+              <motion.div
                 className="p-3 rounded-2xl bg-[#0a0a0a] relative overflow-hidden flex items-center justify-center w-14 h-14 border border-white/10"
                 whileHover="hover"
               >
-                <m.div
+                <motion.div
                   variants={{
                     hover: {
                       rotate: -10,
@@ -629,13 +629,13 @@ export default function HobbyCard({ hobby, index, layout = "grid" }: HobbyCardPr
                 >
                   <svg viewBox="0 0 100 100" width="36" height="36">
                     {/* Golden Spiral / Technical Curve */}
-                    <m.path
+                    <motion.path
                       d="M 20,80 Q 20,20 80,20"
                       fill="none"
                       stroke="rgba(255,255,255,0.2)"
                       strokeWidth="1"
                     />
-                    <m.path
+                    <motion.path
                       d="M 20,80 Q 20,20 80,20"
                       fill="none"
                       stroke="#3b82f6"
@@ -651,10 +651,10 @@ export default function HobbyCard({ hobby, index, layout = "grid" }: HobbyCardPr
                     <rect x="78" y="18" width="4" height="4" fill="#fff" />
                     <text x="50" y="90" fontSize="8" fill="rgba(255,255,255,0.3)" className="font-mono">VER. 1.0.4</text>
                   </svg>
-                </m.div>
-              </m.div>
+                </motion.div>
+              </motion.div>
             ) : (
-              <m.div
+              <motion.div
                 whileHover={{ rotate: 360, scale: 1.2 }}
                 transition={{
                   type: "spring",
@@ -664,7 +664,7 @@ export default function HobbyCard({ hobby, index, layout = "grid" }: HobbyCardPr
                 className="p-3 rounded-2xl bg-primary-color bg-opacity-10 text-primary-color"
               >
                 {getIcon(hobby.iconName)}
-              </m.div>
+              </motion.div>
             )}
             </div>
             <h3 className={`${layout === "grid" ? "text-2xl" : "text-xl"} font-semibold tracking-tight duration-300 ${layout === "tile" ? "text-white" : "group-hover:text-primary-color"}`}>
@@ -679,6 +679,6 @@ export default function HobbyCard({ hobby, index, layout = "grid" }: HobbyCardPr
           )}
         </div>
       </Link>
-    </m.div>
+    </motion.div>
   );
 }
