@@ -33,7 +33,7 @@ export default async function Home() {
             <Social type="social" />
           </Slide>
         </div>
-        <div className="w-full flex justify-center mt-10 xl:mt-0">
+        <div className="w-full hidden md:flex justify-center mt-10 xl:mt-0">
           <Slide delay={0.14}>
             <HeroSvg />
           </Slide>
