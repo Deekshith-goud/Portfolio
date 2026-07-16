@@ -20,17 +20,26 @@ import { readTime } from "@/app/utils/readTime";
 import PageHeading from "@/app/components/shared/PageHeading";
 
 type Props = {
-  params: {
+  params: Promise<{
     post: string;
-  };
+  }>;
 };
 
 const fallbackImage: string =
   "/placeholder-blog.png";
 
+function extractTwitterHandle(url: string | undefined): string {
+  if (!url) return "";
+  const match = url.match(/(?:twitter\.com\/|x\.com\/)([^/?]+)/);
+  if (match) return match[1];
+  if (url.startsWith("@")) return url.substring(1);
+  return url;
+}
+
 // Dynamic metadata for SEO
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const slug = params.post;
+  const resolvedParams = await params;
+  const slug = resolvedParams.post;
   const post: PostType = await sanityFetch({
     query: singlePostQuery,
     tags: ["Post"],
@@ -43,24 +52,24 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   return {
     title: `${post.title} | Blog | Deekshith Goud`,
-    metadataBase: new URL(`https://yourdomain.com/blog/${post.slug}`),
+    metadataBase: new URL(`https://deekshith-goud.vercel.app/blog/${post.slug}`),
     description: post.description,
-    publisher: post.author.name,
+    publisher: post?.author?.name || "Unknown Author",
     keywords: post.tags,
     alternates: {
       canonical:
-        post.canonicalLink || `https://yourdomain.com/blog/${post.slug}`,
+        post.canonicalLink || `https://deekshith-goud.vercel.app/blog/${post.slug}`,
     },
     openGraph: {
       images:
         (post.coverImage && urlFor(post.coverImage).width(1200).height(630).url()) ||
         fallbackImage,
-      url: `https://yourdomain.com/blog/${post.slug}`,
+      url: `https://deekshith-goud.vercel.app/blog/${post.slug}`,
       title: post.title,
       description: post.description,
       type: "article",
-      siteName: "yourdomain.com",
-      authors: post.author.name,
+      siteName: "deekshith-goud.vercel.app",
+      authors: post?.author?.name || "Unknown Author",
       tags: post.tags,
       publishedTime: post._createdAt,
       modifiedTime: post._updatedAt || "",
@@ -71,26 +80,27 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       images:
         (post.coverImage && urlFor(post.coverImage).width(680).height(340).url()) ||
         fallbackImage,
-      creator: `@${post.author.twitterUrl.split("twitter.com/")[1]}`,
-      site: `@${post.author.twitterUrl.split("twitter.com/")[1]}`,
+      creator: post?.author?.twitterUrl ? `@${extractTwitterHandle(post.author.twitterUrl)}` : "",
+      site: post?.author?.twitterUrl ? `@${extractTwitterHandle(post.author.twitterUrl)}` : "",
       card: "summary_large_image",
     },
   };
 }
 
 export default async function Post({ params }: Props) {
-  const slug = params.post;
+  const resolvedParams = await params;
+  const slug = resolvedParams.post;
   const post: PostType = await sanityFetch({
     query: singlePostQuery,
     tags: ["Post"],
     qParams: { slug },
   });
 
-  const words = toPlainText(post.body);
-
   if (!post) {
     notFound();
   }
+
+  const words = toPlainText(post.body || []);
 
   return (
     <main className="max-w-7xl mx-auto md:px-16 px-6">
@@ -162,27 +172,29 @@ export default async function Post({ params }: Props) {
               <address className="flex items-center gap-x-3 mt-4 not-italic">
                 <div className="relative w-12 h-12">
                   <Image
-                    src={urlFor(post.author.photo.image)
+                    src={post.author?.photo?.image ? urlFor(post.author.photo.image)
                       .width(80)
                       .height(80)
-                      .url()}
-                    alt={post.author.photo.alt}
+                      .url() : fallbackImage}
+                    alt={post.author?.photo?.alt || post.author?.name || "Author"}
                     layout="fill"
                     className="dark:bg-zinc-800 bg-zinc-300 rounded-full object-cover"
                   />
                 </div>
                 <div rel="author">
                   <h3 className="font-semibold text-lg tracking-tight">
-                    {post.author.name}
+                    {post?.author?.name || "Unknown Author"}
                   </h3>
-                  <a
-                    href={post.author.twitterUrl}
-                    className="text-blue-500 text-sm"
-                    rel="noreferrer noopener"
-                    target="_blank"
-                  >
-                    {`@${post.author.twitterUrl.split("twitter.com/")[1]}`}
-                  </a>
+                  {post?.author?.twitterUrl && (
+                    <a
+                      href={post.author.twitterUrl}
+                      className="text-blue-500 text-sm"
+                      rel="noreferrer noopener"
+                      target="_blank"
+                    >
+                      {`@${extractTwitterHandle(post.author.twitterUrl)}`}
+                    </a>
+                  )}
                 </div>
               </address>
             </section>
@@ -192,7 +204,7 @@ export default async function Post({ params }: Props) {
                 Tags
               </h3>
               <ul className="flex flex-wrap items-center gap-2 tracking-tight">
-                {post.tags.map((tag, id) => (
+                {post?.tags?.map((tag, id) => (
                   <li
                     key={id}
                     className="dark:bg-primary-bg bg-zinc-100 border dark:border-zinc-800 border-zinc-200 rounded-md px-2 py-1 text-sm"
@@ -213,7 +225,7 @@ export default async function Post({ params }: Props) {
               <h3 className="text-xl font-semibold tracking-tight mb-4">
                 Featured
               </h3>
-              <FeaturedPosts params={params.post} />
+              <FeaturedPosts params={slug} />
             </section>
           </aside>
         </Slide>

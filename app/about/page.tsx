@@ -26,16 +26,16 @@ import { SiLeetcode } from "react-icons/si";
 
 export const metadata: Metadata = {
   title: "About | Deekshith Goud",
-  metadataBase: new URL("https://yourdomain.com/about"),
+  metadataBase: new URL("https://deekshith-goud.vercel.app/about"),
   description:
     "Learn more about my skills, experience and technical background",
   openGraph: {
     title: "About | Deekshith Goud",
-    url: "https://yourdomain.com/about",
+    url: "https://deekshith-goud.vercel.app/about",
     description:
       "Learn more about my skills, experience and technical background",
     images:
-      "/placeholder-og.png",
+      "/logo.png",
   },
 };
 

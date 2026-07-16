@@ -6,12 +6,7 @@ import Social from "./components/shared/Social";
 import { Slide } from "./animation/Slide";
 import { sanityFetch } from "@/lib/sanity.client";
 import CoreTechnologies from "./components/pages/CoreTechnologies";
-import dynamic from "next/dynamic";
-
-const ContributionGraph = dynamic(
-  () => import("./components/pages/GithubCalendarComponent"),
-  { ssr: false }
-);
+import GithubCalendarComponent from "./components/pages/GithubCalendarComponent";
 
 export default async function Home() {
   const profile: ProfileType = await sanityFetch({
@@ -39,7 +34,7 @@ export default async function Home() {
           </Slide>
         </div>
       </section>
-      <ContributionGraph />
+      <GithubCalendarComponent />
       <CoreTechnologies />
       <Job />
     </main>

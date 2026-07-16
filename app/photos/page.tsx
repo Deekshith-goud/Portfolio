@@ -9,14 +9,14 @@ import EmptyState from "../components/shared/EmptyState";
 
 export const metadata: Metadata = {
   title: "Photos | Deekshith Goud",
-  metadataBase: new URL("https://yourdomain.com/photos"),
+  metadataBase: new URL("https://deekshith-goud.vercel.app/photos"),
   description: "Explore photos taken by Deekshith Goud",
   openGraph: {
     title: "Photos | Deekshith Goud",
-    url: "https://yourdomain.com/photos",
+    url: "https://deekshith-goud.vercel.app/photos",
     description: "Explore photos taken by Deekshith Goud",
     images:
-      "/placeholder-photos.png",
+      "/logo.png",
   },
 };
 

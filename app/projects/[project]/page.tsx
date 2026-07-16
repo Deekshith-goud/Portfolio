@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { Metadata } from "next";
+import { notFound } from "next/navigation";
 import { singleProjectQuery } from "@/lib/sanity.query";
 import type { ProjectType } from "@/types";
 import { PortableText } from "@portabletext/react";
@@ -10,9 +11,9 @@ import { sanityFetch } from "@/lib/sanity.client";
 import { BiLinkExternal, BiLogoGithub } from "react-icons/bi";
 
 type Props = {
-  params: {
+  params: Promise<{
     project: string;
-  };
+  }>;
 };
 
 const fallbackImage: string =
@@ -20,22 +21,27 @@ const fallbackImage: string =
 
 // Dynamic metadata for SEO
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const slug = params.project;
+  const resolvedParams = await params;
+  const slug = resolvedParams.project;
   const project: ProjectType = await sanityFetch({
     query: singleProjectQuery,
     tags: ["project"],
     qParams: { slug },
   });
 
+  if (!project) {
+    notFound();
+  }
+
   return {
     title: `${project.name} | Project | Deekshith Goud`,
-    metadataBase: new URL(`https://yourdomain.com/projects/${project.slug}`),
+    metadataBase: new URL(`https://deekshith-goud.vercel.app/projects/${project.slug}`),
     description: project.tagline,
     openGraph: {
       images: project.coverImage
         ? urlFor(project.coverImage).width(1200).height(630).url()
         : fallbackImage,
-      url: `https://yourdomain.com/projects/${project.slug}`,
+      url: `https://deekshith-goud.vercel.app/projects/${project.slug}`,
       title: project.name,
       description: project.tagline,
     },
@@ -43,12 +49,17 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function Project({ params }: Props) {
-  const slug = params.project;
+  const resolvedParams = await params;
+  const slug = resolvedParams.project;
   const project: ProjectType = await sanityFetch({
     query: singleProjectQuery,
     tags: ["project"],
     qParams: { slug },
   });
+
+  if (!project) {
+    notFound();
+  }
 
   return (
     <main className="max-w-6xl mx-auto lg:px-16 px-8">
@@ -60,33 +71,39 @@ export default async function Project({ params }: Props) {
             </h1>
 
             <div className="flex items-center gap-x-2 flex-wrap gap-y-2">
-              <a
-                href={project.projectUrl}
-                rel="noreferrer noopener"
-                target="_blank"
-                className={`flex items-center gap-x-2 dark:bg-primary-bg bg-secondary-bg dark:text-white text-zinc-700 border border-transparent rounded-md px-4 py-2 duration-200 ${
-                  !project.projectUrl
-                    ? "cursor-not-allowed opacity-80"
-                    : "cursor-pointer hover:dark:border-zinc-700 hover:border-zinc-200"
-                }`}
-              >
-                <BiLinkExternal aria-hidden="true" />
-                {project.projectUrl ? "Live URL" : "Coming Soon"}
-              </a>
+              {project.projectUrl ? (
+                <a
+                  href={project.projectUrl}
+                  rel="noreferrer noopener"
+                  target="_blank"
+                  className="flex items-center gap-x-2 dark:bg-primary-bg bg-secondary-bg dark:text-white text-zinc-700 border border-transparent rounded-md px-4 py-2 duration-200 cursor-pointer hover:dark:border-zinc-700 hover:border-zinc-200"
+                >
+                  <BiLinkExternal aria-hidden="true" />
+                  Live URL
+                </a>
+              ) : (
+                <div className="flex items-center gap-x-2 dark:bg-primary-bg bg-secondary-bg dark:text-white text-zinc-700 border border-transparent rounded-md px-4 py-2 duration-200 cursor-not-allowed opacity-80">
+                  <BiLinkExternal aria-hidden="true" />
+                  Coming Soon
+                </div>
+              )}
 
-              <a
-                href={project.repository}
-                rel="noreferrer noopener"
-                target="_blank"
-                className={`flex items-center gap-x-2 dark:bg-primary-bg bg-secondary-bg dark:text-white text-zinc-700 border border-transparent rounded-md px-4 py-2 duration-200 ${
-                  !project.repository
-                    ? "cursor-not-allowed opacity-80"
-                    : "cursor-pointer hover:dark:border-zinc-700 hover:border-zinc-200"
-                }`}
-              >
-                <BiLogoGithub aria-hidden="true" />
-                {project.repository ? "GitHub" : "No Repo"}
-              </a>
+              {project.repository ? (
+                <a
+                  href={project.repository}
+                  rel="noreferrer noopener"
+                  target="_blank"
+                  className="flex items-center gap-x-2 dark:bg-primary-bg bg-secondary-bg dark:text-white text-zinc-700 border border-transparent rounded-md px-4 py-2 duration-200 cursor-pointer hover:dark:border-zinc-700 hover:border-zinc-200"
+                >
+                  <BiLogoGithub aria-hidden="true" />
+                  GitHub
+                </a>
+              ) : (
+                <div className="flex items-center gap-x-2 dark:bg-primary-bg bg-secondary-bg dark:text-white text-zinc-700 border border-transparent rounded-md px-4 py-2 duration-200 cursor-not-allowed opacity-80">
+                  <BiLogoGithub aria-hidden="true" />
+                  No Repo
+                </div>
+              )}
             </div>
           </div>
 

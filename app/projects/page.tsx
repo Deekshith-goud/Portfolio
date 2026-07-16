@@ -12,11 +12,11 @@ import GithubStats from "../components/pages/GithubStats";
 
 export const metadata: Metadata = {
   title: "Projects | Deekshith Goud",
-  metadataBase: new URL("https://yourdomain.com/projects"),
+  metadataBase: new URL("https://deekshith-goud.vercel.app/projects"),
   description: "Explore projects built by Deekshith Goud",
   openGraph: {
     title: "Projects | Deekshith Goud",
-    url: "https://yourdomain.com/projects",
+    url: "https://deekshith-goud.vercel.app/projects",
     description: "Explore projects built by Deekshith Goud",
     images:
       "/placeholder-projects.png",

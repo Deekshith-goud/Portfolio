@@ -14,15 +14,16 @@ import { urlFor } from "@/lib/sanity.image";
 
 
 type Props = {
-  params: {
+  params: Promise<{
     hobby: string;
-  };
+  }>;
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const resolvedParams = await params;
   const hobby: HobbyType = await sanityFetch({
     query: singleHobbyQuery,
-    qParams: { slug: params.hobby },
+    qParams: { slug: resolvedParams.hobby },
     tags: ["hobby"],
   });
 
@@ -44,9 +45,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function HobbyPage({ params }: Props) {
+  const resolvedParams = await params;
   const hobby: HobbyType = await sanityFetch({
     query: singleHobbyQuery,
-    qParams: { slug: params.hobby },
+    qParams: { slug: resolvedParams.hobby },
     tags: ["hobby"],
   });
 

@@ -1,25 +1,24 @@
 import "@/app/styles/globals.css";
 import Script from "next/script";
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import { incognito } from "./assets/font/font";
-import { gitlabmono } from "./assets/font/font";
+import localFont from "next/font/local";
+
+const inter = localFont({
+  src: "../public/fonts/inter.woff2",
+  variable: "--font-inter",
+  display: "swap",
+});
+import { incognito, gitlabmono } from "./assets/font/font";
 import Navbar from "./components/global/Navbar";
 import Footer from "./components/global/Footer";
 import Loader from "./components/global/Loader";
 import { Providers } from "./providers";
 
-const inter = Inter({
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--inter",
-});
-
 const options = {
   title: "Deekshith Goud | Software Developer",
   description:
     "Deekshith Goud is a Software Developer and Technical Writer who is passionate about building solutions and contributing to open source communities",
-  url: "https://yourdomain.com",
+  url: "https://deekshith-goud.vercel.app",
   ogImage:
     "/placeholder-og.png",
 };
@@ -31,7 +30,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: options.title,
     url: options.url,
-    siteName: "yourdomain.com",
+    siteName: "deekshith-goud.vercel.app",
     locale: "en-US",
     type: "website",
     description: options.description,
@@ -54,6 +53,7 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+
   return (
     <html lang="en" suppressHydrationWarning>
       <body

@@ -7,11 +7,11 @@ import PageHeading from "@/app/components/shared/PageHeading";
 
 export const metadata: Metadata = {
   title: "Blog | Deekshith Goud",
-  metadataBase: new URL("https://yourdomain.com/blog"),
+  metadataBase: new URL("https://deekshith-goud.vercel.app/blog"),
   description: "Read latest stories from Deekshith Goud's Blog",
   openGraph: {
     title: "Blog | Deekshith Goud",
-    url: "https://yourdomain.com/blog",
+    url: "https://deekshith-goud.vercel.app/blog",
     description: "Read latest stories from Deekshith Goud's Blog",
     images:
       "/placeholder-blog.png",
