@@ -2,7 +2,6 @@
 
 import React, { useMemo, useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { useDevicePerformance } from "../../hooks/useDevicePerformance";
 
 type SignatureLogoProps = {
   layoutId?: string;
@@ -24,8 +23,7 @@ function usePrefersReducedMotion() {
 }
 
 export default function SignatureLogo({ layoutId, isAnimated = false, isSimple = false, className = "" }: SignatureLogoProps) {
-  const tier = useDevicePerformance();
-  const isLowEnd = tier === "low";
+  const isLowEnd = false;
   const prefersReducedMotion = usePrefersReducedMotion();
   // Respect prefers-reduced-motion: skip the 2.4s filter-heavy draw-in animation entirely.
   const shouldAnimate = isAnimated && !prefersReducedMotion;

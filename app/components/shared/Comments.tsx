@@ -21,7 +21,6 @@ export default function Comments() {
       category="General"
       categoryId={giscusCategoryId || ""}
       mapping="pathname"
-      term="Welcome to @giscus/react component!"
       reactionsEnabled="1"
       emitMetadata="0"
       inputPosition="bottom"

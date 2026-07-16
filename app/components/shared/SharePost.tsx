@@ -14,31 +14,35 @@ type props = {
 };
 
 export default function SharePost({ title, slug, description }: props) {
-  const blog = encodeURIComponent("https://yourdomain.com/blog/");
+  const blog = "https://deekshith-goud.vercel.app/blog/";
   const options = [
     {
       icon: BiLogoTwitter,
       name: "Twitter",
       shareUrl: `https://twitter.com/intent/tweet?text=${encodeURIComponent(
-        "Thank you Deekshith Goud for writing this post."
-      )}.%0A%0A${title}%0A%0A${blog}${slug}`,
+        `Thank you Deekshith Goud for writing this post.\n\n${title}\n\n${blog}${slug}`
+      )}`,
     },
     {
       icon: BiLogoLinkedinSquare,
       name: "LinkedIn",
-      shareUrl: `https://linkedin.com/sharing/share-offsite/?url=${blog}${slug}&title=${title}&summary=${description}`,
+      shareUrl: `https://linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(
+        `${blog}${slug}`
+      )}&title=${encodeURIComponent(title)}&summary=${encodeURIComponent(description)}`,
     },
     {
       icon: BiLogoFacebookSquare,
       name: "Facebook",
-      shareUrl: `https://www.facebook.com/sharer/sharer.php?u=${blog}${slug}`,
+      shareUrl: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
+        `${blog}${slug}`
+      )}`,
     },
     {
       icon: BiLogoWhatsapp,
       name: "WhatsApp",
       shareUrl: `https://api.whatsapp.com/send?text=${encodeURIComponent(
-        "Read this amazing article by Deekshith Goud"
-      )}.%0A%0A${title}%0A%0A${blog}${slug}`,
+        `Read this amazing article by Deekshith Goud.\n\n${title}\n\n${blog}${slug}`
+      )}`,
     },
   ];
 

@@ -22,7 +22,7 @@ export default function Favicon({ domain }: faviconType) {
   return (
     <Image
       className="mr-2"
-      src={`http://www.google.com/s2/favicons?domain=${domain}`}
+      src={`https://www.google.com/s2/favicons?domain=${domain}`}
       width={17}
       height={17}
       alt={extractDomain(domain) || ""}

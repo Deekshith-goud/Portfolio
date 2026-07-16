@@ -1,12 +1,10 @@
 "use client";
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { useDevicePerformance } from "../../hooks/useDevicePerformance";
 
 export default function SignatureNavLogo() {
   const [isHovered, setIsHovered] = useState(false);
-  const tier = useDevicePerformance();
-  const isLowEnd = tier === "low";
+  const isLowEnd = false;
 
   const drawMain = {
     hidden: { pathLength: 0, opacity: 0 },

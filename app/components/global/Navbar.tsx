@@ -1,4 +1,4 @@
-// @ts-nocheck
+
 "use client";
 
 import Image from "next/image";
@@ -8,7 +8,7 @@ import { motion, useScroll, useSpring, useVelocity, useTransform, useMotionTempl
 import { useState, useEffect, useRef } from "react";
 import Theme from "./Theme";
 import UnmountStudio from "./Unmount";
-import MobileMenu from "./MobileMenu";
+
 import Magnetic from "./Magnetic";
 import SignatureNavLogo from "./SignatureNavLogo";
 import MobileDock from "./MobileDock";
