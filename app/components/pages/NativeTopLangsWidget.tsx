@@ -33,9 +33,8 @@ export default function NativeTopLangsWidget() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const username = process.env.NEXT_PUBLIC_GITHUB_USERNAME || "Deekshith-goud";
-        const res = await fetch(`https://api.github.com/users/${username}/repos?per_page=100&sort=updated`);
-        if (!res.ok) throw new Error("Failed to fetch repos");
+        const res = await fetch(`/api/github/langs`);
+        if (!res.ok) throw new Error("Failed to fetch");
         
         const repos = await res.json();
         const langCounts: Record<string, number> = {};
@@ -76,7 +75,7 @@ export default function NativeTopLangsWidget() {
       
       <div className="flex justify-between items-center mb-4 z-10 relative pointer-events-none">
         <h3 className="text-xl font-bold text-zinc-800 dark:text-zinc-200 font-incognito">
-          Most Used Languages
+          Top Repositories by Language
         </h3>
       </div>
 

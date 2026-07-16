@@ -37,7 +37,7 @@ export default async function Heroes() {
             key={heroe._id}
             className="flex items-center gap-x-2 dark:bg-primary-bg bg-zinc-100 border dark:border-zinc-800 border-zinc-200 rounded-md px-2 py-1"
           >
-            <EasterEgg isMet={heroe.met} />
+            <EasterEgg isMet={heroe.met ?? false} />
             <RefLink
               href={heroe.url}
               className={`font-incognito tracking-wide hover:underline ${

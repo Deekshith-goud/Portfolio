@@ -228,11 +228,23 @@ export default function CustomActivityGraph() {
     const fetchContributions = async () => {
       try {
         const username = process.env.NEXT_PUBLIC_GITHUB_USERNAME || "Deekshith-goud";
-        const res = await fetch(`https://github-contributions-api.deno.dev/${username}.json`);
+        const cacheKey = `github_contributions_${username}`;
         
-        if (!res.ok) throw new Error("Failed to fetch");
-        
-        const json = await res.json();
+        let json;
+        const cached = sessionStorage.getItem(cacheKey);
+        if (cached) {
+          json = JSON.parse(cached);
+        } else {
+          const fetchWithTimeout = (url: string) => Promise.race([
+            fetch(url),
+            new Promise<Response>((_, reject) => setTimeout(() => reject(new Error('Timeout')), 5000))
+          ]);
+          const res = await fetchWithTimeout(`https://github-contributions-api.deno.dev/${username}.json`);
+          if (!res.ok) throw new Error("Failed to fetch");
+          json = await res.json();
+          sessionStorage.setItem(cacheKey, JSON.stringify(json));
+        }
+
         const allContributions: Contribution[] = json.contributions.flat();
         
         const last91Days = allContributions.slice(-91).map(c => {

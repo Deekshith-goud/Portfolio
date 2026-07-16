@@ -23,41 +23,42 @@ export default function NativeStreakWidget() {
       try {
         const username = process.env.NEXT_PUBLIC_GITHUB_USERNAME || "Deekshith-goud";
         
-        // Fetch all data in parallel instead of sequentially
-        const [commitsRes, prsRes, issuesRes] = await Promise.all([
-          fetch(`https://github-contributions-api.deno.dev/${username}.json`),
-          fetch(`https://api.github.com/search/issues?q=author:${username}+type:pr`),
-          fetch(`https://api.github.com/search/issues?q=author:${username}+type:issue`),
+        const cacheKey = `github_stats_${username}`;
+        const cached = sessionStorage.getItem(cacheKey);
+        if (cached) {
+          setData(JSON.parse(cached));
+          setLoading(false);
+          return;
+        }
+
+        const fetchWithTimeout = (url: string) => Promise.race([
+          fetch(url),
+          new Promise<Response>((_, reject) => setTimeout(() => reject(new Error('Timeout')), 5000))
         ]);
+        const res = await fetchWithTimeout(`/api/github/stats`);
+        if (!res.ok) throw new Error("Failed to fetch stats");
+        
+        const { commits: commitsData, prs: prsData, issues: issuesData } = await res.json();
 
-        const commitsJson = await commitsRes.json();
-        let totalCommits = commitsJson.totalContributions || 0;
-
-        const prsJson = prsRes.ok ? await prsRes.json() : { total_count: 0 };
-        const totalPRs = prsJson.total_count || 0;
-
-        const issuesJson = issuesRes.ok ? await issuesRes.json() : { total_count: 0 };
-        const totalIssues = issuesJson.total_count || 0;
-
-        const days = commitsJson.contributions.flat();
-        let longestStreak = 0;
-        let tempStreak = 0;
-        const today = new Date();
-        today.setHours(0, 0, 0, 0);
-
-        for (let i = 0; i < days.length; i++) {
-          const dayDate = new Date(days[i].date);
-          if (dayDate > today) break;
-
-          if (days[i].contributionCount > 0) {
-            tempStreak++;
-            if (tempStreak > longestStreak) {
-              longestStreak = tempStreak;
-            }
+        // Calculate total commits
+        const totalCommits = commitsData.totalContributions || 0;
+        
+        // Calculate longest streak
+        let currentStreak = 0;
+        let maxStreak = 0;
+        const flattened = commitsData.contributions?.flat() || [];
+        for (const day of flattened) {
+          if (day.contributionCount > 0) {
+            currentStreak++;
+            maxStreak = Math.max(maxStreak, currentStreak);
           } else {
-            tempStreak = 0;
+            currentStreak = 0;
           }
         }
+        const longestStreak = maxStreak;
+
+        const totalPRs = prsData.total_count || 0;
+        const totalIssues = issuesData.total_count || 0;
 
         // Calculate Grade
         let score = 0;
@@ -102,7 +103,9 @@ export default function NativeStreakWidget() {
         else if (score >= 30) { grade = "B"; gradeColor = "#f59e0b"; scorePercent = 45; }
         else if (score >= 25) { grade = "C+"; gradeColor = "#f97316"; scorePercent = 35; }
 
-        setData({ totalCommits, longestStreak, totalPRs, totalIssues, grade, gradeColor, scorePercent });
+        const result = { totalCommits, longestStreak, totalPRs, totalIssues, grade, gradeColor, scorePercent };
+        sessionStorage.setItem(cacheKey, JSON.stringify(result));
+        setData(result);
       } catch (e) {
         console.error(e);
       } finally {
@@ -112,7 +115,7 @@ export default function NativeStreakWidget() {
     fetchData();
   }, []);
 
-  if (loading) return <div className="min-h-[160px]" />;
+  if (loading) return <div data-testid="streak-skeleton" className="min-h-[160px]" />;
   if (!data) return null;
 
   const radius = 42;

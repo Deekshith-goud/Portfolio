@@ -12,7 +12,7 @@ import { toPlainText } from "@portabletext/react";
 import { urlFor } from "@/lib/sanity.image";
 
 const fallbackImage: string =
-  "/placeholder-blog.png";
+  "/logo.png";
 
 export default async function Posts() {
   const posts: PostType[] = await sanityFetch({
