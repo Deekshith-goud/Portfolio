@@ -12,6 +12,11 @@ export default defineType({
       description: "Unique identifier for the visitor (stored in localStorage)",
       validation: (rule) => rule.required(),
     }),
+    defineField({
+      name: "timestamp",
+      title: "Timestamp",
+      type: "datetime",
+    }),
   ],
   preview: {
     select: {

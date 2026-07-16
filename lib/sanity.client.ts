@@ -27,7 +27,7 @@ export async function sanityFetch<QueryResponse>({
   return client.fetch<QueryResponse>(query, qParams, {
     ...(mode === "development" 
       ? { cache: "no-store" } 
-      : { next: { tags, revalidate: 30 } }
+      : { cache: "force-cache", next: { tags } }
     ),
   });
 }

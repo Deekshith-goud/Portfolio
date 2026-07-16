@@ -10,11 +10,11 @@ export const dataset: string = checkValue(
   "https://sanity.io"
 );
 
-// Token is optional — set NEXT_PUBLIC_SANITY_ACCESS_TOKEN in .env.local to enable
+// Token is optional — set SANITY_API_WRITE_TOKEN in .env.local to enable
 // authenticated requests. See README for instructions on generating a token.
-export const token = process.env.NEXT_PUBLIC_SANITY_ACCESS_TOKEN;
+export const token = process.env.SANITY_API_WRITE_TOKEN;
 
-export const hookSecret = process.env.NEXT_PUBLIC_SANITY_HOOK_SECRET;
+export const hookSecret = process.env.SANITY_HOOK_SECRET;
 export const mode = process.env.NODE_ENV;
 
 export const apiVersion =

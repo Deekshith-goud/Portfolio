@@ -1,5 +1,10 @@
 import type { TableRow } from "@sanity/table";
-import type { PortableTextBlock } from "sanity";
+import type { PortableTextBlock, Image } from "sanity";
+
+export type SanityImage = Image & {
+  alt?: string;
+  lqip?: string;
+};
 
 export interface Table {
   rows?: TableRow[];
@@ -21,9 +26,9 @@ export type ProfileType = {
   _id: string;
   fullName: string;
   headline: string;
-  profileImage: any;
-  profileImageDark?: any;
-  lqip: string;
+  profileImage: SanityImage;
+  profileImageDark?: SanityImage;
+  lqip?: string;
   shortBio: string;
   email: string;
   fullBio: PortableTextBlock[];
@@ -36,11 +41,11 @@ export type JobType = {
   _id: string;
   name: string;
   jobTitle: string;
-  logo: any;
-  url: string;
+  logo?: SanityImage;
+  url?: string;
   description: string;
   startDate: string;
-  endDate: string;
+  endDate?: string;
 };
 
 export type ProjectType = {
@@ -48,10 +53,10 @@ export type ProjectType = {
   name: string;
   slug: string;
   tagline: string;
-  projectUrl: string;
-  repository: string;
-  logo: string;
-  coverImage: any;
+  projectUrl?: string;
+  repository?: string;
+  logo?: string;
+  coverImage?: SanityImage;
   description: PortableTextBlock[];
 };
 
@@ -64,16 +69,16 @@ export type PostType = {
   description: string;
   canonicalLink?: string;
   date?: string;
-  coverImage: any;
+  coverImage: SanityImage;
   tags: string[];
   author: {
     name: string;
-    photo: any;
-    twitterUrl: string;
+    photo?: SanityImage;
+    twitterUrl?: string;
   };
   body: PortableTextBlock[];
-  featured: boolean;
-  isPublished: boolean;
+  featured?: boolean;
+  isPublished?: boolean;
 };
 
 export type HeroeType = {
@@ -81,17 +86,16 @@ export type HeroeType = {
   _createdAt: string;
   name: string;
   url: string;
-  met: boolean;
+  met?: boolean;
 };
 
 export type PhotoType = {
   _id: string;
-  image: any;
-  lqip: string;
+  image: SanityImage;
+  lqip?: string;
   alt: string;
   caption?: string;
 };
-
 
 export type HobbyType = {
   _id: string;
@@ -100,8 +104,6 @@ export type HobbyType = {
   description: string;
   body: PortableTextBlock[];
   iconName: string;
-  thumbnail: any;
-  lqip: string;
+  thumbnail?: SanityImage;
+  lqip?: string;
 };
-
-

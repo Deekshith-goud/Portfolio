@@ -58,22 +58,22 @@ export const singleProjectQuery = groq`*[_type == "project" && slug.current == $
   description
 }`;
 
-export const postsQuery = groq`*[_type == "Post"] | order(_createdAt desc){
+export const postsQuery = groq`*[_type == "Post" && isPublished == true] | order(_createdAt desc){
   ${postField},
   date,
+  body,
   "author": author-> {
     name, 
     photo, 
     twitterUrl
-  },
-  body,
+  }
 }`;
 
-export const featuredPostsQuery = groq`*[_type == "Post" && featured == true] | order(_createdAt desc) {
+export const featuredPostsQuery = groq`*[_type == "Post" && featured == true && isPublished == true] | order(_createdAt desc) {
   ${postField}
 }`;
 
-export const singlePostQuery = groq`*[_type == "Post" && slug.current == $slug][0]{
+export const singlePostQuery = groq`*[_type == "Post" && slug.current == $slug && isPublished == true][0]{
   ${postField},
   _updatedAt,
   canonicalLink,
