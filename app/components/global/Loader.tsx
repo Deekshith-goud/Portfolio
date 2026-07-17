@@ -2,10 +2,8 @@
 
 import React, { useEffect, useState, useMemo } from "react";
 import { motion, AnimatePresence, useMotionValue, useTransform, animate } from "framer-motion";
-import dynamic from "next/dynamic";
+import SignatureLogo from "./SignatureLogo";
 import { useDevicePerformance } from "../../hooks/useDevicePerformance";
-
-const SignatureLogo = dynamic(() => import("./SignatureLogo"), { ssr: false });
 
 const MotionDiv = motion.div as any;
 const MotionSpan = motion.span as any;
