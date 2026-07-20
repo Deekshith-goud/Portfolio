@@ -9,20 +9,7 @@ export default defineType({
       name: "views",
       title: "Total Views",
       type: "number",
-      description: "Total number of unique visitors to the site",
-      initialValue: 0,
-      validation: (rule) => rule.required().min(0),
-    }),
-  ],
-  preview: {
-    select: {
-      title: "views",
-    },
-    prepare(selection) {
-      const { title } = selection;
-      return {
-        title: `Total Views: ${title}`,
-      };
-    },
-  },
+      initialValue: 0
+    })
+  ]
 });

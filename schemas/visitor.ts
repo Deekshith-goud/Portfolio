@@ -9,8 +9,15 @@ export default defineType({
       name: "visitorId",
       title: "Visitor ID",
       type: "string",
-      description: "Unique identifier for the visitor (stored in localStorage)",
+      description: "Unique identifier for the visitor",
       validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: "visitNumber",
+      title: "Visit Number",
+      type: "number",
+      description: "The visitor's unique position in the total visitor count",
+      validation: (rule) => rule.required().positive().integer(),
     }),
     defineField({
       name: "timestamp",
@@ -21,17 +28,18 @@ export default defineType({
   preview: {
     select: {
       title: "visitorId",
+      visitNumber: "visitNumber",
       subtitle: "_createdAt",
     },
     prepare(selection) {
-      const { title, subtitle } = selection;
+      const { title, visitNumber, subtitle } = selection;
       if (!subtitle) {
-        return { title: "New Visitor", subtitle: title };
+        return { title: `Visitor #${visitNumber ?? "—"}`, subtitle: `ID: ${title}` };
       }
       const date = new Date(subtitle);
       return {
-        title: `Visitor on ${date.toLocaleDateString()} at ${date.toLocaleTimeString()}`,
-        subtitle: `ID: ${title}`,
+        title: `Visitor #${visitNumber ?? "—"}`,
+        subtitle: `${date.toLocaleDateString()} at ${date.toLocaleTimeString()} · ID: ${title}`,
       };
     },
   },

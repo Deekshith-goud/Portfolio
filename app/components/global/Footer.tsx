@@ -10,29 +10,17 @@ import { BiUser } from "react-icons/bi";
 
 const AudioPlayer = dynamic(() => import("./AudioPlayer"), { ssr: false });
 
-function getOrdinalSuffix(i: number) {
-  const j = i % 10,
-        k = i % 100;
-  if (j === 1 && k !== 11) return "st";
-  if (j === 2 && k !== 12) return "nd";
-  if (j === 3 && k !== 13) return "rd";
-  return "th";
-}
-
 import { generateVisitorId } from "@/app/utils/fingerprint";
 
 export default function Footer() {
-  const [visitorData, setVisitorData] = useState<{ count: number; position: number | null } | null>(null);
+  const [visitorData, setVisitorData] = useState<{ count: number; position: number } | null>(null);
 
   useEffect(() => {
     const fetchVisitorCount = async () => {
       try {
-        // Read the stored position — this is the visitor's true ordinal number
-        const storedPosition = localStorage.getItem("visitor_position");
-        const action = storedPosition ? "view" : "increment";
-
         let visitorId = localStorage.getItem("visitor_id");
-        if (!visitorId) {
+        // Self-heal: If it's missing or it's a legacy 36-char UUID, generate a new 64-char hash
+        if (!visitorId || visitorId.length !== 64) {
           visitorId = await generateVisitorId();
           localStorage.setItem("visitor_id", visitorId);
         }
@@ -42,28 +30,15 @@ export default function Footer() {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ action, visitor_id: visitorId }),
+          body: JSON.stringify({ visitor_id: visitorId }),
         });
 
         if (res.ok) {
           const data = await res.json();
           if (data.success) {
-            // position is ONLY set by the API on a successful new increment.
-            // If data.position is present, this is a new visitor — store it immediately.
-            // Never overwrite a stored position with the current total count.
-            if (data.position && !storedPosition) {
-              localStorage.setItem("visitor_position", data.position.toString());
-            }
-
-            const displayPosition = data.position
-              ? data.position
-              : storedPosition
-              ? parseInt(storedPosition, 10)
-              : null;
-
             setVisitorData({
               count: data.count,
-              position: displayPosition,
+              position: data.position,
             });
           }
         }
@@ -87,18 +62,11 @@ export default function Footer() {
                   <BiUser className="w-7 h-7 dark:text-zinc-400 text-zinc-500" />
                 </div>
                 <span className="font-thin tracking-wide flex items-baseline flex-wrap">
-                  {visitorData.position !== null ? (
-                    <>
-                      <span className="text-lg sm:text-2xl dark:text-zinc-400 text-zinc-500">You are </span>
-                      <span className="text-xl sm:text-3xl font-light dark:text-zinc-200 text-zinc-800 ml-2">
-                        {visitorData.position}
-                        <sup className="text-sm sm:text-lg font-thin dark:text-zinc-400 text-zinc-500 ml-0.5">{getOrdinalSuffix(visitorData.position)}</sup>
-                      </span>
-                      <span className="text-lg sm:text-2xl dark:text-zinc-500 text-zinc-400 px-2 font-thin">/</span>
-                    </>
-                  ) : (
-                    <span className="text-lg sm:text-2xl dark:text-zinc-400 text-zinc-500">Among </span>
-                  )}
+                  <span className="text-lg sm:text-2xl dark:text-zinc-400 text-zinc-500">You are </span>
+                  <span className="text-xl sm:text-3xl font-light dark:text-zinc-200 text-zinc-800 ml-2">
+                    {visitorData.position.toLocaleString()}
+                  </span>
+                  <span className="text-lg sm:text-2xl dark:text-zinc-500 text-zinc-400 px-2 font-thin">/</span>
                   <span className="text-lg sm:text-2xl font-thin dark:text-zinc-400 text-zinc-500">
                     {visitorData.count.toLocaleString()}
                   </span>
