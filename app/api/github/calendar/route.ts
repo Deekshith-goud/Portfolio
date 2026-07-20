@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server';
 
-export const dynamic = 'force-dynamic';
 export const revalidate = 86400; // Cache for 24 hours
 
 function fetchWithAbort(url: string, timeoutMs = 8000): Promise<Response> {

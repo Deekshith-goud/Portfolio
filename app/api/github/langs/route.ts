@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server';
 
-export const dynamic = 'force-dynamic';
 export const revalidate = 3600; // Cache for 1 hour globally
 
 export async function GET(req: Request) {
@@ -12,15 +11,16 @@ export async function GET(req: Request) {
       headers['Authorization'] = `token ${process.env.GITHUB_TOKEN}`;
     }
 
-    const fetchWithTimeout = (url: string) => Promise.race([
-      fetch(url, {
-        headers,
-        next: { revalidate: 3600 }
-      }),
-      new Promise<Response>((_, reject) => setTimeout(() => reject(new Error('GitHub API Timeout')), 8000))
-    ]);
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 8000);
 
-    const response = await fetchWithTimeout(`https://api.github.com/users/${username}/repos?per_page=100`);
+    const response = await fetch(`https://api.github.com/users/${username}/repos?per_page=100`, {
+      headers,
+      signal: controller.signal,
+      next: { revalidate: 3600 }
+    });
+    
+    clearTimeout(timeoutId);
 
     if (!response.ok) {
       return NextResponse.json({ error: 'Failed to fetch GitHub data' }, { status: response.status });

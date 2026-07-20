@@ -29,11 +29,15 @@ const languageColors: Record<string, string> = {
 export default function NativeTopLangsWidget() {
   const [langs, setLangs] = useState<{ name: string; percentage: number; color: string }[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 8000);
+
     const fetchData = async () => {
       try {
-        const res = await fetch(`/api/github/langs`);
+        const res = await fetch(`/api/github/langs`, { signal: controller.signal });
         if (!res.ok) throw new Error("Failed to fetch");
         
         const repos = await res.json();
@@ -58,16 +62,26 @@ export default function NativeTopLangsWidget() {
           }));
 
         setLangs(sortedLangs);
-      } catch (e) {
-        console.error(e);
+      } catch (e: any) {
+        if (e.name !== 'AbortError') {
+          console.error(e);
+          setError(true);
+        }
       } finally {
+        clearTimeout(timeoutId);
         setLoading(false);
       }
     };
     fetchData();
+
+    return () => {
+      controller.abort();
+      clearTimeout(timeoutId);
+    };
   }, []);
 
   if (loading) return <div className="min-h-[160px]" />;
+  if (error) return <div className="text-sm text-red-500 min-h-[160px] flex items-center justify-center border border-red-200 dark:border-red-900/50 rounded-lg bg-red-50 dark:bg-red-900/10">Failed to load GitHub top languages</div>;
   if (langs.length === 0) return null;
 
   return (

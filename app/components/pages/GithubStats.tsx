@@ -1,25 +1,12 @@
 "use client";
 
-import { useTheme } from "next-themes";
-import { useState, useEffect } from "react";
+
 import { Slide } from "@/app/animation/Slide";
 import CustomActivityGraph from "./CustomActivityGraph";
 import NativeStreakWidget from "./NativeStreakWidget";
 import NativeTopLangsWidget from "./NativeTopLangsWidget";
 
 export default function GithubStats() {
-  const { theme, systemTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  if (!mounted) return null;
-
-  const currentTheme = theme === "system" ? systemTheme : theme;
-  const isDark = currentTheme === "dark";
-
   return (
     <section className="mt-24 mb-24 font-incognito">
       <Slide delay={0.16} className="mb-8">

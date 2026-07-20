@@ -4,8 +4,6 @@ import React, { useEffect, useState, useCallback, useRef } from "react";
 import { useTheme } from "next-themes";
 import { motion, AnimatePresence, useMotionValue, PanInfo } from "framer-motion";
 
-// Bypass Framer Motion / Sanity TS type collisions 
-const MotionDiv = motion.div as any;
 type Contribution = {
   date: string;
   contributionCount: number;
@@ -167,7 +165,7 @@ const Cube = React.memo(({
                   ? (isDark ? 'bg-[#33E092] shadow-[0_0_8px_#33E092]' : 'bg-[#16a34a] shadow-[0_0_8px_#16a34a]')
                   : (isDark ? 'bg-white shadow-[0_0_5px_white]' : 'bg-zinc-500 shadow-[0_0_5px_rgba(113,113,122,0.5)]');
                 return (
-                  <MotionDiv
+                  <motion.div
                     key={i}
                     className={`absolute rounded-full ${size} ${color}`}
                     style={{ 
@@ -305,7 +303,7 @@ export default function CustomActivityGraph() {
 
       <div className="w-full h-[280px] relative">
         <AnimatePresence mode="wait">
-          <MotionDiv 
+          <motion.div 
             key="city"
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -316,7 +314,7 @@ export default function CustomActivityGraph() {
             style={{ perspective: '1200px' }}
           >
             {/* Cyberpunk Grid Floor */}
-            <MotionDiv 
+            <motion.div 
               className="absolute inset-[-200px] pointer-events-none opacity-40 dark:opacity-40"
               style={{
                 backgroundImage: isDark 
@@ -334,7 +332,7 @@ export default function CustomActivityGraph() {
             />
 
             {/* Interactive Draggable Container */}
-            <MotionDiv
+            <motion.div
               className="flex gap-2 p-8 cursor-grab active:cursor-grabbing relative z-10"
               drag
               dragConstraints={{ top: 0, right: 0, bottom: 0, left: 0 }}
@@ -386,15 +384,15 @@ export default function CustomActivityGraph() {
                   </div>
                 );
               })}
-            </MotionDiv>
-          </MotionDiv>
+            </motion.div>
+          </motion.div>
         </AnimatePresence>
       </div>
 
       {/* Sleek Side Card for Commit Details (Hops in on hover) */}
       <AnimatePresence>
         {hoveredBlock && (
-          <MotionDiv
+          <motion.div
             initial={{ opacity: 0, y: 5 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 5 }}
@@ -423,7 +421,7 @@ export default function CustomActivityGraph() {
             <span className="text-xs font-medium text-zinc-400 dark:text-zinc-500 mt-2">
               {hoveredBlock.date}
             </span>
-          </MotionDiv>
+          </motion.div>
         )}
       </AnimatePresence>
     </div>

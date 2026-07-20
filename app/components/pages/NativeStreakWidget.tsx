@@ -3,8 +3,6 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 
-const MotionCircle = motion.circle as any;
-
 export default function NativeStreakWidget() {
   const [data, setData] = useState<{
     totalCommits: number;
@@ -17,6 +15,7 @@ export default function NativeStreakWidget() {
   } | null>(null);
 
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -108,6 +107,7 @@ export default function NativeStreakWidget() {
         setData(result);
       } catch (e) {
         console.error(e);
+        setError(true);
       } finally {
         setLoading(false);
       }
@@ -116,6 +116,7 @@ export default function NativeStreakWidget() {
   }, []);
 
   if (loading) return <div data-testid="streak-skeleton" className="min-h-[160px]" />;
+  if (error) return <div className="text-sm text-red-500 min-h-[160px] flex items-center justify-center border border-red-200 dark:border-red-900/50 rounded-lg bg-red-50 dark:bg-red-900/10">Failed to load GitHub stats</div>;
   if (!data) return null;
 
   const radius = 42;
@@ -172,7 +173,7 @@ export default function NativeStreakWidget() {
           />
           
           {/* Animated Grade Ring */}
-          <MotionCircle
+          <motion.circle
             cx="40"
             cy="40"
             r={32}

@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server';
 
-export const dynamic = 'force-dynamic';
 export const revalidate = 3600; // Cache for 1 hour globally
 
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN;

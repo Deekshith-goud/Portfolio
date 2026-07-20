@@ -27,13 +27,28 @@ export default function ContributionGraph() {
   }, [scheme]);
 
   useEffect(() => {
-    fetch("/api/github/calendar")
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 8000);
+
+    fetch("/api/github/calendar", { signal: controller.signal })
       .then((res) => res.json())
       .then((data) => {
         if (!data.error) setData(data);
       })
-      .catch((err) => console.error(err))
-      .finally(() => setLoading(false));
+      .catch((err) => {
+        if (err.name !== 'AbortError') {
+          console.error(err);
+        }
+      })
+      .finally(() => {
+        clearTimeout(timeoutId);
+        setLoading(false);
+      });
+
+    return () => {
+      controller.abort();
+      clearTimeout(timeoutId);
+    };
   }, []);
 
   const today = new Date().getFullYear();
