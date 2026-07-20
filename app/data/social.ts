@@ -26,28 +26,28 @@ export const socialLinks = [
   {
     id: 2,
     name: "X",
-    url: "https://twitter.com/yourusername",
+    url: "https://x.com/DeekshithGoud_X",
     icon: FaSquareXTwitter,
     status: "social",
   },
   {
     id: 3,
     name: "Linkedin",
-    url: "https://linkedin.com/in/yourusername",
+    url: "https://linkedin.com/in/deekshith-goud-8131b6343/",
     icon: BiLogoLinkedinSquare,
     status: "social",
   },
   {
     id: 4,
     name: "Codepen",
-    url: "https://codepen.io/yourusername",
+    url: "https://codepen.io/Deekshith_Goud",
     icon: BiLogoCodepen,
     status: "social",
   },
   {
     id: 5,
     name: "Dribbble",
-    url: "https://dribbble.com/yourusername",
+    url: "https://dribbble.com/deekshith-goud",
     icon: BiLogoDribbble,
     status: "social",
   },
@@ -58,20 +58,7 @@ export const socialLinks = [
     icon: BiLogoInstagram,
     status: "social",
   },
-  {
-    id: 7,
-    name: "Steam",
-    url: "https://steamcommunity.com/id/yourusername/",
-    icon: BiLogoSteam,
-    status: "social",
-  },
-  {
-    id: 8,
-    name: "Unsplash",
-    url: "https://unsplash.com/@yourusername",
-    icon: BiLogoUnsplash,
-    status: "social",
-  },
+
   {
     id: 9,
     name: "FreeCodeCamp",
@@ -89,14 +76,14 @@ export const socialLinks = [
   {
     id: 11,
     name: "Sanity",
-    url: "https://www.sanity.io/exchange/community/yourusername",
+    url: "https://www.sanity.io/exchange/community/Deekshith-Goud",
     icon: FaHashtag,
     status: "publication",
   },
   {
     id: 12,
     name: "Youtube",
-    url: "https://youtube.com/@yourusername",
+    url: "https://youtube.com/@codemuse-24m04",
     icon: BiLogoYoutube,
     status: "social",
   },
@@ -115,24 +102,11 @@ export const socialLinks = [
     status: "social",
   },
   {
-    id: 15,
-    name: "Stackoverflow",
-    url: "https://stackoverflow.com/users/youruserid/yourusername",
-    icon: BiLogoStackOverflow,
-    status: "social",
-  },
-  {
     id: 16,
     name: "Codewars",
-    url: "https://www.codewars.com/users/yourusername",
+    url: "https://www.codewars.com/users/Deekshith-Goud",
     icon: SiCodewars,
     status: "social",
   },
-  {
-    id: 17,
-    name: "Gitlab",
-    url: "https://gitlab.com/yourusername",
-    icon: BiLogoGitlab,
-    status: "social",
-  },
+
 ];

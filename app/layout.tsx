@@ -2,17 +2,17 @@ import "@/app/styles/globals.css";
 import Script from "next/script";
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import { incognito, gitlabmono } from "./assets/font/font";
+import Navbar from "./components/global/Navbar";
+import Footer from "./components/global/Footer";
+import Loader from "./components/global/Loader";
+import { Providers } from "./providers";
 
 const inter = localFont({
   src: "../public/fonts/inter.woff2",
   variable: "--font-inter",
   display: "swap",
 });
-import { incognito, gitlabmono } from "./assets/font/font";
-import Navbar from "./components/global/Navbar";
-import Footer from "./components/global/Footer";
-import Loader from "./components/global/Loader";
-import { Providers } from "./providers";
 
 const options = {
   title: "Deekshith Goud | Software Developer",
@@ -65,12 +65,12 @@ export default function RootLayout({
           {children}
           <Footer />
         </Providers>
+        <Script
+          strategy="lazyOnload"
+          src="https://cloud.umami.is/script.js"
+          data-website-id={process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID}
+        />
       </body>
-      <Script
-        strategy="lazyOnload"
-        src="https://cloud.umami.is/script.js"
-        data-website-id={process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID}
-      />
     </html>
   );
 }

@@ -7,12 +7,11 @@ import { useDevicePerformance } from "../../hooks/useDevicePerformance";
 // Reverting back to the tech stack icons
 import { SiReact, SiNextdotjs, SiTailwindcss, SiTypescript } from "react-icons/si";
 
-const MotionDiv = motion.div as any;
-const MotionSpan = motion.span as any;
+// Removes local alias to use motion directly
 
 // --- Option: Blueprint Grid ---
 const BlueprintGrid = () => (
-  <MotionDiv
+  <motion.div
     animate={{ backgroundPosition: ['0px 0px', '40px 40px'] }}
     transition={{ repeat: Infinity, ease: "linear", duration: 4 }}
     className="absolute -inset-20 z-0 opacity-40 dark:opacity-20 pointer-events-none"
@@ -28,13 +27,13 @@ const BlueprintGrid = () => (
 // --- Minimalist Expanding Badges ---
 const ExpandingBadge = ({ icon: Icon, label, className, delay }: { icon: React.ElementType, label: string, className: string, delay: number }) => {
   return (
-    <MotionDiv
+    <motion.div
       initial={{ y: 0, rotateZ: 0 }}
       animate={{ y: [-5, 5, -5], rotateZ: [-1, 1, -1] }}
       transition={{ y: { repeat: Infinity, duration: 12, ease: "easeInOut", delay }, rotateZ: { repeat: Infinity, duration: 16, ease: "easeInOut", delay } }}
       className={`absolute z-30 ${className}`}
     >
-      <MotionDiv
+      <motion.div
         initial="rest"
         whileHover="hover"
         className="flex items-center h-12 md:h-14 rounded-full bg-white/40 dark:bg-white/5 backdrop-blur-md border border-black/5 dark:border-white/10 shadow-lg cursor-pointer text-zinc-700 dark:text-zinc-300 transition-colors hover:bg-white/60 dark:hover:bg-white/10 overflow-hidden"
@@ -42,7 +41,7 @@ const ExpandingBadge = ({ icon: Icon, label, className, delay }: { icon: React.E
         <div className="w-12 h-12 md:w-14 md:h-14 flex items-center justify-center shrink-0">
           <Icon className="w-4 h-4 md:w-5 md:h-5" aria-label={label} role="img" />
         </div>
-        <MotionSpan
+        <motion.span
           variants={{
             rest: { maxWidth: 0, opacity: 0, paddingRight: 0 },
             hover: { maxWidth: 140, opacity: 1, paddingRight: 16 }
@@ -51,21 +50,21 @@ const ExpandingBadge = ({ icon: Icon, label, className, delay }: { icon: React.E
           className="font-medium text-xs md:text-sm whitespace-nowrap overflow-hidden block"
         >
           {label}
-        </MotionSpan>
-      </MotionDiv>
-    </MotionDiv>
+        </motion.span>
+      </motion.div>
+    </motion.div>
   );
 };
 
 const FloatingStatement = ({ text, className, delay }: { text: string, className: string, delay: number }) => (
-  <MotionDiv
+  <motion.div
     initial={{ y: 0, rotateZ: 0 }}
     animate={{ y: [-3, 3, -3], rotateZ: [-1, 1, -1] }}
     transition={{ y: { repeat: Infinity, duration: 12, ease: "easeInOut", delay }, rotateZ: { repeat: Infinity, duration: 16, ease: "easeInOut", delay } }}
     className={`absolute z-20 px-3 py-2 md:px-4 md:py-2.5 rounded-md bg-white/40 dark:bg-zinc-900/70 backdrop-blur-md border border-white/50 dark:border-zinc-700/50 border-l-2 border-l-emerald-500 dark:border-l-emerald-400 shadow-xl text-[10px] md:text-xs font-mono font-medium tracking-tight text-zinc-800 dark:text-zinc-200 max-w-[160px] md:max-w-[200px] ${className}`}
   >
     {text}
-  </MotionDiv>
+  </motion.div>
 );
 
 const ExpandingIconsOption = () => {
@@ -110,7 +109,7 @@ export default function HeroSvg() {
       <div className="relative w-full h-full flex items-center justify-center">
 
         {/* Holographic Glitch Wrapper */}
-        <MotionDiv
+        <motion.div
           className="hidden md:block w-full h-full absolute inset-0 z-10 scale-[1.35]"
           animate={{
             x: isLowEnd ? 0 : [0, -3, 3, -1, 1, 0, 0],
@@ -136,7 +135,7 @@ export default function HeroSvg() {
               clipPath: "polygon(0 0, 100% 0, 100% calc(100% - 70px), calc(100% - 170px) calc(100% - 70px), calc(100% - 170px) 100%, 0 100%)"
             }}
           />
-        </MotionDiv>
+        </motion.div>
 
         {/* Dynamic Themed Icons & Statements */}
         <ExpandingIconsOption />
