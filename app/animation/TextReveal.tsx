@@ -51,10 +51,10 @@ export function TextReveal({ text }: { text: string }) {
     return () => clearInterval(interval);
   }, [text, isReady]);
 
-  const MotionSpan = motion.span as any;
+  // Removes local alias to use motion directly
 
   return (
-    <MotionSpan 
+    <motion.span 
       ref={ref} 
       className="inline-block min-h-[1.5em]" 
       style={{ whiteSpace: "pre-wrap" }}
@@ -73,6 +73,6 @@ export function TextReveal({ text }: { text: string }) {
       {!isComplete && (
         <span className="animate-pulse ml-[2px] opacity-80">_</span>
       )}
-    </MotionSpan>
+    </motion.span>
   );
 }

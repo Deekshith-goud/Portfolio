@@ -1,4 +1,3 @@
-// @ts-nocheck
 "use client";
 import { motion, useInView, useAnimation, AnimationProps } from "framer-motion";
 import { useRef, useEffect, RefObject } from "react";

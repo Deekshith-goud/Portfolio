@@ -5,8 +5,7 @@ import { motion, AnimatePresence, useMotionValue, useTransform, animate } from "
 import SignatureLogo from "./SignatureLogo";
 import { useDevicePerformance } from "../../hooks/useDevicePerformance";
 
-const MotionDiv = motion.div as any;
-const MotionSpan = motion.span as any;
+// Removes local alias to use motion directly
 
 // Hoisted to module scope, same reasoning as LINE_COLORS in Constellation.tsx:
 // this alphabet is a constant, so building it once here instead of as a
@@ -86,7 +85,7 @@ const ScrambleText = ({ text, reducedMotion }: { text: string; reducedMotion: bo
         </span>
       ))}
       {/* Always render to prevent layout shift, just control opacity */}
-      <MotionSpan
+      <motion.span
         animate={isComplete ? { opacity: [1, 0, 1] } : { opacity: 0 }}
         transition={{ duration: 0.8, repeat: Infinity }}
         className="inline-block w-1.5 h-3 ml-1 bg-zinc-300"
@@ -161,7 +160,7 @@ export default function Loader() {
   return (
     <AnimatePresence>
       {isLoading && (
-        <MotionDiv
+        <motion.div
           className="fixed inset-0 z-[100] flex items-center justify-center bg-[#0d1017] overflow-hidden"
           initial={{ opacity: 1 }}
           exit="exit"
@@ -171,15 +170,15 @@ export default function Loader() {
           <div className="z-10 flex flex-col items-center justify-center w-full">
 
             {/* Minimalist Drawing Signature with 3D Parallax Exit */}
-            <MotionDiv variants={logoContainerVariants} exit="exit">
+            <motion.div variants={logoContainerVariants} exit="exit">
               <SignatureLogo
                 isAnimated={true}
                 className="w-[85vw] max-w-3xl h-auto drop-shadow-2xl pointer-events-none mb-12"
               />
-            </MotionDiv>
+            </motion.div>
 
             {/* Elegant Progress Indicator (Separated to prevent blur bulging) */}
-            <MotionDiv
+            <motion.div
               className="flex flex-col items-center gap-4"
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
@@ -188,19 +187,19 @@ export default function Loader() {
             >
               <div className="text-zinc-500 font-mono text-xs tracking-[0.4em] uppercase flex items-center gap-6">
                 <ScrambleText text="INITIALIZING" reducedMotion={prefersReducedMotion} />
-                <MotionSpan className="text-zinc-300 w-8 text-right">{progressText}</MotionSpan>
+                <motion.span className="text-zinc-300 w-8 text-right">{progressText}</motion.span>
               </div>
 
               {/* 1px Sleek Progress Bar */}
               <div className="w-64 h-[1px] bg-zinc-800/50 relative">
-                <MotionDiv
+                <motion.div
                   className="absolute inset-y-0 left-0 w-full origin-left bg-gradient-to-r from-transparent via-blue-400/80 to-blue-200"
                   style={{ scaleX: progressScale }}
                 />
               </div>
-            </MotionDiv>
+            </motion.div>
           </div>
-        </MotionDiv>
+        </motion.div>
       )}
     </AnimatePresence>
   );
