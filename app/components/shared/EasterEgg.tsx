@@ -9,13 +9,9 @@ export default function EasterEgg({ isMet }: { isMet: boolean }) {
   const [image, setImage] = useState(false);
 
   const toggleImage = () => {
-    const interval = setInterval(() => {
-      setImage(true);
-    });
-
+    setImage(true);
     setTimeout(() => {
       setImage(false);
-      clearInterval(interval);
     }, 3000);
   };
 

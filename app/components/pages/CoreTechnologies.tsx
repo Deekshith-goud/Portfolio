@@ -67,6 +67,7 @@ export default function CoreTechnologies() {
   ];
 
   const categories = Array.from(new Set(techIcons.map((t) => t.category)));
+  const isDarkIcon = (name: string) => ["Next.js", "Vercel", "Prisma", "GitHub", "Eraser"].includes(name);
 
   return (
     <section className="mt-12 mb-16 max-w-5xl flex flex-col overflow-hidden">
@@ -135,17 +136,8 @@ export default function CoreTechnologies() {
                 className="flex items-center justify-center w-16 h-16 rounded-full bg-white shadow-md shadow-zinc-200 dark:bg-zinc-800/50 dark:shadow-none dark:border dark:border-zinc-800 transition-transform hover:-translate-y-2 hover:shadow-lg duration-300"
               >
                 <tech.icon
-                  className={`w-8 h-8 ${
-                    tech.name === "Next.js" || tech.name === "Vercel" || tech.name === "Prisma" || tech.name === "GitHub" || tech.name === "Eraser"
-                      ? "dark:text-white"
-                      : ""
-                  }`}
-                  style={{
-                    color:
-                      tech.name === "Next.js" || tech.name === "Vercel" || tech.name === "Prisma" || tech.name === "GitHub" || tech.name === "Eraser"
-                        ? undefined
-                        : tech.color,
-                  }}
+                  className={`w-8 h-8 ${isDarkIcon(tech.name) ? "dark:text-white" : ""}`}
+                  style={{ color: isDarkIcon(tech.name) ? undefined : tech.color }}
                 />
               </div>
             ))}
@@ -169,17 +161,8 @@ export default function CoreTechnologies() {
                         className="flex items-center gap-2 px-4 py-2 rounded-full bg-white shadow-sm shadow-zinc-200 dark:bg-zinc-800/50 dark:shadow-none dark:border dark:border-zinc-800 transition-transform hover:-translate-y-1 hover:shadow-md duration-300"
                       >
                         <tech.icon
-                          className={`w-5 h-5 ${
-                            tech.name === "Next.js" || tech.name === "Vercel" || tech.name === "Prisma"
-                              ? "dark:text-white"
-                              : ""
-                          }`}
-                          style={{
-                            color:
-                              tech.name === "Next.js" || tech.name === "Vercel" || tech.name === "Prisma"
-                                ? undefined
-                                : tech.color,
-                          }}
+                          className={`w-5 h-5 ${isDarkIcon(tech.name) ? "dark:text-white" : ""}`}
+                          style={{ color: isDarkIcon(tech.name) ? undefined : tech.color }}
                         />
                         <span className="text-sm font-medium dark:text-zinc-200 text-zinc-800">
                           {tech.name}
@@ -213,17 +196,8 @@ export default function CoreTechnologies() {
                     className="flex items-center gap-2 px-4 py-2 rounded-full border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 shadow-sm shrink-0"
                   >
                     <tech.icon
-                      className={`w-5 h-5 ${
-                        tech.name === "Next.js" || tech.name === "Vercel" || tech.name === "Prisma"
-                          ? "dark:text-white"
-                          : ""
-                      }`}
-                      style={{
-                        color:
-                          tech.name === "Next.js" || tech.name === "Vercel" || tech.name === "Prisma"
-                            ? undefined
-                            : tech.color,
-                      }}
+                      className={`w-5 h-5 ${isDarkIcon(tech.name) ? "dark:text-white" : ""}`}
+                      style={{ color: isDarkIcon(tech.name) ? undefined : tech.color }}
                     />
                     <span className="text-sm font-medium dark:text-zinc-200 text-zinc-800">
                       {tech.name}
@@ -242,17 +216,8 @@ export default function CoreTechnologies() {
                     className="flex items-center gap-2 px-4 py-2 rounded-full border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 shadow-sm shrink-0"
                   >
                     <tech.icon
-                      className={`w-5 h-5 ${
-                        tech.name === "Next.js" || tech.name === "Vercel" || tech.name === "Prisma"
-                          ? "dark:text-white"
-                          : ""
-                      }`}
-                      style={{
-                        color:
-                          tech.name === "Next.js" || tech.name === "Vercel" || tech.name === "Prisma"
-                            ? undefined
-                            : tech.color,
-                      }}
+                      className={`w-5 h-5 ${isDarkIcon(tech.name) ? "dark:text-white" : ""}`}
+                      style={{ color: isDarkIcon(tech.name) ? undefined : tech.color }}
                     />
                     <span className="text-sm font-medium dark:text-zinc-200 text-zinc-800">
                       {tech.name}
@@ -271,17 +236,8 @@ export default function CoreTechnologies() {
                     className="flex items-center gap-2 px-4 py-2 rounded-full border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 shadow-sm shrink-0"
                   >
                     <tech.icon
-                      className={`w-5 h-5 ${
-                        tech.name === "Next.js" || tech.name === "Vercel" || tech.name === "Prisma"
-                          ? "dark:text-white"
-                          : ""
-                      }`}
-                      style={{
-                        color:
-                          tech.name === "Next.js" || tech.name === "Vercel" || tech.name === "Prisma"
-                            ? undefined
-                            : tech.color,
-                      }}
+                      className={`w-5 h-5 ${isDarkIcon(tech.name) ? "dark:text-white" : ""}`}
+                      style={{ color: isDarkIcon(tech.name) ? undefined : tech.color }}
                     />
                     <span className="text-sm font-medium dark:text-zinc-200 text-zinc-800">
                       {tech.name}

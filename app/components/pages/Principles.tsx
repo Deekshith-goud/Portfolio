@@ -1,4 +1,3 @@
-// @ts-nocheck
 "use client";
 
 import { motion, useMotionTemplate, useMotionValue, useSpring, useTransform } from "framer-motion";
@@ -93,7 +92,6 @@ function PrincipleCard({ item }: { item: typeof principles[0] }) {
   return (
     <motion.div
       variants={itemVariants}
-      // @ts-ignore
       onMouseMove={handleMouseMove}
       className={`group relative overflow-hidden rounded-3xl p-8 flex flex-col gap-y-4 backdrop-blur-md bg-white/50 dark:bg-zinc-900/60 border border-zinc-200 transition-all duration-500 cursor-default shadow-sm hover:shadow-xl hover:-translate-y-1 ${item.className}`}
     >

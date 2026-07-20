@@ -1,4 +1,3 @@
-// @ts-nocheck
 "use client";
 
 import Image from "next/image";
@@ -7,11 +6,13 @@ import { motion } from "framer-motion";
 import { useTheme } from "next-themes";
 import { useEffect, useState, memo } from "react";
 import { HobbyType } from "@/types";
-import { BiHeart } from "react-icons/bi";
 import { urlFor } from "@/lib/sanity.image";
+import { BiHeart } from "react-icons/bi";
+import * as BiIcons from "react-icons/bi";
 
 const LazyIcon = memo(({ iconName, className }: { iconName: string; className?: string }) => {
-  return <BiHeart className={className || "text-2xl"} />;
+  const IconComponent = (BiIcons as any)[iconName] || BiHeart;
+  return <IconComponent className={className || "text-2xl"} />;
 });
 LazyIcon.displayName = "LazyIcon";
 

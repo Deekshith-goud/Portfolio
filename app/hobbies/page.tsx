@@ -7,12 +7,12 @@ import { sanityFetch } from "@/lib/sanity.client";
 import { Slide } from "../animation/Slide";
 import PageHeading from "../components/shared/PageHeading";
 import { BiArrowBack } from "react-icons/bi";
+import HobbyCard from "../components/shared/HobbyCard";
+
 export const metadata: Metadata = {
   title: "Hobbies | Deekshith Goud",
   description: "Explore my interests and hobbies beyond coding.",
 };
-
-import HobbyCard from "../components/shared/HobbyCard";
 
 export default async function HobbiesPage() {
   const hobbies: HobbyType[] = await sanityFetch({
