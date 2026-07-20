@@ -4,7 +4,7 @@ import { useState } from "react";
 import { BiCopy } from "react-icons/bi";
 import { RiCheckboxCircleFill } from "react-icons/ri";
 
-export default function Clipoboard({ content }: { content: string }) {
+export default function Clipboard({ content }: { content: string }) {
   const [status, setStatus] = useState(false);
 
   function handleClipboard() {
