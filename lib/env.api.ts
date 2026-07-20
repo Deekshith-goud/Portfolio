@@ -37,7 +37,7 @@ function checkValue<T>(
 ): T {
   if (value === undefined) {
     throw new Error(
-      `Missing Environment Variable: ${errorMsg}\n\nVist ${url} to learn how you can generate your own API keys`
+      `Missing Environment Variable: ${errorMsg}\n\nVisit ${url} to learn how you can generate your own API keys`
     );
   }
   return value;
