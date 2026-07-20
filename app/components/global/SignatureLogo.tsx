@@ -203,14 +203,14 @@ export default function SignatureLogo({ layoutId, isAnimated = false, isSimple =
         <g filter="url(#glow)">
           <g mask="url(#reveal-mask)">
             <g transform="translate(0.5, 1.2)">
-              <rect x="-100" y="-100" width="500" height="400" fill="#070707" mask="url(#rim-mask)" />
+              <rect x="70" y="-10" width="310" height="190" fill="#070707" mask="url(#rim-mask)" />
             </g>
-            <rect x="-100" y="-100" width="500" height="400" fill="url(#chrome)" mask="url(#shape-mask)" />
+            <rect x="70" y="-10" width="310" height="190" fill="url(#chrome)" mask="url(#shape-mask)" />
             <g transform="translate(-0.3, -0.3)" opacity="0.4">
-              <rect x="-100" y="-100" width="500" height="400" fill="#ffffff" mask="url(#bloom-mask)" />
+              <rect x="70" y="-10" width="310" height="190" fill="#ffffff" mask="url(#bloom-mask)" />
             </g>
             <g transform="translate(-0.7, -0.7)">
-              <rect x="-100" y="-100" width="500" height="400" fill="#ffffff" mask="url(#highlight-mask)" />
+              <rect x="70" y="-10" width="310" height="190" fill="#ffffff" mask="url(#highlight-mask)" />
             </g>
           </g>
           
