@@ -1,10 +1,10 @@
 import { defineConfig } from "sanity";
 import { deskTool } from "sanity/desk";
 import { visionTool } from "@sanity/vision";
-import { schemaTypes } from "./schemas";
+import { schemaTypes } from "./src/sanity/schemas";
 import { codeInput } from "@sanity/code-input";
 import { table } from "@sanity/table";
-import { projectId, dataset } from "./lib/env.api";
+import { projectId, dataset } from "./src/sanity/lib/env.api";
 
 export default defineConfig({
   name: "deekshith",

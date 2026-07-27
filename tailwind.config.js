@@ -2,9 +2,7 @@
 module.exports = {
   darkMode: "class",
   content: [
-    "./pages/**/*.{js,ts,jsx,tsx,mdx}",
-    "./components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
     extend: {
@@ -32,7 +30,7 @@ module.exports = {
       },
       backgroundImage: {
         noise:
-          "url('/placeholder-noise.png')",
+          "url('/images/noise.png')",
       },
       backgroundPosition: {
         zero: "0 0",
