@@ -171,8 +171,16 @@ export default function Loader() {
     }
   }), [tier, prefersReducedMotion, isBot]);
 
-  if (!mounted) return null;
+  // Phase 1 — before hydration: render only the opaque backdrop.
+  // This covers the page from frame 0 so no content is ever visible,
+  // but nothing animates yet (avoiding the first-frame jank).
+  if (!mounted) {
+    return isLoading && !isBot ? (
+      <div className="fixed inset-0 z-[100] bg-[#0d1017]" />
+    ) : null;
+  }
 
+  // Phase 2 — after hydration: full animated loader.
   return (
     <AnimatePresence>
       {isLoading && (
