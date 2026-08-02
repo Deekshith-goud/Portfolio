@@ -99,6 +99,12 @@ export default function Loader() {
   const prefersReducedMotion = usePrefersReducedMotion();
   const [isLoading, setIsLoading] = useState(true);
   const [isBot, setIsBot] = useState(false);
+  // Defer the loader's first paint by one frame so React has fully hydrated
+  // the DOM before any animation begins. Without this, the loader starts
+  // compositing before the browser has settled its first frame, which is the
+  // root cause of the pop-in jank on cold (uncached) loads.
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => { setMounted(true); }, []);
   const progressValue = useMotionValue(0);
   const progressText = useTransform(progressValue, (latest) => `${Math.round(latest)}%`);
   // Drive the fill bar with a 0-1 scale instead of a 0-100% width. `width`
@@ -164,6 +170,8 @@ export default function Loader() {
           }
     }
   }), [tier, prefersReducedMotion, isBot]);
+
+  if (!mounted) return null;
 
   return (
     <AnimatePresence>
