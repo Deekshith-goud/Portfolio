@@ -209,17 +209,32 @@ export default function CustomActivityGraph() {
   const currentTheme = theme === "system" ? systemTheme : theme;
   const isDark = currentTheme === "dark";
 
-  // Framer Motion 3D Rotation State
+  // Native Pointer Events for bulletproof 3D rotation tracking
   const rotateX = useMotionValue(60);
   const rotateZ = useMotionValue(-45);
   
-  const lastDragTime = useRef(0);
-  const handleDrag = (event: any, info: PanInfo) => {
-    const now = performance.now();
-    if (now - lastDragTime.current < 16) return; // Throttle to ~60fps
-    lastDragTime.current = now;
-    rotateX.set(Math.max(0, Math.min(90, rotateX.get() - info.delta.y * 0.5)));
-    rotateZ.set(rotateZ.get() - info.delta.x * 0.5);
+  const isDragging = useRef(false);
+  const lastMousePos = useRef({ x: 0, y: 0 });
+
+  const handlePointerDown = (e: React.PointerEvent) => {
+    isDragging.current = true;
+    lastMousePos.current = { x: e.clientX, y: e.clientY };
+    e.currentTarget.setPointerCapture(e.pointerId);
+  };
+
+  const handlePointerMove = (e: React.PointerEvent) => {
+    if (!isDragging.current) return;
+    const deltaX = e.clientX - lastMousePos.current.x;
+    const deltaY = e.clientY - lastMousePos.current.y;
+    lastMousePos.current = { x: e.clientX, y: e.clientY };
+
+    rotateX.set(Math.max(0, Math.min(90, rotateX.get() - deltaY * 0.5)));
+    rotateZ.set(rotateZ.get() - deltaX * 0.5);
+  };
+
+  const handlePointerUp = (e: React.PointerEvent) => {
+    isDragging.current = false;
+    e.currentTarget.releasePointerCapture(e.pointerId);
   };
 
   useEffect(() => {
@@ -347,13 +362,13 @@ export default function CustomActivityGraph() {
               }}
             />
 
-            {/* Interactive Draggable Container */}
+            {/* Interactive Rotatable Container */}
             <motion.div
-              className="flex gap-2 p-8 cursor-grab active:cursor-grabbing relative z-10"
-              drag
-              dragConstraints={{ top: 0, right: 0, bottom: 0, left: 0 }}
-              dragElastic={0}
-              onDrag={handleDrag}
+              className="flex gap-2 p-8 cursor-grab active:cursor-grabbing relative z-10 touch-none"
+              onPointerDown={handlePointerDown}
+              onPointerMove={handlePointerMove}
+              onPointerUp={handlePointerUp}
+              onPointerCancel={handlePointerUp}
               style={{ 
                 transformStyle: 'preserve-3d',
                 rotateX, 
