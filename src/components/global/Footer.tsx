@@ -180,9 +180,14 @@ export default function Footer() {
             </div>
 
             <div className="flex flex-col lg:items-end items-center lg:text-start text-center">
-              <small className="text-zinc-500">
-                Copyright &copy; Deekshith Goud {new Date().getFullYear()} All rights
-                Reserved
+              <small className="text-zinc-500 flex flex-col sm:flex-row items-center gap-x-2">
+                <span>
+                  Copyright &copy; Deekshith Goud {new Date().getFullYear()} All rights Reserved
+                </span>
+                <span className="hidden sm:inline">&middot;</span>
+                <Link href="/privacy" className="hover:text-zinc-800 dark:hover:text-zinc-200 transition-colors mt-1 sm:mt-0 underline decoration-zinc-200/20 underline-offset-2">
+                  Privacy Policy
+                </Link>
               </small>
             </div>
           </div>

@@ -148,7 +148,7 @@ export default async function About() {
                       <BiLogoGithub className="hover:text-zinc-500 duration-300" />
                     </RefLink>
                     <RefLink
-                      href="https://linkedin.com/in/yourusername"
+                      href="https://www.linkedin.com/in/deekshith-goud-voruganti-8131b6343/"
                       title="LinkedIn"
                     >
                       <BiLogoLinkedinSquare className="text-blue-500 hover:text-blue-600 duration-300" />
