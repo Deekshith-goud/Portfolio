@@ -6,7 +6,7 @@ const config: ClientConfig = {
   projectId,
   dataset,
   apiVersion,
-  useCdn: true,
+  useCdn: false, // Must be false when using Next.js caching
   ignoreBrowserTokenWarning: true,
   // token,
   perspective: "published",
