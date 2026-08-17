@@ -6,6 +6,7 @@ import { incognito, gitlabmono } from "@/assets/font/font";
 import Navbar from "@/components/global/Navbar";
 import Footer from "@/components/global/Footer";
 import Loader from "@/components/global/Loader";
+import ExitIntentPopup from "@/components/global/ExitIntentPopup";
 import { Providers } from "./providers";
 import { umamiSiteId } from "@/sanity/lib/env.api";
 const inter = localFont({
@@ -63,6 +64,7 @@ export default function RootLayout({
           <div className="fixed inset-0 z-[-1] pointer-events-none bg-[url('/images/noise.png')] dark:bg-[url('/images/noise-dark.png')] opacity-100 dark:opacity-[0.10]" />
           <Loader />
           <Navbar />
+          <ExitIntentPopup />
           {children}
           <Footer />
         </Providers>
