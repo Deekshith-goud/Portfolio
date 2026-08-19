@@ -42,7 +42,7 @@ interface CanvasDrawProps {
   onStrokeUpdate: (strokes: Stroke[]) => void;
   color: string;
   strokeWidth: number;
-  initialStrokes?: Stroke[];
+  strokes?: Stroke[];
   thinning?: number;
   smoothing?: number;
   streamline?: number;
@@ -56,7 +56,7 @@ export default function CanvasDraw({
   onStrokeUpdate, 
   color, 
   strokeWidth, 
-  initialStrokes = [],
+  strokes = [],
   thinning = 0.5,
   smoothing = 0.5,
   streamline = 0.5,
@@ -66,7 +66,6 @@ export default function CanvasDraw({
   isEraser = false
 }: CanvasDrawProps) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const [strokes, setStrokes] = useState<Stroke[]>(initialStrokes);
   const [currentPoints, setCurrentPoints] = useState<Point[]>([]);
   
   const currentOptions = React.useMemo(() => ({
@@ -121,7 +120,6 @@ export default function CanvasDraw({
       };
 
       const newStrokes = [...strokes, newStroke];
-      setStrokes(newStrokes);
       onStrokeUpdate(newStrokes);
       setCurrentPoints([]);
     }

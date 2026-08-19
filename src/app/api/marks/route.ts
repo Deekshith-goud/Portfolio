@@ -60,7 +60,7 @@ export async function POST(req: Request) {
     }
 
     const newMark = {
-      _key: crypto.randomUUID(),
+      _key: Math.random().toString(36).substring(2, 10) + Math.random().toString(36).substring(2, 10),
       authorName,
       description: description || '',
       svgContent,

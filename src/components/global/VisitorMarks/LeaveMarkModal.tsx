@@ -155,7 +155,7 @@ export default function LeaveMarkModal({ isOpen, onClose, onSuccess }: LeaveMark
         currentNormalGroup.push(stroke);
       } else {
         if (currentNormalGroup.length > 0) {
-          groups.push({ id: `g-${i}-${crypto.randomUUID()}`, normalStrokes: currentNormalGroup, erasersAfter: [] });
+          groups.push({ id: `g-${i}-${Math.random().toString(36).substring(2, 10)}`, normalStrokes: currentNormalGroup, erasersAfter: [] });
           currentNormalGroup = [];
         }
         for (const g of groups) {
@@ -165,7 +165,7 @@ export default function LeaveMarkModal({ isOpen, onClose, onSuccess }: LeaveMark
     }
     
     if (currentNormalGroup.length > 0) {
-      groups.push({ id: `g-last-${crypto.randomUUID()}`, normalStrokes: currentNormalGroup, erasersAfter: [] });
+      groups.push({ id: `g-last-${Math.random().toString(36).substring(2, 10)}`, normalStrokes: currentNormalGroup, erasersAfter: [] });
     }
 
     const groupsSvg = groups.map(g => {
@@ -302,7 +302,7 @@ export default function LeaveMarkModal({ isOpen, onClose, onSuccess }: LeaveMark
                       simulatePressure={simulatePressure}
                       startTaper={startTaper}
                       endTaper={endTaper}
-                      initialStrokes={strokes} 
+                      strokes={strokes} 
                       onStrokeUpdate={setStrokes} 
                       isEraser={isEraser}
                     />
