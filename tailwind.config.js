@@ -63,8 +63,8 @@ module.exports = {
         }
       },
       animation: {
-        marquee: "marquee 25s linear infinite",
-        "marquee-reverse": "marquee-reverse 25s linear infinite",
+        marquee: "marquee 60s linear infinite",
+        "marquee-reverse": "marquee-reverse 60s linear infinite",
         "drive-by": "drive-by 0.5s linear",
         "smoke": "smoke 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards",
         "fade-in-up": "fade-in-up 0.5s ease-out forwards",

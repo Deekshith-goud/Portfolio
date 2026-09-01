@@ -21,7 +21,7 @@ const options = {
     "Deekshith Goud is a Software Developer and Technical Writer who is passionate about building solutions and contributing to open source communities",
   url: "https://deekshith-goud.vercel.app",
   ogImage:
-    "/images/placeholder-og.png",
+    "/images/og-image.png",
 };
 
 export const metadata: Metadata = {

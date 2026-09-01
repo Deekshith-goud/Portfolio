@@ -195,75 +195,87 @@ export default function CoreTechnologies() {
             }}
           >
             {/* Row 1: Frontend */}
-            <div className="flex gap-4 animate-marquee whitespace-nowrap min-w-full">
-              {Array.from({ length: 4 })
-                .flatMap(() => techIcons.filter((t) => t.category === "Frontend"))
-                .map((tech, i) => (
-                  <div
-                    key={`r1-${i}`}
-                    className="group relative overflow-hidden flex items-center gap-2 px-4 py-2 rounded-full border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 shadow-sm shrink-0 hover:border-transparent transition-all hover:shadow-md duration-300 cursor-pointer"
-                  >
-                    <div
-                      className="absolute inset-0 rounded-full border-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
-                      style={{ borderColor: tech.color === "var(--next-icon-color, #000000)" ? (isDarkIcon(tech.name) ? "white" : "black") : tech.color }}
-                    />
-                    <tech.icon
-                      className={`w-5 h-5 relative z-10 group-hover:scale-110 transition-transform duration-300 ${isDarkIcon(tech.name) ? "dark:text-white" : ""}`}
-                      style={{ color: isDarkIcon(tech.name) ? undefined : tech.color }}
-                    />
-                    <span className="text-sm font-medium dark:text-zinc-200 text-zinc-800 relative z-10">
-                      {tech.name}
-                    </span>
-                  </div>
-                ))}
+            <div className="flex w-max animate-marquee">
+              {Array.from({ length: 4 }).map((_, i) => (
+                <div key={i} className="flex gap-4 pr-4">
+                  {techIcons
+                    .filter((t) => t.category === "Frontend")
+                    .map((tech, j) => (
+                      <div
+                        key={`r1-${i}-${j}`}
+                        className="group relative overflow-hidden flex items-center gap-2 px-4 py-2 rounded-full border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 shadow-sm shrink-0 hover:border-transparent transition-all hover:shadow-md duration-300 cursor-pointer"
+                      >
+                        <div
+                          className="absolute inset-0 rounded-full border-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
+                          style={{ borderColor: tech.color === "var(--next-icon-color, #000000)" ? (isDarkIcon(tech.name) ? "white" : "black") : tech.color }}
+                        />
+                        <tech.icon
+                          className={`w-5 h-5 relative z-10 group-hover:scale-110 transition-transform duration-300 ${isDarkIcon(tech.name) ? "dark:text-white" : ""}`}
+                          style={{ color: isDarkIcon(tech.name) ? undefined : tech.color }}
+                        />
+                        <span className="text-sm font-medium dark:text-zinc-200 text-zinc-800 relative z-10">
+                          {tech.name}
+                        </span>
+                      </div>
+                    ))}
+                </div>
+              ))}
             </div>
 
             {/* Row 2: Backend & Database */}
-            <div className="flex gap-4 animate-marquee-reverse whitespace-nowrap min-w-full">
-              {Array.from({ length: 4 })
-                .flatMap(() => techIcons.filter((t) => t.category === "Backend & Database"))
-                .map((tech, i) => (
-                  <div
-                    key={`r2-${i}`}
-                    className="group relative overflow-hidden flex items-center gap-2 px-4 py-2 rounded-full border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 shadow-sm shrink-0 hover:border-transparent transition-all hover:shadow-md duration-300 cursor-pointer"
-                  >
-                    <div
-                      className="absolute inset-0 rounded-full border-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
-                      style={{ borderColor: tech.color === "var(--next-icon-color, #000000)" ? (isDarkIcon(tech.name) ? "white" : "black") : tech.color }}
-                    />
-                    <tech.icon
-                      className={`w-5 h-5 relative z-10 group-hover:scale-110 transition-transform duration-300 ${isDarkIcon(tech.name) ? "dark:text-white" : ""}`}
-                      style={{ color: isDarkIcon(tech.name) ? undefined : tech.color }}
-                    />
-                    <span className="text-sm font-medium dark:text-zinc-200 text-zinc-800 relative z-10">
-                      {tech.name}
-                    </span>
-                  </div>
-                ))}
+            <div className="flex w-max animate-marquee-reverse">
+              {Array.from({ length: 4 }).map((_, i) => (
+                <div key={i} className="flex gap-4 pr-4">
+                  {techIcons
+                    .filter((t) => t.category === "Backend & Database")
+                    .map((tech, j) => (
+                      <div
+                        key={`r2-${i}-${j}`}
+                        className="group relative overflow-hidden flex items-center gap-2 px-4 py-2 rounded-full border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 shadow-sm shrink-0 hover:border-transparent transition-all hover:shadow-md duration-300 cursor-pointer"
+                      >
+                        <div
+                          className="absolute inset-0 rounded-full border-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
+                          style={{ borderColor: tech.color === "var(--next-icon-color, #000000)" ? (isDarkIcon(tech.name) ? "white" : "black") : tech.color }}
+                        />
+                        <tech.icon
+                          className={`w-5 h-5 relative z-10 group-hover:scale-110 transition-transform duration-300 ${isDarkIcon(tech.name) ? "dark:text-white" : ""}`}
+                          style={{ color: isDarkIcon(tech.name) ? undefined : tech.color }}
+                        />
+                        <span className="text-sm font-medium dark:text-zinc-200 text-zinc-800 relative z-10">
+                          {tech.name}
+                        </span>
+                      </div>
+                    ))}
+                </div>
+              ))}
             </div>
 
             {/* Row 3: Tools & Others */}
-            <div className="flex gap-4 animate-marquee whitespace-nowrap min-w-full">
-              {Array.from({ length: 4 })
-                .flatMap(() => techIcons.filter((t) => t.category === "Tools & Others"))
-                .map((tech, i) => (
-                  <div
-                    key={`r3-${i}`}
-                    className="group relative overflow-hidden flex items-center gap-2 px-4 py-2 rounded-full border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 shadow-sm shrink-0 hover:border-transparent transition-all hover:shadow-md duration-300 cursor-pointer"
-                  >
-                    <div
-                      className="absolute inset-0 rounded-full border-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
-                      style={{ borderColor: tech.color === "var(--next-icon-color, #000000)" ? (isDarkIcon(tech.name) ? "white" : "black") : tech.color }}
-                    />
-                    <tech.icon
-                      className={`w-5 h-5 relative z-10 group-hover:scale-110 transition-transform duration-300 ${isDarkIcon(tech.name) ? "dark:text-white" : ""}`}
-                      style={{ color: isDarkIcon(tech.name) ? undefined : tech.color }}
-                    />
-                    <span className="text-sm font-medium dark:text-zinc-200 text-zinc-800 relative z-10">
-                      {tech.name}
-                    </span>
-                  </div>
-                ))}
+            <div className="flex w-max animate-marquee">
+              {Array.from({ length: 4 }).map((_, i) => (
+                <div key={i} className="flex gap-4 pr-4">
+                  {techIcons
+                    .filter((t) => t.category === "Tools & Others")
+                    .map((tech, j) => (
+                      <div
+                        key={`r3-${i}-${j}`}
+                        className="group relative overflow-hidden flex items-center gap-2 px-4 py-2 rounded-full border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 shadow-sm shrink-0 hover:border-transparent transition-all hover:shadow-md duration-300 cursor-pointer"
+                      >
+                        <div
+                          className="absolute inset-0 rounded-full border-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
+                          style={{ borderColor: tech.color === "var(--next-icon-color, #000000)" ? (isDarkIcon(tech.name) ? "white" : "black") : tech.color }}
+                        />
+                        <tech.icon
+                          className={`w-5 h-5 relative z-10 group-hover:scale-110 transition-transform duration-300 ${isDarkIcon(tech.name) ? "dark:text-white" : ""}`}
+                          style={{ color: isDarkIcon(tech.name) ? undefined : tech.color }}
+                        />
+                        <span className="text-sm font-medium dark:text-zinc-200 text-zinc-800 relative z-10">
+                          {tech.name}
+                        </span>
+                      </div>
+                    ))}
+                </div>
+              ))}
             </div>
           </div>
         )}
