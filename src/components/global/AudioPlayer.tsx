@@ -25,54 +25,6 @@ export default function AudioPlayer() {
 
   useEffect(() => {
     setHasMounted(true);
-
-    let interactionListenerAdded = false;
-
-    const playAudio = () => {
-      if (audioRef.current && !isPlayingRef.current) {
-        initAudio();
-        audioRef.current.play().then(() => {
-          setIsPlaying(true);
-        }).catch((err) => {
-          console.log("Audio play failed:", err);
-        });
-      }
-    };
-
-    const handleInteraction = () => {
-      playAudio();
-      if (interactionListenerAdded) {
-        window.removeEventListener('click', handleInteraction);
-        window.removeEventListener('keydown', handleInteraction);
-        window.removeEventListener('touchstart', handleInteraction);
-      }
-    };
-
-    // Attempt to autoplay on mount
-    const timer = setTimeout(() => {
-      if (audioRef.current && !isPlayingRef.current) {
-        // Initialize context and try to play
-        initAudio();
-        audioRef.current.play().then(() => {
-          setIsPlaying(true);
-        }).catch((err) => {
-          console.log("Autoplay was blocked by the browser. Awaiting user interaction.");
-          window.addEventListener('click', handleInteraction, { once: true });
-          window.addEventListener('keydown', handleInteraction, { once: true });
-          window.addEventListener('touchstart', handleInteraction, { once: true });
-          interactionListenerAdded = true;
-        });
-      }
-    }, 800);
-
-    return () => {
-      clearTimeout(timer);
-      if (interactionListenerAdded) {
-        window.removeEventListener('click', handleInteraction);
-        window.removeEventListener('keydown', handleInteraction);
-        window.removeEventListener('touchstart', handleInteraction);
-      }
-    };
   }, []);
 
   const initAudio = () => {
@@ -202,7 +154,7 @@ export default function AudioPlayer() {
         ref={audioRef}
         src="/audio/catwoman.mp3"
         loop
-        preload="auto"
+        preload="none"
       />
 
       {/* Album Art & Sliding Vinyl */}
