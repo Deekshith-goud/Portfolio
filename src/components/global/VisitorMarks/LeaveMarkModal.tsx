@@ -13,16 +13,18 @@ interface LeaveMarkModalProps {
   onSuccess: (mark: any) => void;
 }
 
-const COLORS = [
-  '#18181b', // Zinc 900
-  '#71717a', // Zinc 500 
-  '#ef4444', // Red 500
-  '#f97316', // Orange 500
-  '#eab308', // Yellow 500
-  '#22c55e', // Green 500
-  '#3b82f6', // Blue 500
-  '#a855f7', // Purple 500
-  '#ec4899', // Pink 500
+const DRAWING_COLORS = [
+  { name: "Red", value: "#F04F52" },
+  { name: "Orange", value: "#F87518" },
+  { name: "Yellow", value: "#F2B800" },
+  { name: "Lime", value: "#7ACB12" },
+  { name: "Emerald", value: "#10B981" },
+  { name: "Cyan", value: "#12B4D0" },
+  { name: "Blue", value: "#367FE8" },
+  { name: "Indigo", value: "#5F63E8" },
+  { name: "Violet", value: "#9250E8" },
+  { name: "Pink", value: "#E53F8F" },
+  { name: "Black", value: "#18181B" },
 ];
 
 const SliderRow = ({ label, min, max, step, value, onChange }: any) => {
@@ -72,7 +74,7 @@ const SliderRow = ({ label, min, max, step, value, onChange }: any) => {
 export default function LeaveMarkModal({ isOpen, onClose, onSuccess }: LeaveMarkModalProps) {
   const [strokes, setStrokes] = useState<Stroke[]>([]);
   
-  const [color, setColor] = useState(COLORS[0]);
+  const [color, setColor] = useState<string | null>(null);
   const [strokeWidth, setStrokeWidth] = useState(8);
   const [thinning, setThinning] = useState(0.5);
   const [smoothing, setSmoothing] = useState(0.5);
@@ -85,11 +87,21 @@ export default function LeaveMarkModal({ isOpen, onClose, onSuccess }: LeaveMark
   const [description, setDescription] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   
-  const [activePanel, setActivePanel] = useState<'colors' | 'settings' | null>(null);
+  const [activePanel, setActivePanel] = useState<'colors' | 'settings' | null>('colors');
   const [isEraser, setIsEraser] = useState(false);
   const [applyToAll, setApplyToAll] = useState(false);
 
   const canvasWrapperRef = useRef<HTMLDivElement>(null);
+
+  React.useEffect(() => {
+    if (isOpen) {
+      const isMobile = window.innerWidth < 640;
+      setActivePanel(isMobile ? null : 'colors');
+      setColor(null);
+      setStrokes([]);
+      setIsEraser(false);
+    }
+  }, [isOpen]);
 
   const togglePanel = (panel: 'colors' | 'settings') => {
     setActivePanel(prev => prev === panel ? null : panel);
@@ -204,7 +216,7 @@ export default function LeaveMarkModal({ isOpen, onClose, onSuccess }: LeaveMark
           authorName: name,
           description,
           svgContent: finalSvgContent,
-          color,
+          color: color || '#18191C',
           canvasWidth: width,
           canvasHeight: height,
         }),
@@ -293,7 +305,18 @@ export default function LeaveMarkModal({ isOpen, onClose, onSuccess }: LeaveMark
                 </div>
 
                 <div className="flex justify-center shrink-0 mb-4 relative z-10">
-                  <MoldedGlassCard variant="modal" seed="drawing-modal-123" className="w-full max-w-[300px] md:max-w-[400px] aspect-square">
+                  <MoldedGlassCard variant="modal" seed="drawing-modal-123" className="w-full max-w-[300px] md:max-w-[400px] aspect-square relative">
+                    {!color && (
+                      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full z-50 flex flex-col items-center justify-center pointer-events-none gap-2 px-4">
+                         <button 
+                           onClick={() => setActivePanel('colors')}
+                           className="pointer-events-auto flex flex-col items-center gap-2 hover:scale-105 active:scale-95 transition-transform cursor-pointer group"
+                         >
+                           <span className="text-zinc-700 dark:text-zinc-200 font-medium px-5 py-2 bg-white/90 dark:bg-zinc-900/90 backdrop-blur-md rounded-full shadow-md text-[14px] border border-zinc-200/80 dark:border-zinc-700/80 text-center group-hover:bg-white group-hover:dark:bg-zinc-800 transition-colors">Pick a color to start drawing</span>
+                           <span className="text-zinc-500 dark:text-zinc-400 text-xs sm:hidden bg-white/80 dark:bg-zinc-900/80 px-3 py-1.5 rounded-full backdrop-blur-md border border-zinc-200/50 dark:border-zinc-700/50 text-center shadow-sm group-hover:bg-white group-hover:dark:bg-zinc-800 transition-colors">Tap here or the palette below ↓</span>
+                         </button>
+                      </div>
+                    )}
                     <div ref={canvasWrapperRef} className="w-full h-full">
                       <CanvasDraw 
 
@@ -384,25 +407,32 @@ export default function LeaveMarkModal({ isOpen, onClose, onSuccess }: LeaveMark
                         {activePanel === 'colors' && (
                           <div className="p-6">
                             <h3 className="font-bold text-xs uppercase tracking-widest text-zinc-400 dark:text-zinc-500 mb-5">Colors</h3>
-                            <div className="flex flex-wrap gap-1">
-                              {COLORS.map(c => (
-                                <div key={c} className={`p-1 flex items-center justify-center rounded-xl transition-colors ${color === c ? 'bg-zinc-100 dark:bg-zinc-800' : ''}`}>
-                                  <button
-                                    onClick={() => handleUpdateOptions({ color: c })}
-                                    className="block w-8 h-8 rounded-full shadow-sm border border-zinc-200 dark:border-white/10 transition-transform hover:scale-110 shrink-0"
-                                    style={{ backgroundColor: c }}
+                            <div className="grid grid-cols-6 gap-2 w-fit">
+                              {DRAWING_COLORS.map(c => {
+                                const isSelected = color === c.value;
+                                return (
+                                  <div key={c.value} className="p-1 flex items-center justify-center">
+                                    <button
+                                      onClick={() => handleUpdateOptions({ color: c.value })}
+                                      aria-label={c.name}
+                                      aria-pressed={isSelected}
+                                      className={`block w-[34px] h-[34px] rounded-full border border-black/5 dark:border-white/10 shrink-0 transition-all ${isSelected ? 'ring-2 ring-offset-2 ring-zinc-500 dark:ring-zinc-400 scale-[1.15] shadow-md ring-offset-white dark:ring-offset-zinc-900' : 'hover:scale-110 hover:shadow-sm'}`}
+                                      style={{ backgroundColor: c.value }}
+                                    />
+                                  </div>
+                                );
+                              })}
+                              
+                              {/* Custom Color Picker (12th item) */}
+                              <div className="p-1 flex items-center justify-center">
+                                <div className={`block relative w-[34px] h-[34px] rounded-full border border-black/5 dark:border-white/10 overflow-hidden cursor-pointer shrink-0 transition-all ${(!DRAWING_COLORS.some(c => c.value === color) && color !== null) ? 'ring-2 ring-offset-2 ring-zinc-500 dark:ring-zinc-400 scale-[1.15] shadow-md ring-offset-white dark:ring-offset-zinc-900' : 'hover:scale-110 hover:shadow-sm'}`} style={{ background: 'conic-gradient(red, yellow, lime, aqua, blue, magenta, red)' }}>
+                                  <input 
+                                    type="color" 
+                                    value={color || "#000000"}
+                                    onChange={(e) => handleUpdateOptions({ color: e.target.value })}
+                                    className="absolute inset-[-10px] w-[54px] h-[54px] opacity-0 cursor-pointer"
                                   />
                                 </div>
-                              ))}
-                              <div className={`p-1 flex items-center justify-center rounded-xl transition-colors shrink-0 ${!COLORS.includes(color) ? 'bg-zinc-100 dark:bg-zinc-800' : ''}`}>
-                                 <div className="block relative w-8 h-8 rounded-full shadow-sm border border-zinc-200 dark:border-white/10 overflow-hidden cursor-pointer shrink-0" style={{ background: 'conic-gradient(red, yellow, lime, aqua, blue, magenta, red)' }}>
-                                    <input 
-                                      type="color" 
-                                      value={COLORS.includes(color) ? "#000000" : color}
-                                      onChange={(e) => handleUpdateOptions({ color: e.target.value })}
-                                      className="absolute inset-[-10px] w-[50px] h-[50px] opacity-0 cursor-pointer"
-                                    />
-                                 </div>
                               </div>
                             </div>
                             

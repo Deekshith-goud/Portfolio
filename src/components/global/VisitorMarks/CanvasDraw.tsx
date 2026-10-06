@@ -40,7 +40,7 @@ export type Stroke = StrokeData;
 
 interface CanvasDrawProps {
   onStrokeUpdate: (strokes: Stroke[]) => void;
-  color: string;
+  color: string | null;
   strokeWidth: number;
   strokes?: Stroke[];
   thinning?: number;
@@ -87,6 +87,8 @@ export default function CanvasDraw({
   }), [strokeWidth, thinning, smoothing, streamline, simulatePressure, startTaper, endTaper]);
 
   const handlePointerDown = useCallback((e: React.PointerEvent) => {
+    if (!color) return;
+    
     const target = e.target as HTMLElement;
     target.setPointerCapture(e.pointerId); 
     
@@ -96,7 +98,7 @@ export default function CanvasDraw({
     const y = e.clientY - rect.top;
     
     setCurrentPoints([{ x, y, pressure: e.pressure || 0.5 }]);
-  }, []);
+  }, [color]);
 
   const handlePointerMove = useCallback((e: React.PointerEvent) => {
     if (e.buttons !== 1) return;
@@ -111,7 +113,7 @@ export default function CanvasDraw({
   }, [currentPoints]);
 
   const handlePointerUp = useCallback(() => {
-    if (currentPoints.length > 0) {
+    if (currentPoints.length > 0 && color) {
       const newStroke: Stroke = {
         points: currentPoints,
         color,
@@ -204,7 +206,7 @@ export default function CanvasDraw({
             );
           }
         })}
-        {!isEraser && currentPoints.length > 0 && (
+        {!isEraser && currentPoints.length > 0 && color && (
           <path
             d={getSvgPathFromStroke(getStroke(currentPoints, currentOptions))}
             fill={color}

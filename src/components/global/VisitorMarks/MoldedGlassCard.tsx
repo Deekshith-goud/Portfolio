@@ -28,7 +28,7 @@ export function MoldedGlassCard({
   return (
     <div
       className={[
-        "relative isolate overflow-hidden rounded-[16px] transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]",
+        "relative isolate overflow-hidden rounded-[16px]",
         "shadow-[0_15px_40px_rgba(70,80,100,0.1),0_4px_10px_rgba(70,80,100,0.05)]",
         "dark:shadow-[0_15px_40px_rgba(0,0,0,0.4),0_4px_10px_rgba(0,0,0,0.2)]",
         "hover:shadow-[0_20px_45px_rgba(70,80,100,0.18),0_6px_12px_rgba(70,80,100,0.08)]",
