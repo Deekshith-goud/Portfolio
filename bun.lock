@@ -18,6 +18,7 @@
         "framer-motion": "^11.0.0",
         "next": "^16.2.10",
         "next-sanity": "^13.1.1",
+        "page-mascot": "^0.1.0",
         "perfect-freehand": "^1.2.3",
         "postcss": "^8.5.19",
         "react": "^18.3.1",
@@ -2227,6 +2228,8 @@
     "package-directory": ["package-directory@8.2.0", "", { "dependencies": { "find-up-simple": "^1.0.0" } }, "sha512-qJSu5Mo6tHmRxCy2KCYYKYgcfBdUpy9dwReaZD/xwf608AUk/MoRtIOWzgDtUeGeC7n/55yC3MI1Q+MbSoektw=="],
 
     "package-json-from-dist": ["package-json-from-dist@1.0.1", "", {}, "sha512-UEZIS3/by4OC8vL3P2dTXRETpebLI2NiI5vIrjaD/5UtrkFX/tNbwjTSRAGC/+7CAo2pIcBaRgWmcBBHcsaCIw=="],
+
+    "page-mascot": ["page-mascot@0.1.0", "", { "peerDependencies": { "react": ">=18" } }, "sha512-sw/BIqRKJ7nUfaxAGtmwQqm534I+lb2ZiXLDWZNexR1VF1RkmRl6BLVtj7hH+PrsiCPKtxHhA3IpVkXEm72FeA=="],
 
     "pako": ["pako@0.2.9", "", {}, "sha512-NUcwaKxUxWrZLpDG+z/xZaCgQITkA/Dv4V/T6bw7VON6l1Xz/VnrBqrYjZQ12TamKHzITTfOEIYUj48y2KXImA=="],
 

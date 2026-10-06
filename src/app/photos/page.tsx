@@ -21,6 +21,7 @@ export const metadata: Metadata = {
 };
 
 import PhotoCard from "@/components/pages/PhotoCard";
+import MascotWrapper from "@/components/pages/MascotWrapper";
 
 export default async function Photos() {
   const photos: PhotoType[] = await sanityFetch({
@@ -30,10 +31,15 @@ export default async function Photos() {
 
   return (
     <main className="max-w-7xl mx-auto md:px-16 px-6 lg:mt-32 mt-20">
-      <PageHeading
-        title="Photos"
-        description="A collection of photos I've taken over the years."
-      />
+      <div className="flex flex-col md:flex-row md:items-start justify-between gap-4">
+        <PageHeading
+          title="Photos"
+          description="A collection of photos I've taken over the years."
+        />
+        <div className="shrink-0 flex justify-end relative z-10 hidden md:block">
+          <MascotWrapper />
+        </div>
+      </div>
       
       <section className="mt-12">
         <Slide delay={0.12}>
