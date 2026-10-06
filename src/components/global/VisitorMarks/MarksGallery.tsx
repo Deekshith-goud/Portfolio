@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { m as motion } from "framer-motion";
 import dynamic from "next/dynamic";
+import { MoldedGlassCard } from "./MoldedGlassCard";
 
 const LeaveMarkModal = dynamic(() => import("./LeaveMarkModal"), {
   ssr: false,
@@ -92,13 +93,10 @@ export default function MarksGallery() {
               className="group flex flex-col gap-2"
             >
               {/* Canvas Card */}
-              <div className="aspect-square bg-[#FCFBF8] dark:bg-zinc-800/40 rounded-2xl border border-zinc-200 dark:border-zinc-700/50 overflow-hidden relative shadow-sm group-hover:shadow-md transition-shadow">
-                {/* Texture */}
-                <div className="absolute inset-0 pointer-events-none bg-[url('/images/noise.png')] dark:bg-[url('/images/noise-dark.png')] opacity-50 dark:opacity-20" />
-                
+              <MoldedGlassCard seed={mark._id || `mark-${i}`} className="aspect-square">
                 <svg
                   viewBox={`0 0 ${mark.canvasWidth || 500} ${mark.canvasHeight || 400}`}
-                  className="w-full h-full p-4 pointer-events-none drop-shadow-sm"
+                  className="w-full h-full p-4 pointer-events-none"
                   preserveAspectRatio="xMidYMid meet"
                 >
                   <defs>
@@ -108,7 +106,7 @@ export default function MarksGallery() {
                   </defs>
                   <g clipPath={`url(#clip-${mark._id})`} dangerouslySetInnerHTML={{ __html: mark.svgContent }} />
                 </svg>
-              </div>
+              </MoldedGlassCard>
               
               {/* Meta */}
               <div className="px-1">

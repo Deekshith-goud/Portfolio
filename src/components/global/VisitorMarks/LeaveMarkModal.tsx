@@ -3,6 +3,7 @@
 import React, { useState, useRef } from "react";
 import { m as motion, AnimatePresence } from "framer-motion";
 import { getStroke } from "perfect-freehand";
+import { MoldedGlassCard } from "./MoldedGlassCard";
 import CanvasDraw, { Stroke, getSvgPathFromStroke } from "./CanvasDraw";
 import { LuUndo, LuTrash2, LuX, LuSettings2, LuPalette, LuEraser } from "react-icons/lu";
 
@@ -292,21 +293,24 @@ export default function LeaveMarkModal({ isOpen, onClose, onSuccess }: LeaveMark
                 </div>
 
                 <div className="flex justify-center shrink-0 mb-4 relative z-10">
-                  <div className="w-full max-w-[300px] md:max-w-[400px]" ref={canvasWrapperRef}>
-                    <CanvasDraw 
-                      color={color} 
-                      strokeWidth={strokeWidth} 
-                      thinning={thinning}
-                      smoothing={smoothing}
-                      streamline={streamline}
-                      simulatePressure={simulatePressure}
-                      startTaper={startTaper}
-                      endTaper={endTaper}
-                      strokes={strokes} 
-                      onStrokeUpdate={setStrokes} 
-                      isEraser={isEraser}
-                    />
-                  </div>
+                  <MoldedGlassCard variant="modal" seed="drawing-modal-123" className="w-full max-w-[300px] md:max-w-[400px] aspect-square">
+                    <div ref={canvasWrapperRef} className="w-full h-full">
+                      <CanvasDraw 
+
+                        color={color} 
+                        strokeWidth={strokeWidth} 
+                        thinning={thinning}
+                        smoothing={smoothing}
+                        streamline={streamline}
+                        simulatePressure={simulatePressure}
+                        startTaper={startTaper}
+                        endTaper={endTaper}
+                        strokes={strokes} 
+                        onStrokeUpdate={setStrokes} 
+                        isEraser={isEraser}
+                      />
+                    </div>
+                  </MoldedGlassCard>
                 </div>
 
                 <div className="flex flex-col gap-3 mt-auto relative z-20">
